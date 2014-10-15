@@ -1,0 +1,84 @@
+
+.ui-autocomplete {
+position:absolute;
+top:0;
+left:0;
+cursor:default;
+}
+
+
+.ui-menu {
+list-style:none;
+display:block;
+outline:none;
+margin:0;
+padding:2px;
+}
+
+.ui-menu .ui-menu {
+margin-top:-3px;
+position:absolute;
+}
+
+.ui-menu .ui-menu-item {
+width:100%;
+list-style-image:url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+margin:0;
+padding:0;
+}
+
+.ui-menu .ui-menu-divider {
+height:0;
+font-size:0;
+line-height:0;
+border-width:1px 0 0;
+margin:5px -2px;
+}
+
+.ui-menu .ui-menu-item a {
+text-decoration:none;
+display:block;
+line-height:1.5;
+min-height:0;
+font-weight:400;
+padding:2px .4em;
+}
+
+.ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active {
+font-weight:400;
+margin:-1px;
+}
+
+.ui-menu .ui-state-disabled {
+font-weight:400;
+line-height:1.5;
+margin:.4em 0 .2em;
+}
+
+.ui-menu .ui-state-disabled a {
+cursor:default;
+}
+
+.ui-menu-icons .ui-menu-item a {
+position:relative;
+padding-left:2em;
+}
+
+.ui-menu .ui-icon {
+position:absolute;
+top:.2em;
+left:.2em;
+}
+
+.ui-menu .ui-menu-icon {
+position:static;
+float:right;
+}
+
+.ui-autocomplete {
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(170, 170, 170);
+}
+.ui-state-focus {
+        background: #e8e8e8;
+}
