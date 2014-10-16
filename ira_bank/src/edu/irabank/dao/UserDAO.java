@@ -1,12 +1,12 @@
 package edu.irabank.dao;
 
-import edu.irabank.dto.UserDTO;
+import edu.irabank.dto.UsersDTO;
 
 public interface UserDAO {
 
 	public String retrievePassword(String userID);
 	
-	public UserDTO getUserDTO(String userName);
+	public UsersDTO getUserDTO(String userName);
 
 
 }

@@ -1,11 +1,11 @@
 package edu.irabank.service;
 
-import edu.irabank.dto.UserDTO;
+import edu.irabank.dto.UsersDTO;
 
 public interface UserService {
 
 	public boolean validateUser(String userName, String password);
 	
-	public UserDTO getUserDTO(String userName);
+	public UsersDTO getUserDTO(String userName);
 
 }

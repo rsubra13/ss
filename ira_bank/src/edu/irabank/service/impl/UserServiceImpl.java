@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.*;
 import edu.irabank.dao.impl.UserDAOImpl;
-import edu.irabank.dto.UserDTO;
+import edu.irabank.dto.UsersDTO;
 import edu.irabank.service.UserService;
 @Service
 public class UserServiceImpl implements UserService
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Transactional
-	public UserDTO getUserDTO(String userName)
+	public UsersDTO getUserDTO(String userName)
 	{
 		return userDAOImplobject.getUserDTO(userName);
 	}

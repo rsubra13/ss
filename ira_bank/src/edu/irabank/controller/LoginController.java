@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.irabank.dto.UserDTO;
+import edu.irabank.dto.UsersDTO;
 import edu.irabank.service.*;
 
 
@@ -36,7 +36,7 @@ import edu.irabank.service.*;
 				{
 					// setting session variables if the Login is successful
 					sessionID.setAttribute("userName", userName);
-					UserDTO uDTO = userService.getUserDTO(userName);
+					UsersDTO uDTO = userService.getUserDTO(userName);
 					sessionID.setAttribute("userId", uDTO.getUserId());
 					return new ModelAndView("/Home");
 				}
