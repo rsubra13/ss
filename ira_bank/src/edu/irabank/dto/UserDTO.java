@@ -31,26 +31,26 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "users", catalog = "sbs", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UsersDTO.findAll", query = "SELECT u FROM UsersDTO u"),
-    @NamedQuery(name = "UsersDTO.findByUserId", query = "SELECT u FROM UsersDTO u WHERE u.userId = :userId"),
-    @NamedQuery(name = "UsersDTO.findByUserName", query = "SELECT u FROM UsersDTO u WHERE u.userName = :userName"),
-    @NamedQuery(name = "UsersDTO.findByPassword", query = "SELECT u FROM UsersDTO u WHERE u.password = :password"),
-    @NamedQuery(name = "UsersDTO.findByEmailId", query = "SELECT u FROM UsersDTO u WHERE u.emailId = :emailId"),
-    @NamedQuery(name = "UsersDTO.findByCreateTime", query = "SELECT u FROM UsersDTO u WHERE u.createTime = :createTime"),
-    @NamedQuery(name = "UsersDTO.findByFirstName", query = "SELECT u FROM UsersDTO u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "UsersDTO.findByLastName", query = "SELECT u FROM UsersDTO u WHERE u.lastName = :lastName"),
-    @NamedQuery(name = "UsersDTO.findByAddress", query = "SELECT u FROM UsersDTO u WHERE u.address = :address"),
-    @NamedQuery(name = "UsersDTO.findByDob", query = "SELECT u FROM UsersDTO u WHERE u.dob = :dob"),
-    @NamedQuery(name = "UsersDTO.findByContactNum", query = "SELECT u FROM UsersDTO u WHERE u.contactNum = :contactNum"),
-    @NamedQuery(name = "UsersDTO.findBySecQue1", query = "SELECT u FROM UsersDTO u WHERE u.secQue1 = :secQue1"),
-    @NamedQuery(name = "UsersDTO.findBySecAns1", query = "SELECT u FROM UsersDTO u WHERE u.secAns1 = :secAns1"),
-    @NamedQuery(name = "UsersDTO.findBySecQue2", query = "SELECT u FROM UsersDTO u WHERE u.secQue2 = :secQue2"),
-    @NamedQuery(name = "UsersDTO.findBySecAns2", query = "SELECT u FROM UsersDTO u WHERE u.secAns2 = :secAns2"),
-    @NamedQuery(name = "UsersDTO.findByPkiPath", query = "SELECT u FROM UsersDTO u WHERE u.pkiPath = :pkiPath"),
-    @NamedQuery(name = "UsersDTO.findByPkiCerti", query = "SELECT u FROM UsersDTO u WHERE u.pkiCerti = :pkiCerti"),
-    @NamedQuery(name = "UsersDTO.findByPkiNumber", query = "SELECT u FROM UsersDTO u WHERE u.pkiNumber = :pkiNumber"),
-    @NamedQuery(name = "UsersDTO.findByRoleId", query = "SELECT u FROM UsersDTO u WHERE u.roleId = :roleId"),
-    @NamedQuery(name = "UsersDTO.findByTemp2", query = "SELECT u FROM UsersDTO u WHERE u.temp2 = :temp2")})
+    @NamedQuery(name = "UserDTO.findAll", query = "SELECT u FROM UserDTO u"),
+    @NamedQuery(name = "UserDTO.findByUserId", query = "SELECT u FROM UserDTO u WHERE u.userId = :userId"),
+    @NamedQuery(name = "UserDTO.findByUserName", query = "SELECT u FROM UserDTO u WHERE u.userName = :userName"),
+    @NamedQuery(name = "UserDTO.findByPassword", query = "SELECT u FROM UserDTO u WHERE u.password = :password"),
+    @NamedQuery(name = "UserDTO.findByEmailId", query = "SELECT u FROM UserDTO u WHERE u.emailId = :emailId"),
+    @NamedQuery(name = "UserDTO.findByCreateTime", query = "SELECT u FROM UserDTO u WHERE u.createTime = :createTime"),
+    @NamedQuery(name = "UserDTO.findByFirstName", query = "SELECT u FROM UserDTO u WHERE u.firstName = :firstName"),
+    @NamedQuery(name = "UserDTO.findByLastName", query = "SELECT u FROM UserDTO u WHERE u.lastName = :lastName"),
+    @NamedQuery(name = "UserDTO.findByAddress", query = "SELECT u FROM UserDTO u WHERE u.address = :address"),
+    @NamedQuery(name = "UserDTO.findByDob", query = "SELECT u FROM UserDTO u WHERE u.dob = :dob"),
+    @NamedQuery(name = "UserDTO.findByContactNum", query = "SELECT u FROM UserDTO u WHERE u.contactNum = :contactNum"),
+    @NamedQuery(name = "UserDTO.findBySecQue1", query = "SELECT u FROM UserDTO u WHERE u.secQue1 = :secQue1"),
+    @NamedQuery(name = "UserDTO.findBySecAns1", query = "SELECT u FROM UserDTO u WHERE u.secAns1 = :secAns1"),
+    @NamedQuery(name = "UserDTO.findBySecQue2", query = "SELECT u FROM UserDTO u WHERE u.secQue2 = :secQue2"),
+    @NamedQuery(name = "UserDTO.findBySecAns2", query = "SELECT u FROM UserDTO u WHERE u.secAns2 = :secAns2"),
+    @NamedQuery(name = "UserDTO.findByPkiPath", query = "SELECT u FROM UserDTO u WHERE u.pkiPath = :pkiPath"),
+    @NamedQuery(name = "UserDTO.findByPkiCerti", query = "SELECT u FROM UserDTO u WHERE u.pkiCerti = :pkiCerti"),
+    @NamedQuery(name = "UserDTO.findByPkiNumber", query = "SELECT u FROM UserDTO u WHERE u.pkiNumber = :pkiNumber"),
+    @NamedQuery(name = "UserDTO.findByRoleId", query = "SELECT u FROM UserDTO u WHERE u.roleId = :roleId"),
+    @NamedQuery(name = "UserDTO.findByTemp2", query = "SELECT u FROM UserDTO u WHERE u.temp2 = :temp2")})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -372,7 +372,7 @@ public class UserDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.irabank.dto.UsersDTO[ userId=" + userId + " ]";
+        return "edu.irabank.dto.UserDTO[ userId=" + userId + " ]";
     }
     
 }

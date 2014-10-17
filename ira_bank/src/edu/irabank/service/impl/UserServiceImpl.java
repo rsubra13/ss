@@ -15,6 +15,9 @@ import edu.irabank.service.UserService;
 @Service
 public class UserServiceImpl implements UserService
 {
+	
+	@Autowired
+	private UserDAO userDAO;
 
 	@Autowired
 	private UserDAOImpl userDAOImplobject;
@@ -23,7 +26,7 @@ public class UserServiceImpl implements UserService
 	public boolean validateUser(String inputUserName, String inputPassword)
 	{
 		
-		String userPassword = userDAOImplobject.getPassword(inputUserName);
+		String userPassword = userDAO.getPassword(inputUserName);
 		System.out.println("User Input Password = " + inputPassword);
 		
 		//TODO: Here actually the Hashed password needs to be checked.
@@ -62,10 +65,22 @@ public class UserServiceImpl implements UserService
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
 		newUser.setSecQue2(userRegistrationFormBean.getSecQue2());
+		
+		// TODO : this is not the way to go ahead with Roles.
+		// Check if the User is Regular user , then assign him the ROLE_USER
+		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
+		// This needs spring security?  check it. 
 		newUser.setRoleId(userRegistrationFormBean.getRole());
+		
+		
 		// TODO check here if the user is already present
 		
 		// Add this newly created UserDTO Object into the DB. 
+		Boolean isUserRegisted = userDAO.addNewUser(newUser);
+		if(!isUserRegisted) {
+			System.out.println("Some issues in User Registration");
+			return false;
+		}
 		
 		return false;
 		

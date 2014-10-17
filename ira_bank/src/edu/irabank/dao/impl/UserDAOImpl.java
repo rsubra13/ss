@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO
 	public UserDTO getUserDTOByUsername(String userName)
 	{
 		Session session = sessionFactory.getCurrentSession();
-		String queryString = "FROM UsersDTO u WHERE u.userName = :userName";
+		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
 		Query query = session.createQuery(queryString);
 		query.setParameter("userName", userName);
 		UserDTO userDTO = (UserDTO) query.uniqueResult();
@@ -38,7 +38,7 @@ public class UserDAOImpl implements UserDAO
 	public String getPassword(String userName)	
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("UsersDTO.findByUserName"); //using NamedQuery
+		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
 		//System.out.println("query" + query);
 		query.setParameter("userName", userName);
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO
 	public Integer retrieveUserID(String userName)	
 	{
 		Session session = sessionFactory.openSession();
-		String queryString = "FROM UsersDTO u WHERE u.userName = :userName";
+		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
 		Query query = session.createQuery(queryString);
 		query.setParameter("userName", userName);
 		Integer user_id = ((UserDTO) query.uniqueResult()).getUserId();
