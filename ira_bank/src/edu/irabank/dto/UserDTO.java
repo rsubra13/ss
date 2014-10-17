@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UsersDTO.findByPkiNumber", query = "SELECT u FROM UsersDTO u WHERE u.pkiNumber = :pkiNumber"),
     @NamedQuery(name = "UsersDTO.findByRoleId", query = "SELECT u FROM UsersDTO u WHERE u.roleId = :roleId"),
     @NamedQuery(name = "UsersDTO.findByTemp2", query = "SELECT u FROM UsersDTO u WHERE u.temp2 = :temp2")})
-public class UsersDTO implements Serializable {
+public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -145,14 +145,14 @@ public class UsersDTO implements Serializable {
     @OneToMany(mappedBy = "notificationUserId")
     private List<NotificationDetailsDTO> notificationDetailsDTOList;
 
-    public UsersDTO() {
+    public UserDTO() {
     }
 
-    public UsersDTO(Integer userId) {
+    public UserDTO(Integer userId) {
         this.userId = userId;
     }
 
-    public UsersDTO(Integer userId, String userName, String password, String emailId, String firstName, String lastName, String address, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2, String pkiPath, String pkiCerti, String pkiNumber) {
+    public UserDTO(Integer userId, String userName, String password, String emailId, String firstName, String lastName, String address, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2, String pkiPath, String pkiCerti, String pkiNumber) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -360,10 +360,10 @@ public class UsersDTO implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsersDTO)) {
+        if (!(object instanceof UserDTO)) {
             return false;
         }
-        UsersDTO other = (UsersDTO) object;
+        UserDTO other = (UserDTO) object;
         if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }

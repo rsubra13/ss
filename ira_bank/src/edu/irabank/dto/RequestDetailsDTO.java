@@ -60,7 +60,7 @@ public class RequestDetailsDTO implements Serializable {
     private Integer isAuthorized;
     @JoinColumn(name = "REQ_USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne
-    private UsersDTO reqUserId;
+    private UserDTO reqUserId;
 
     public RequestDetailsDTO() {
     }
@@ -117,11 +117,11 @@ public class RequestDetailsDTO implements Serializable {
         this.isAuthorized = isAuthorized;
     }
 
-    public UsersDTO getReqUserId() {
+    public UserDTO getReqUserId() {
         return reqUserId;
     }
 
-    public void setReqUserId(UsersDTO reqUserId) {
+    public void setReqUserId(UserDTO reqUserId) {
         this.reqUserId = reqUserId;
     }
 

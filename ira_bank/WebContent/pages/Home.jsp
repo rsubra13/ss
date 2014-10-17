@@ -11,13 +11,13 @@
 
     <title>Add Templates</title>
 
-    <link href="/RecommendationSystem/css/bootstrap.css" rel="stylesheet">
-    <link href="/RecommendationSystem/css/recommendation.css" rel="stylesheet">
-    <link href="/RecommendationSystem/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/RecommendationSystem/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/RecommendationSystem/js/jquery-ui-1.10.4.custom.min.js"></script>
-    <script type="text/javascript" src="/RecommendationSystem/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/RecommendationSystem/js/custom.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/recommendation.css" rel="stylesheet">
+    <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/custom.js"></script>
     <!-- Add custom CSS here -->
 
     <style>

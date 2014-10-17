@@ -38,7 +38,7 @@ public class AccountDetailsDTO implements Serializable {
     private int balance;
     @JoinColumn(name = "U_ID", referencedColumnName = "USER_ID")
     @ManyToOne
-    private UsersDTO uId;
+    private UserDTO uId;
 
     public AccountDetailsDTO() {
     }
@@ -72,11 +72,11 @@ public class AccountDetailsDTO implements Serializable {
         this.balance = balance;
     }
 
-    public UsersDTO getUId() {
+    public UserDTO getUId() {
         return uId;
     }
 
-    public void setUId(UsersDTO uId) {
+    public void setUId(UserDTO uId) {
         this.uId = uId;
     }
 

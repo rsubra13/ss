@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.irabank.dto.UsersDTO;
-import edu.irabank.service.*;
+import edu.irabank.dto.UserDTO;
+import edu.irabank.service.UserService;
 
 
 	@Controller
@@ -36,13 +36,15 @@ import edu.irabank.service.*;
 				{
 					// setting session variables if the Login is successful
 					sessionID.setAttribute("userName", userName);
-					UsersDTO uDTO = userService.getUserDTO(userName);
+					UserDTO uDTO = userService.getUserDTOByUsername(userName);
 					sessionID.setAttribute("userId", uDTO.getUserId());
 					return new ModelAndView("/Home");
 				}
 			}
 			return new ModelAndView("/index").addObject("loginError", "Invalid UserName or Password!");
 		}
+		
+		
 		
 		public boolean validateLoginFields(String userName, String password)
 		{

@@ -53,7 +53,7 @@ public class NotificationDetailsDTO implements Serializable {
     private Integer notificationStatus;
     @JoinColumn(name = "NOTIFICATION_USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne
-    private UsersDTO notificationUserId;
+    private UserDTO notificationUserId;
 
     public NotificationDetailsDTO() {
     }
@@ -99,11 +99,11 @@ public class NotificationDetailsDTO implements Serializable {
         this.notificationStatus = notificationStatus;
     }
 
-    public UsersDTO getNotificationUserId() {
+    public UserDTO getNotificationUserId() {
         return notificationUserId;
     }
 
-    public void setNotificationUserId(UsersDTO notificationUserId) {
+    public void setNotificationUserId(UserDTO notificationUserId) {
         this.notificationUserId = notificationUserId;
     }
 
