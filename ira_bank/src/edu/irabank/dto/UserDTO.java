@@ -66,6 +66,7 @@ public class UserDTO implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
+    @Column(name = "PASSWORD")
     private String password;
     @Basic(optional = false)
     @NotNull
@@ -88,6 +89,7 @@ public class UserDTO implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 560)
+    @Column(name = "ADDRESS")
     private String address;
     @Basic(optional = false)
     @NotNull
