@@ -12,8 +12,6 @@
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui-1.10.4.custom.min.css" >
-    
-    
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
@@ -27,7 +25,7 @@
 <div class="container">
 
 <div class="page-header">
-    <h1>Registration form <small> New User Registers here</small></h1>
+    <h1>Registration form <small> New User, Register here</small></h1>
 </div>
 
 <!-- Registration form - START -->

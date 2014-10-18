@@ -23,7 +23,6 @@ I.R.A BANK
                 
 			<form id ="loginform" name="loginForm" target="_self" method="post" action="Welcome" class="well form-inline">
 
-
 				<input name="username"  type="text" class="form-control"  placeholder="Username" maxlength="30"/>
 
 				<input name	="password" type="password" class="form-control" placeholder="Password" maxlength="15"/>

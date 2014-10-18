@@ -5,11 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" />  
-<style>
-    body {
-        margin-top: 60px;
-    }
-</style>
 
 </head>
 

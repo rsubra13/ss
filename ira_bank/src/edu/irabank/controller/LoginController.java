@@ -23,6 +23,10 @@ import edu.irabank.service.UserService;
 		private UserService userService; 
 
 		
+		// GET Method of 
+		
+		
+		// Post Method after submitting user details in Login Form
 		@RequestMapping(value="/Welcome", method=RequestMethod.POST)
 	    public ModelAndView userLogin(@RequestParam("username") String userName, @RequestParam("password") String passWord, HttpSession sessionID)
 	    {
@@ -39,6 +43,7 @@ import edu.irabank.service.UserService;
 					UserDTO uDTO = userService.getUserDTOByUsername(userName);
 					sessionID.setAttribute("userId", uDTO.getUserId());
 					return new ModelAndView("/Home");
+					
 				}
 			}
 			return new ModelAndView("/index").addObject("loginError", "Invalid UserName or Password!");

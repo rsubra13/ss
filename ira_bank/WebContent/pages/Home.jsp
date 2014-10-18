@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Add Templates</title>
+    <title>I R A Home Page</title>
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/recommendation.css" rel="stylesheet">
@@ -48,9 +48,7 @@
              <form id ="customizeform" name="customizeform" target="_self" method="POST" action="" class="form-inline">
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="search">Home</a>
-                    </li>
-                   
+                   <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
                    
                 </ul>
             </div>
