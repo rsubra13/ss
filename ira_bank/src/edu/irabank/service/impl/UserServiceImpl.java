@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private UserDAO userDAO;
 
-	@Autowired
-	private UserDAOImpl userDAOImplobject;
+/*	@Autowired
+	private UserDAOImpl userDAOImplobject;*/
 	
 	@Transactional
 	public boolean validateUser(String inputUserName, String inputPassword)
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService
 	@Transactional
 	public UserDTO getUserDTOByUsername(String userName)
 	{
-		return userDAOImplobject.getUserDTOByUsername(userName);
+		return userDAO.getUserDTOByUsername(userName);
 	}
 
 	@Override
@@ -82,7 +82,13 @@ public class UserServiceImpl implements UserService
 			return false;
 		}
 		
-		return false;
+		else{
+			// TODO 1. Think about generating an autogen account number here 
+			// through acctnumber service or 2. send a notification to admin
+			// to accept and assign an acct number for this user.
+ 			System.out.println("User registered");
+ 			return true;
+		}
 		
 	}
 
