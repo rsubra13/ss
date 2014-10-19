@@ -13,7 +13,7 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                   
+
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -39,7 +39,23 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1>Welcome ${userName}</h1>
+
+
+                 <c:if test="${ userRegistrationStatus != null}">
+             <div class="btn-primary">
+                   <div id="status" class="label-primary">${userRegistrationStatus}</div>
+             </div>
+        </c:if>
+                 
+
+                 <c:if test="${ userName != null}">
+             <div class="btn-primary">
+                   <div id="status" class="label-primary"><h2> Welcome ${userName}<h2></div>
+             </div>
+        </c:if>
+                 
+
+               
                 <br>
                	<br> 
             

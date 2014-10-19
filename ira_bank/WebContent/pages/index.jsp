@@ -6,8 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>I.R.A Bank</title>
 <link href="css/bootstrap.css" rel="stylesheet" media="screen">  
-
-
     
 </head>
 <body>
@@ -23,6 +21,14 @@ I.R.A BANK
                 
 			<form id ="loginform" name="loginForm" target="_self" method="post" action="Welcome" class="well form-inline">
 
+			 <br>
+			 <c:if test="${ userRegistrationStatus != null}">
+	             <div class="btn-primary">
+	                   <div id="status" class="label-primary">${userRegistrationStatus}</div>
+	             </div>
+              </c:if>
+             <br>
+
 				<input name="username"  type="text" class="form-control"  placeholder="Username" maxlength="30"/>
 
 				<input name	="password" type="password" class="form-control" placeholder="Password" maxlength="15"/>
@@ -33,15 +39,17 @@ I.R.A BANK
 				<div class="form-inline">
 				<input name="login" type="submit" value="Login" class = "btn btn-primary"/>
 				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
+
+				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration<span></a>
 				</div>
 
 			 </form>
 	
 			<%
-				
+				/*Check if Login did not happen*/
 				if(request.getAttribute("loginError") != null)
 				{%>
-				<p style="position:absolute;left:620px;top:400px;color:red">${loginError}</p>	
+				<p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>	
 			  <%}%>
 </div>
 

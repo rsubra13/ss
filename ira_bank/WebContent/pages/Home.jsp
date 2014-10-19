@@ -60,9 +60,11 @@
 
     <div class="container">
 
-        <div class="row mt-20">
-            <div class="col-lg-6 "><h1>Welcome Admin</h1></div>
-        </div>
+        <c:if test="${ userName != null}">
+             <div class="btn-primary">
+                   <div id="status" class="label-primary"><h2> Welcome ${userName}<h2></div>
+             </div>
+        </c:if>
 
         <div class="row mt-20 search-bar">
             <div class="col-lg-6">

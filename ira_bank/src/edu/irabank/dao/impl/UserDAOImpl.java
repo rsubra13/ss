@@ -3,6 +3,7 @@ package edu.irabank.dao.impl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,13 +26,27 @@ public class UserDAOImpl implements UserDAO
 	
 	public UserDTO getUserDTOByUsername(String userName)
 	{
+		System.out.println("28 : getUserDTOByUsername " + userName);
 		Session session = sessionFactory.getCurrentSession();
 		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
 		Query query = session.createQuery(queryString);
 		query.setParameter("userName", userName);
+		
 		UserDTO userDTO = (UserDTO) query.uniqueResult();
-		//System.out.println("Password = " + password);
+		try{
+		System.out.println("query : " + query);
+		System.out.println("Retrieved UserName = " + userDTO);
+		}
+		
+		
+		catch(Exception e){
+		System.out.println("41 : the exception is " + e);
+		e.printStackTrace();
+			
+		}
+		
 		return userDTO;
+		
 	}
 	
 	// Used in Login
@@ -39,8 +54,9 @@ public class UserDAOImpl implements UserDAO
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
-		//System.out.println("query" + query);
+		System.out.println("userName here: " + userName);
 		query.setParameter("userName", userName);
+		System.out.println("query : " + query);
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
 		return password;
 	}
@@ -69,8 +85,8 @@ public class UserDAOImpl implements UserDAO
 			sessionFactory.getCurrentSession().save(userDTO);
 			return true;
 		}
-		catch (Exception e){
-		 System.out.println("The error is "+e);
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
 		 e.printStackTrace();
 		 return false;	 
 		}

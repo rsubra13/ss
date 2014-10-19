@@ -8,9 +8,12 @@ package edu.irabank.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -50,12 +53,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserDTO.findByPkiCerti", query = "SELECT u FROM UserDTO u WHERE u.pkiCerti = :pkiCerti"),
     @NamedQuery(name = "UserDTO.findByPkiNumber", query = "SELECT u FROM UserDTO u WHERE u.pkiNumber = :pkiNumber"),
     @NamedQuery(name = "UserDTO.findByRoleId", query = "SELECT u FROM UserDTO u WHERE u.roleId = :roleId"),
-    @NamedQuery(name = "UserDTO.findByTemp2", query = "SELECT u FROM UserDTO u WHERE u.temp2 = :temp2")})
+    /*@NamedQuery(name = "UserDTO.findByTemp2", query = "SELECT u FROM UserDTO u WHERE u.temp2 = :temp2")*/})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Integer userId;
     @Basic(optional = false)
@@ -65,7 +68,7 @@ public class UserDTO implements Serializable {
     private String userName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 70)
     @Column(name = "PASSWORD")
     private String password;
     @Basic(optional = false)
@@ -121,25 +124,19 @@ public class UserDTO implements Serializable {
     @Column(name = "SEC_ANS2")
     private String secAns2;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "PKI_PATH")
     private String pkiPath;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "PKI_CERTI")
     private String pkiCerti;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "PKI_NUMBER")
     private String pkiNumber;
     @Column(name = "ROLE_ID")
     private Integer roleId;
-    @Size(max = 45)
-    @Column(name = "TEMP_2")
-    private String temp2;
     @OneToMany(mappedBy = "reqUserId")
     private List<RequestDetailsDTO> requestDetailsDTOList;
     @OneToMany(mappedBy = "uId")
@@ -317,13 +314,13 @@ public class UserDTO implements Serializable {
         this.roleId = roleId;
     }
 
-    public String getTemp2() {
+ /*   public String getTemp2() {
         return temp2;
     }
 
     public void setTemp2(String temp2) {
         this.temp2 = temp2;
-    }
+    }*/
 
     @XmlTransient
     public List<RequestDetailsDTO> getRequestDetailsDTOList() {

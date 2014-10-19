@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService
 	
 	@Autowired
 	private UserDAO userDAO;
+	
+	
 
 /*	@Autowired
 	private UserDAOImpl userDAOImplobject;*/
@@ -26,15 +28,23 @@ public class UserServiceImpl implements UserService
 	public boolean validateUser(String inputUserName, String inputPassword)
 	{
 		
+		BCryptPasswordEncoder bdecrypt = new  BCryptPasswordEncoder();
+		String encryptedPassword = bdecrypt.encode(inputPassword);
+		System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
 		String userPassword = userDAO.getPassword(inputUserName);
-		System.out.println("User Input Password = " + inputPassword);
-		
+		System.out.println("userPassword  = " + userPassword);
+		System.out.println("encryptedPassword Password = " + encryptedPassword);
 		//TODO: Here actually the Hashed password needs to be checked.
+		Boolean b_mactch = bdecrypt.matches(inputPassword, userPassword);
+		System.out.println("bmatch" + b_mactch);
 		if(!userPassword.isEmpty())
 		{
-			if(userPassword.equals(inputPassword))
+			if(userPassword.equals(encryptedPassword) || b_mactch)
 			{
 				return true;
+			}
+			else{
+				System.out.println("password did not match");
 			}
 		}
 		return false;
@@ -47,9 +57,11 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
+	@Transactional
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean) {
 		
 		UserDTO newUser = new UserDTO();
+		System.out.println("Bean" + userRegistrationFormBean.getFirstName());
 		newUser.setFirstName(userRegistrationFormBean.getFirstName());
 		newUser.setLastName(userRegistrationFormBean.getLastName());
 		newUser.setContactNum(userRegistrationFormBean.getContactNum());

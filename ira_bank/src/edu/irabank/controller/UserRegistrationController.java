@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
@@ -20,6 +21,7 @@ import org.springframework.validation.BindingResult;
 // TODO: add DTO and services 
 
 
+
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean; 
 import edu.irabank.service.UserService;
@@ -27,7 +29,7 @@ import edu.irabank.service.UserService;
 
 	@Controller
 	@SessionAttributes
-	@RequestMapping("newuser")
+//	@RequestMapping("newuser")
 	public class UserRegistrationController 
 	{
 		
@@ -47,9 +49,10 @@ import edu.irabank.service.UserService;
 			// use the Form Elements values from Registration form
 			// Case 1: if the User Already exists
 			if (userService.getUserDTOByUsername(userRegistrationFormBean.getUserName()) !=null){
-				model.addAttribute("userRegistrationStatus", "This username already exists. Please try again with another username");
+				System.out.println("User exists ");
+				model.addAttribute("userRegistrationStatus", "This user already exists. Please try again with another username/email");
 				model.addAttribute("userRegistrationFormBean",userRegistrationFormBean);
-				return new ModelAndView("ExternalUsers/registerUser", model);
+				return new ModelAndView("/ExternalUsers/registerUser", model);
 				
 			}
 			//Case 2: User doesn't exist.
@@ -59,11 +62,14 @@ import edu.irabank.service.UserService;
 				System.out.println("userCreationStatus is :" + userCreationStatus);
 				if(userCreationStatus){
 					model.addAttribute("userRegistrationStatus", "User Registered successfully. Please login");
-					return new ModelAndView("index", model); // Login page
+					model.addAttribute("userName", userRegistrationFormBean.getUserName());
+					System.out.println("63 : comes till here");
+					//return new ModelAndView(new RedirectView("Welcome"));
+					return new ModelAndView("/index", model); // Login page
 				}
 				else{
 					model.addAttribute("userRegistrationStatus", "There seems to be some connection issues. Please try again");
-					return new ModelAndView("ExternalUsers/registerUser", model); // return back to register
+					return new ModelAndView("/ExternalUsers/registerUser", model); // return back to register
 				}
 				
 				
