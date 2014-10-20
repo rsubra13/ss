@@ -1,5 +1,7 @@
 package edu.irabank.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -92,6 +94,25 @@ public class UserDAOImpl implements UserDAO
 		}
 		
 	} // End of addNewuser
+
+	@Override
+	public UserDTO getUserDTOByUserID(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserDTO> listUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteUser(Integer userId) {
+		return null; 
+		// TODO Auto-generated method stub
+		
+	}
 	 
 	
 }

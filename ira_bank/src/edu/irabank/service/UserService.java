@@ -1,30 +1,40 @@
 package edu.irabank.service;
 
+import java.util.List;
+
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean;
 
 public interface UserService {
 
+	// Login check
 	public boolean validateUser(String userName, String password);
 	public UserDTO getUserDTOByUsername(String userName);
-	//TODO : Many other services I have referred in ServicesIMPL
+	
+	// Register User
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean);
 
+	//Update User details
+	public void updateUserDetails(UserDTO userDTO);
+
+	//Get User(s) info
+	public List<UserDTO> listUsers();
+	public UserDTO getUserinfo(Integer userId); // single user DTO
+
+    //Delete User
+	public void deleteUser(Integer userId);
 	
-/*getUserByID - returns UserDTO object
+	
+    
+	
+/*
+//TODO getUserByID - returns UserDTO object
 getUserByRole - returns UserDTO Object
-addNewUser  - register New User from the details got from UserRegistration Formbean
 getAllUsersbyRole  - returns a list of UserDTO objects
-deleteUser - returns bool if its deleted ( pass userdto as parameter)
-modifyUser - use registerFormBean if not all the User fields are gonna be used
 updateLoginAttempts - Use getLoginAttemptCount and setLoginAttemptCount
 resetLoginAttempts  -  same
-//TODO : Add OTP, Number of Login Attempts, isAcctLocked Fields in the DTO of user.
 accessLogFile();
 
-// TODO security features
- PKI
- OTP
-
 */
+	
 }

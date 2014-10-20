@@ -1,6 +1,7 @@
 package edu.irabank.service.impl; 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,16 +31,15 @@ public class UserServiceImpl implements UserService
 		
 		BCryptPasswordEncoder bdecrypt = new  BCryptPasswordEncoder();
 		String encryptedPassword = bdecrypt.encode(inputPassword);
-		System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
+//		System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
 		String userPassword = userDAO.getPassword(inputUserName);
-		System.out.println("userPassword  = " + userPassword);
-		System.out.println("encryptedPassword Password = " + encryptedPassword);
-		//TODO: Here actually the Hashed password needs to be checked.
-		Boolean b_mactch = bdecrypt.matches(inputPassword, userPassword);
-		System.out.println("bmatch" + b_mactch);
+//		System.out.println("userPassword  = " + userPassword);
+//		System.out.println("encryptedPassword Password = " + encryptedPassword);
+		Boolean b_match = bdecrypt.matches(inputPassword, userPassword);
+		/*System.out.println("bmatch" + b_match);*/
 		if(!userPassword.isEmpty())
 		{
-			if(userPassword.equals(encryptedPassword) || b_mactch)
+			if(userPassword.equals(encryptedPassword) || b_match)
 			{
 				return true;
 			}
@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean) {
 		
 		UserDTO newUser = new UserDTO();
-		System.out.println("Bean" + userRegistrationFormBean.getFirstName());
 		newUser.setFirstName(userRegistrationFormBean.getFirstName());
 		newUser.setLastName(userRegistrationFormBean.getLastName());
 		newUser.setContactNum(userRegistrationFormBean.getContactNum());
@@ -101,6 +100,36 @@ public class UserServiceImpl implements UserService
  			System.out.println("User registered");
  			return true;
 		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateUserDetails(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> listUsers() {
+		// TODO Auto-generated method stub
+		List userList = userDAO.listUsers();
+		return null;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTO getUserinfo(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void deleteUser(Integer userId) {
+		Boolean isDeleted= userDAO.deleteUser(userId);
+		// TODO Auto-generated method stub
 		
 	}
 
