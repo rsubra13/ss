@@ -29,6 +29,14 @@ I.R.A BANK
               </c:if>
              <br>
 
+             
+			<%
+				/*Check if Login did not happen*/
+				if(request.getAttribute("loginError") != null)
+				{%>
+				<p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>	
+			  <%}%>
+
 				<input name="username"  type="text" class="form-control"  placeholder="Username" maxlength="30"/>
 
 				<input name	="password" type="password" class="form-control" placeholder="Password" maxlength="15"/>
@@ -45,12 +53,6 @@ I.R.A BANK
 
 			 </form>
 	
-			<%
-				/*Check if Login did not happen*/
-				if(request.getAttribute("loginError") != null)
-				{%>
-				<p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>	
-			  <%}%>
 </div>
 
 </div>

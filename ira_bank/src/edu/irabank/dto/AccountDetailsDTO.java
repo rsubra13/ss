@@ -7,14 +7,18 @@ package edu.irabank.dto;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,42 +30,67 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccountDetailsDTO.findAll", query = "SELECT a FROM AccountDetailsDTO a"),
-    @NamedQuery(name = "AccountDetailsDTO.findByAcctId", query = "SELECT a FROM AccountDetailsDTO a WHERE a.accountDetailsDTOPK.acctId = :acctId"),
-    @NamedQuery(name = "AccountDetailsDTO.findByAccountNumber", query = "SELECT a FROM AccountDetailsDTO a WHERE a.accountDetailsDTOPK.accountNumber = :accountNumber"),
+    @NamedQuery(name = "AccountDetailsDTO.findByAcctId", query = "SELECT a FROM AccountDetailsDTO a WHERE a.acctId = :acctId"),
+    @NamedQuery(name = "AccountDetailsDTO.findByAccountNumber", query = "SELECT a FROM AccountDetailsDTO a WHERE a.accountNumber = :accountNumber"),
+    @NamedQuery(name = "AccountDetailsDTO.findByUId", query = "SELECT a FROM AccountDetailsDTO a WHERE a.uId = :uId"),
     @NamedQuery(name = "AccountDetailsDTO.findByBalance", query = "SELECT a FROM AccountDetailsDTO a WHERE a.balance = :balance")})
 public class AccountDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected AccountDetailsDTOPK accountDetailsDTOPK;
+    @Id
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
+    @Column(name = "ACCT_ID")
+    private Integer acctId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "ACCOUNT_NUMBER")
+    private String accountNumber;
+    @Column(name = "U_ID")
+    private Integer uId;
     @Basic(optional = false)
     @NotNull
     private int balance;
-    @JoinColumn(name = "U_ID", referencedColumnName = "USER_ID")
-    @ManyToOne
-    private UserDTO uId;
+    @JoinColumn(name = "ACCT_ID", referencedColumnName = "ACCT_ID", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private UserDTO userDTO;
 
     public AccountDetailsDTO() {
     }
 
-    public AccountDetailsDTO(AccountDetailsDTOPK accountDetailsDTOPK) {
-        this.accountDetailsDTOPK = accountDetailsDTOPK;
+    public AccountDetailsDTO(Integer acctId) {
+        this.acctId = acctId;
     }
 
-    public AccountDetailsDTO(AccountDetailsDTOPK accountDetailsDTOPK, int balance) {
-        this.accountDetailsDTOPK = accountDetailsDTOPK;
+    public AccountDetailsDTO(Integer acctId, String accountNumber, int balance) {
+        this.acctId = acctId;
+        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
-    public AccountDetailsDTO(int acctId, String accountNumber) {
-        this.accountDetailsDTOPK = new AccountDetailsDTOPK(acctId, accountNumber);
+    public Integer getAcctId() {
+        return acctId;
     }
 
-    public AccountDetailsDTOPK getAccountDetailsDTOPK() {
-        return accountDetailsDTOPK;
+    public void setAcctId(Integer acctId) {
+        this.acctId = acctId;
     }
 
-    public void setAccountDetailsDTOPK(AccountDetailsDTOPK accountDetailsDTOPK) {
-        this.accountDetailsDTOPK = accountDetailsDTOPK;
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public Integer getUId() {
+        return uId;
+    }
+
+    public void setUId(Integer uId) {
+        this.uId = uId;
     }
 
     public int getBalance() {
@@ -72,18 +101,18 @@ public class AccountDetailsDTO implements Serializable {
         this.balance = balance;
     }
 
-    public UserDTO getUId() {
-        return uId;
+    public UserDTO getUserDTO() {
+        return userDTO;
     }
 
-    public void setUId(UserDTO uId) {
-        this.uId = uId;
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (accountDetailsDTOPK != null ? accountDetailsDTOPK.hashCode() : 0);
+        hash += (acctId != null ? acctId.hashCode() : 0);
         return hash;
     }
 
@@ -94,7 +123,7 @@ public class AccountDetailsDTO implements Serializable {
             return false;
         }
         AccountDetailsDTO other = (AccountDetailsDTO) object;
-        if ((this.accountDetailsDTOPK == null && other.accountDetailsDTOPK != null) || (this.accountDetailsDTOPK != null && !this.accountDetailsDTOPK.equals(other.accountDetailsDTOPK))) {
+        if ((this.acctId == null && other.acctId != null) || (this.acctId != null && !this.acctId.equals(other.acctId))) {
             return false;
         }
         return true;
@@ -102,7 +131,7 @@ public class AccountDetailsDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "edu.irabank.dto.AccountDetailsDTO[ accountDetailsDTOPK=" + accountDetailsDTOPK + " ]";
+        return "edu.irabank.dto.AccountDetailsDTO[ acctId=" + acctId + " ]";
     }
     
 }

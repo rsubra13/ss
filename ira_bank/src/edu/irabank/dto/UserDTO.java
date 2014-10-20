@@ -7,9 +7,8 @@ package edu.irabank.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,21 +16,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Ramki Subramanian
  */
 @Entity
-@Table(name = "users", catalog = "sbs", schema = "")
+@Table(name = "user", catalog = "sbs", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserDTO.findAll", query = "SELECT u FROM UserDTO u"),
@@ -53,12 +51,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserDTO.findByPkiCerti", query = "SELECT u FROM UserDTO u WHERE u.pkiCerti = :pkiCerti"),
     @NamedQuery(name = "UserDTO.findByPkiNumber", query = "SELECT u FROM UserDTO u WHERE u.pkiNumber = :pkiNumber"),
     @NamedQuery(name = "UserDTO.findByRoleId", query = "SELECT u FROM UserDTO u WHERE u.roleId = :roleId"),
-    /*@NamedQuery(name = "UserDTO.findByTemp2", query = "SELECT u FROM UserDTO u WHERE u.temp2 = :temp2")*/})
+    @NamedQuery(name = "UserDTO.findByPublicKey", query = "SELECT u FROM UserDTO u WHERE u.publicKey = :publicKey"),
+    @NamedQuery(name = "UserDTO.findByOtp", query = "SELECT u FROM UserDTO u WHERE u.otp = :otp"),
+    @NamedQuery(name = "UserDTO.findByLoginAttempts", query = "SELECT u FROM UserDTO u WHERE u.loginAttempts = :loginAttempts"),
+    @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus"),
+    @NamedQuery(name = "UserDTO.findByAcctId", query = "SELECT u FROM UserDTO u WHERE u.acctId = :acctId")})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Integer userId;
     @Basic(optional = false)
@@ -69,7 +71,6 @@ public class UserDTO implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 70)
-    @Column(name = "PASSWORD")
     private String password;
     @Basic(optional = false)
     @NotNull
@@ -89,10 +90,7 @@ public class UserDTO implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "LAST_NAME")
     private String lastName;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 560)
-    @Column(name = "ADDRESS")
     private String address;
     @Basic(optional = false)
     @NotNull
@@ -123,26 +121,30 @@ public class UserDTO implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "SEC_ANS2")
     private String secAns2;
-    @Basic(optional = false)
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "PKI_PATH")
     private String pkiPath;
-    @Basic(optional = false)
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "PKI_CERTI")
     private String pkiCerti;
-    @Basic(optional = false)
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "PKI_NUMBER")
     private String pkiNumber;
     @Column(name = "ROLE_ID")
     private Integer roleId;
-    @OneToMany(mappedBy = "reqUserId")
-    private List<RequestDetailsDTO> requestDetailsDTOList;
-    @OneToMany(mappedBy = "uId")
-    private List<AccountDetailsDTO> accountDetailsDTOList;
-    @OneToMany(mappedBy = "notificationUserId")
-    private List<NotificationDetailsDTO> notificationDetailsDTOList;
+    @Size(max = 240)
+    @Column(name = "PUBLIC_KEY")
+    private String publicKey;
+    @Size(max = 45)
+    private String otp;
+    @Column(name = "LOGIN_ATTEMPTS")
+    private Integer loginAttempts;
+    @Column(name = "ACCT_LOCKED_STATUS")
+    private Integer acctLockedStatus;
+    @Column(name = "ACCT_ID")
+    private Integer acctId;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDTO")
+    private AccountDetailsDTO accountDetailsDTO;
 
     public UserDTO() {
     }
@@ -151,11 +153,12 @@ public class UserDTO implements Serializable {
         this.userId = userId;
     }
 
-    public UserDTO(Integer userId, String userName, String password, String emailId, String firstName, String lastName, String address, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2, String pkiPath, String pkiCerti, String pkiNumber) {
+    public UserDTO(Integer userId, String userName, String password, String emailId, Date createTime, String firstName, String lastName, String address, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.emailId = emailId;
+        this.createTime = createTime;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -165,9 +168,6 @@ public class UserDTO implements Serializable {
         this.secAns1 = secAns1;
         this.secQue2 = secQue2;
         this.secAns2 = secAns2;
-        this.pkiPath = pkiPath;
-        this.pkiCerti = pkiCerti;
-        this.pkiNumber = pkiNumber;
     }
 
     public Integer getUserId() {
@@ -314,39 +314,52 @@ public class UserDTO implements Serializable {
         this.roleId = roleId;
     }
 
- /*   public String getTemp2() {
-        return temp2;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setTemp2(String temp2) {
-        this.temp2 = temp2;
-    }*/
-
-    @XmlTransient
-    public List<RequestDetailsDTO> getRequestDetailsDTOList() {
-        return requestDetailsDTOList;
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
-    public void setRequestDetailsDTOList(List<RequestDetailsDTO> requestDetailsDTOList) {
-        this.requestDetailsDTOList = requestDetailsDTOList;
+    public String getOtp() {
+        return otp;
     }
 
-    @XmlTransient
-    public List<AccountDetailsDTO> getAccountDetailsDTOList() {
-        return accountDetailsDTOList;
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
-    public void setAccountDetailsDTOList(List<AccountDetailsDTO> accountDetailsDTOList) {
-        this.accountDetailsDTOList = accountDetailsDTOList;
+    public Integer getLoginAttempts() {
+        return loginAttempts;
     }
 
-    @XmlTransient
-    public List<NotificationDetailsDTO> getNotificationDetailsDTOList() {
-        return notificationDetailsDTOList;
+    public void setLoginAttempts(Integer loginAttempts) {
+        this.loginAttempts = loginAttempts;
     }
 
-    public void setNotificationDetailsDTOList(List<NotificationDetailsDTO> notificationDetailsDTOList) {
-        this.notificationDetailsDTOList = notificationDetailsDTOList;
+    public Integer getAcctLockedStatus() {
+        return acctLockedStatus;
+    }
+
+    public void setAcctLockedStatus(Integer acctLockedStatus) {
+        this.acctLockedStatus = acctLockedStatus;
+    }
+
+    public Integer getAcctId() {
+        return acctId;
+    }
+
+    public void setAcctId(Integer acctId) {
+        this.acctId = acctId;
+    }
+
+    public AccountDetailsDTO getAccountDetailsDTO() {
+        return accountDetailsDTO;
+    }
+
+    public void setAccountDetailsDTO(AccountDetailsDTO accountDetailsDTO) {
+        this.accountDetailsDTO = accountDetailsDTO;
     }
 
     @Override
