@@ -104,7 +104,7 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public List<UserDTO> listUsers() {
 		// TODO Auto-generated method stub
-		return null;
+		return getSession().createCriteria(UserDTO.class).list();
 	}
 
 	@Override
@@ -113,7 +113,20 @@ public class UserDAOImpl implements UserDAO
 		// TODO Auto-generated method stub
 		
 	}
-	 
+	
+	// To create/open a new session.
+	private Session getSession() {
+		Session sessionobj = getSessionFactory().getCurrentSession();
+		if (sessionobj == null) {
+			sessionobj = getSessionFactory().openSession();
+		}
+		return sessionobj;
+	}
+
+	private SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+   
 	
 }
 

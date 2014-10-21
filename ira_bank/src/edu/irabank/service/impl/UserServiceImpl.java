@@ -115,7 +115,8 @@ public class UserServiceImpl implements UserService
 	public List<UserDTO> listUsers() {
 		// TODO Auto-generated method stub
 		List userList = userDAO.listUsers();
-		return null;
+		System.out.println("userList in Service" + userList);
+		return userList;
 	}
 
 	@Override
