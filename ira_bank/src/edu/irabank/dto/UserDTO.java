@@ -8,12 +8,13 @@ package edu.irabank.dto;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -54,8 +55,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserDTO.findByPublicKey", query = "SELECT u FROM UserDTO u WHERE u.publicKey = :publicKey"),
     @NamedQuery(name = "UserDTO.findByOtp", query = "SELECT u FROM UserDTO u WHERE u.otp = :otp"),
     @NamedQuery(name = "UserDTO.findByLoginAttempts", query = "SELECT u FROM UserDTO u WHERE u.loginAttempts = :loginAttempts"),
-    @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus"),
-    @NamedQuery(name = "UserDTO.findByAcctId", query = "SELECT u FROM UserDTO u WHERE u.acctId = :acctId")})
+    @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus")})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,7 +90,7 @@ public class UserDTO implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "LAST_NAME")
     private String lastName;
-    @Size(min = 1, max = 560)
+    @Size(max = 560)
     private String address;
     @Basic(optional = false)
     @NotNull
@@ -141,10 +141,9 @@ public class UserDTO implements Serializable {
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
     private Integer acctLockedStatus;
-    @Column(name = "ACCT_ID")
-    private Integer acctId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userDTO")
-    private AccountDetailsDTO accountDetailsDTO;
+    @JoinColumn(name = "ACCT_ID", referencedColumnName = "ACCT_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private AccountDetailsDTO acctId;
 
     public UserDTO() {
     }
@@ -153,15 +152,13 @@ public class UserDTO implements Serializable {
         this.userId = userId;
     }
 
-    public UserDTO(Integer userId, String userName, String password, String emailId, Date createTime, String firstName, String lastName, String address, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2) {
+    public UserDTO(Integer userId, String userName, String password, String emailId, String firstName, String lastName, Date dob, String contactNum, String secQue1, String secAns1, String secQue2, String secAns2) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.emailId = emailId;
-        this.createTime = createTime;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
         this.dob = dob;
         this.contactNum = contactNum;
         this.secQue1 = secQue1;
@@ -346,20 +343,12 @@ public class UserDTO implements Serializable {
         this.acctLockedStatus = acctLockedStatus;
     }
 
-    public Integer getAcctId() {
+    public AccountDetailsDTO getAcctId() {
         return acctId;
     }
 
-    public void setAcctId(Integer acctId) {
+    public void setAcctId(AccountDetailsDTO acctId) {
         this.acctId = acctId;
-    }
-
-    public AccountDetailsDTO getAccountDetailsDTO() {
-        return accountDetailsDTO;
-    }
-
-    public void setAccountDetailsDTO(AccountDetailsDTO accountDetailsDTO) {
-        this.accountDetailsDTO = accountDetailsDTO;
     }
 
     @Override

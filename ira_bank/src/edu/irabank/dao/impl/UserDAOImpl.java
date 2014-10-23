@@ -56,9 +56,9 @@ public class UserDAOImpl implements UserDAO
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
-		System.out.println("userName here: " + userName);
+		//System.out.println("userName here: " + userName);
 		query.setParameter("userName", userName);
-		System.out.println("query : " + query);
+		//System.out.println("query : " + query);
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
 		return password;
 	}
@@ -96,11 +96,29 @@ public class UserDAOImpl implements UserDAO
 	} // End of addNewuser
 
 	@Override
-	public UserDTO getUserDTOByUserID(Integer userId) {
+	// used by get/userid 
+	public UserDTO getUserDTOByUserId(Integer userId) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+		System.out.println("userId DAO: " + userId);
+		query.setParameter("userId", userId);
+		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		
+		try{
+		System.out.println("query : " + query);
+		}
+		
+		catch(Exception e){
+		System.out.println("41 : the exception is " + e);
+		e.printStackTrace();
+		}
+		return userDTO;
+		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserDTO> listUsers() {
 		// TODO Auto-generated method stub
@@ -125,6 +143,14 @@ public class UserDAOImpl implements UserDAO
 
 	private SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+
+	@Override
+	// Save method of user edit
+	public void updateUserDetails(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		getSession().merge(userDTO); // merge is used here rather than 'save'
+		
 	}
    
 	

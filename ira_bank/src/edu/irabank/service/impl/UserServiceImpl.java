@@ -31,12 +31,10 @@ public class UserServiceImpl implements UserService
 		
 		BCryptPasswordEncoder bdecrypt = new  BCryptPasswordEncoder();
 		String encryptedPassword = bdecrypt.encode(inputPassword);
-//		System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
+		//System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
 		String userPassword = userDAO.getPassword(inputUserName);
-//		System.out.println("userPassword  = " + userPassword);
-//		System.out.println("encryptedPassword Password = " + encryptedPassword);
 		Boolean b_match = bdecrypt.matches(inputPassword, userPassword);
-		/*System.out.println("bmatch" + b_match);*/
+		/*System.out.println("b_match" + b_match);*/
 		if(!userPassword.isEmpty())
 		{
 			if(userPassword.equals(encryptedPassword) || b_match)
@@ -51,6 +49,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Transactional
+	// For Login functionality 
 	public UserDTO getUserDTOByUsername(String userName)
 	{
 		return userDAO.getUserDTOByUsername(userName);
@@ -58,6 +57,7 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
+	// Register a new User
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean) {
 		
 		UserDTO newUser = new UserDTO();
@@ -84,12 +84,11 @@ public class UserServiceImpl implements UserService
 		newUser.setRoleId(userRegistrationFormBean.getRole());
 		
 		
-		// TODO check here if the user is already present
-		
+		// TODO check here if the user is already present	
 		// Add this newly created UserDTO Object into the DB. 
 		Boolean isUserRegisted = userDAO.addNewUser(newUser);
 		if(!isUserRegisted) {
-			System.out.println("Some issues in User Registration");
+			System.out.println("Some issues in User Registration, Please try again later!");
 			return false;
 		}
 		
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService
 			// TODO 1. Think about generating an autogen account number here 
 			// through acctnumber service or 2. send a notification to admin
 			// to accept and assign an acct number for this user.
- 			System.out.println("User registered");
+ 			System.out.println("User registered successfully");
  			return true;
 		}
 		
@@ -107,6 +106,8 @@ public class UserServiceImpl implements UserService
 	@Transactional
 	public void updateUserDetails(UserDTO userDTO) {
 		// TODO Auto-generated method stub
+		userDAO.updateUserDetails(userDTO);
+		System.out.println("comes in updateUserDetails ");
 		
 	}
 
@@ -133,5 +134,13 @@ public class UserServiceImpl implements UserService
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	@Transactional
+	public UserDTO getUserDTOByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return userDAO.getUserDTOByUserId(userId);
+	}
+	
 
 }

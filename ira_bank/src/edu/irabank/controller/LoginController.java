@@ -57,8 +57,7 @@ import edu.irabank.service.UserService;
 			return new ModelAndView("/index").addObject("loginError", "Invalid UserName or Password!");
 		}
 		
-		
-		
+		// Not a proper validation.
 		public boolean validateLoginFields(String userName, String password)
 		{
 			

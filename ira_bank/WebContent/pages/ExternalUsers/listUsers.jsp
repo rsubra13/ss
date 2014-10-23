@@ -12,13 +12,6 @@
 
     <title>I R A Home Page</title>
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/recommendation.css" rel="stylesheet">
-    <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/custom.js"></script>
     <!-- Add custom CSS here -->
 
     <style>
@@ -26,7 +19,12 @@
             margin-top: 60px;
         }
     </style>
- 
+    <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
+
+<script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
+
+    <script src="<%=request.getContextPath()%>/js/userDetails.js"  type="text/javascript" ></script>
 
 </head>
 
@@ -46,14 +44,14 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->	
-             <form id ="customizeform" name="customizeform" target="_self" method="POST" action="" class="form-inline">
+           
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                    <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
                    
                 </ul>
             </div>
-            </form>
+        
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -69,8 +67,13 @@
         </c:if>
      
 
-           <div style="width: 95%; margin: 0 auto;">
-       
+           <div id=style="width: 95%; margin: 0 auto;">
+
+           <!-- Include the hidden form ( the modal pops up has details of these.) -->
+           <div id="UserDetailsDialog" style="display: none;">
+           <label> comes here </label>
+            <jsp:include page="/pages/InternalUsers/userDetailsForm.jsp"></jsp:include>
+           </div>
                 
                     <h1>List Of Users</h1>
                 
@@ -78,7 +81,7 @@
                      <br>
                      <table class="table table-condensed">
                         <thead>
-                           <tr>
+                           <tr class="success">
                               <th width="4%">S.No</th>
                               <th width="12%">Username</th>
                               <th width="12%">Email</th>
@@ -94,21 +97,31 @@
                            </tr>
                         </thead>
                         <tbody>
-                           <c:forEach items="${usersList}" var="user" varStatus="loopCounter">
+                           <c:forEach items="${usersList}" var="user1" varStatus="loopCounter">
                            <tr>
                                <td><c:out value="${loopCounter.count}" /></td>
-                               <td><c:out value="${user.userName}" /></td>
-                               <td><c:out value="${user.emailId}" /></td>
-                               <td><c:out value="${user.firstName}" /></td>
-                               <td><c:out value="${user.lastName}" /></td>
-                               <td><c:out value="${user.address}" /></td>
-                               <td><c:out value="${user.dob}" /></td>
-                               <td><c:out value="${user.contactNum}" /></td>
-                               <td><c:out value="${user.secQue1}" /></td>
-                               <td><c:out value="${user.secAns1}" /></td>
-                               <td><c:out value="${user.secQue2}" /></td>
-                               <td><c:out value="${user.secAns2}" /></td>
+                               <td><c:out value="${user1.userName}" /></td>
+                               <td><c:out value="${user1.emailId}" /></td>
+                               <td><c:out value="${user1.firstName}" /></td>
+                               <td><c:out value="${user1.lastName}" /></td>
+                               <td><c:out value="${user1.address}" /></td>
+                               <td><c:out value="${user1.dob}" /></td>
+                               <td><c:out value="${user1.contactNum}" /></td>
+                               <td><c:out value="${user1.secQue1}" /></td>
+                               <td><c:out value="${user1.secAns1}" /></td>
+                               <td><c:out value="${user1.secQue2}" /></td>
+                               <td><c:out value="${user1.secAns2}" /></td>
+                                <td>
+                     <nobr>
+                        <button onclick="editUser(${user1.userId});"
+                                class="pure-button pure-button-primary">
+                             <i class="fa fa-pencil"></i> Edit
+                        </button>
 
+                        <a href="delete/${user1.userId}" class="pure-button pure-button-primary"
+                   onclick="return confirm('Are you sure you want to delete this User?');">
+                             <i class="fa fa-times"></i>Delete
+                        </a>
                             </tr>
                             </c:forEach>
                         </tbody>
@@ -119,6 +132,24 @@
 
      </div>
        
+   <!-- Bootstrap css -->
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
+
+<!-- Jquery CSS -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
+
+<!-- Jquery JS Files -->  
+
+<!-- bootstap js -->
+
+<script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.ui.datepicker.js"  type="text/javascript" ></script>
 
 
     </body>

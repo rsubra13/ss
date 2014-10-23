@@ -2,6 +2,7 @@ package edu.irabank.service;
 
 import java.util.List;
 
+import edu.irabank.controller.UserDetailsController;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean;
 
@@ -11,18 +12,21 @@ public interface UserService {
 	public boolean validateUser(String userName, String password);
 	public UserDTO getUserDTOByUsername(String userName);
 	
-	// Register User
+	// Register User / Add User
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean);
 
-	//Update User details
+	//Update/Edit User details
 	public void updateUserDetails(UserDTO userDTO);
+	public UserDTO getUserDTOByUserId(Integer userId);
 
-	//Get User(s) info
+	//Get User(s) information
 	public List<UserDTO> listUsers();
 	public UserDTO getUserinfo(Integer userId); // single user DTO
 
     //Delete User
 	public void deleteUser(Integer userId);
+
+	
 	
 	
     
