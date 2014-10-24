@@ -1,10 +1,23 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
+<body>
 <c:url var="actionUrl" value="save" />
 
-<form:form id="userDetailsForm" commandName="user" method="post"
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
+
+<!-- Jquery CSS -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
+<script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+
+
+<form:form id="userDetailsForm" commandName="userDetailsFormBean" method="post"
 	action="${actionUrl}" class="pure-form pure-form-aligned">
 
 	<fieldset>
@@ -20,10 +33,10 @@
 			<form:input path="emailId" required="required"  placeholder="Email Id" />
 		</div>
 
-		<div class="pure-control-group">
-			<label for="password">password</label>
-			<form:input path="password" required="required" placeholder="password" />
-		</div>
+	<!-- 	<div class="pure-control-group">
+			<label for="password" type>password</label>
+			<form:input path="password" required="required" type="hidden" placeholder="password" />
+		</div> -->
 
 		<div class="pure-control-group">
 			<label for="First Name">First Name</label>
@@ -44,13 +57,35 @@
 			<form:input path="contactNum" required="required" placeholder="contactNum" />
 		</div>
 
-		<div class="pure-control-group">
-			<label for="DOB">D.O.B</label>
-			<form:input path="dob" class="datepicker" required="required" placeholder="dob"  />
-		</div>
+		<!-- <div class="pure-control-group">
+			<label for="dob">D.O.B</label>
+			<form:input path="dob" class="datepicker" />
+		</div> -->
+
+		<div class="form-group">
+              <label for="dob">DOB</label>
+
+                  <div class="input-group date">
+                      <input type="text" id="dob" name="dob" class="datepicker" placeholder= "Select your date of birth" value="${userDetailsFormBean.dob}" required>
+                      <!-- bootstrap Date picker -->
+                      <script type="text/javascript">
+                         $('.datepicker').datepicker(
+                            { 
+                             autoclose: true,
+                             orientation: "right",
+                             minDate: "-50Y", 
+                             maxDate: "0D" ,
+                             changeMonth : true,
+                             changeYear : true,
+                             dateformat: 'mm/dd/yyyy',
+                             defaultDate: $("#dob").val()});
+                      </script>
+
+                  </div>
+            </div>
 		<div class="pure-control-group">
 			<label for="roleId">roleId</label>
-			<form:input path="roleId" required="required" placeholder="role" />
+			<form:input path="roleId" required="required" placeholder="roleId" />
 		</div>
 
 
@@ -73,12 +108,15 @@
 			<form:input path="secAns2" required="required" placeholder="secAns2" />
 		</div>
 
-
-
-
-
-
 		<form:input path="userId" type="hidden" />
+		<form:input path="password" type="hidden" />
+	<!-- 	<form:input path="dob" type="hidden" /> -->
 
 	</fieldset>
 </form:form>
+
+
+
+<script src="<%=request.getContextPath()%>/js/jquery.ui.datepicker.js"  type="text/javascript" ></script>
+
+</body>

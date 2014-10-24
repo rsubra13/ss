@@ -17,7 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.irabank.dto.UserDTO;
-import edu.irabank.form.UserRegistrationFormBean;
+import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.service.UserService;
 
     
@@ -33,24 +33,22 @@ import edu.irabank.service.UserService;
 				@RequestMapping(value="/listUsers", method = RequestMethod.GET)
 				public String listAllUsers(ModelMap model) {
 					// redirect to the listUsers.jsp
-					model.put("user", new UserDTO());
+					model.put("userDetailsFormBean", new UserDetailsFormBean());
 					model.put("usersList", userService.listUsers());
-//					/System.out.println("in controller GET : ");
-					
 					return "/ExternalUsers/listUsers";
 				}
 		
 			
 				 // Edit User
 				 @RequestMapping("/get/{userId}")
-			       public ModelAndView getUser(@ModelAttribute("user") UserDTO user, @PathVariable Integer userId, Map<String, Object> map, ModelMap model) {
+			       public ModelAndView getUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean, @PathVariable Integer userId, Map<String, Object> map, ModelMap model) {
 
 			              //UserDTO userDTO = new UserDTO();
 			              System.out.println("userId : 50" + userId);
 			              UserDTO userDTO = userService.getUserDTOByUserId(userId);
-			              System.out.println("comes here : 52 " + userDTO);
+			              System.out.println("Get/Id: 52 " + userDTO.getDob());
 						  model.addAttribute("userdetailsGetStatus", "Cool, got it!");
-						  model.addAttribute("user",userDTO);
+						  model.addAttribute("userDetailsFormBean",userDTO);
 			              System.out.println("55: userDTO : " + userDTO.getFirstName());
 			              //map.put("user", user);	
 			    		  return new ModelAndView("/InternalUsers/userDetailsForm", model);
@@ -59,16 +57,27 @@ import edu.irabank.service.UserService;
 				 
 				 // Update the existing user.
 				 @RequestMapping(value = "/save", method = RequestMethod.POST)
-					public String updateUser(@ModelAttribute("user") UserDTO userDTO,
+					public ModelAndView updateUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,
 							BindingResult result,ModelMap model) {
+					 
+					 
+					    Boolean userUpdateStatus = userService.updateUserDetails(userDetailsFormBean);
+						System.out.println("userCreationStatus is :" + userUpdateStatus);
+						if(userUpdateStatus){
+							model.addAttribute("userUpdateStatus", "User updated successfully");
+							//model.put("userDetailsFormBean", new UserDetailsFormBean());
+							model.put("usersList", userService.listUsers());
+							System.out.println("63 : comes till here");
+							return new ModelAndView("/ExternalUsers/listUsers", model);
+						}
+						else{
+							model.addAttribute("userUpdateStatus", "There seems to be some connection issues. Please try again");
+							return new ModelAndView("/ExternalUsers/listUsers", model);
+						}
 						
-						userService.updateUserDetails(userDTO);
-						model.put("user", new UserDTO());
-						model.put("usersList", userService.listUsers());
-						System.out.println("in update users GET : ");
-					
-						return "/ExternalUsers/listUsers";
-					}
+				 }
+				 
+				 
 
 				 
 				  // Delete User.

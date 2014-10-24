@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO
 		}
 		catch (ConstraintViolationException e){
 		 System.out.println("The error is "+ e);
-		 e.printStackTrace();
+		 //e.printStackTrace();
 		 return false;	 
 		}
 		
@@ -147,9 +147,19 @@ public class UserDAOImpl implements UserDAO
 
 	@Override
 	// Save method of user edit
-	public void updateUserDetails(UserDTO userDTO) {
+	public Boolean updateUserDetails(UserDTO userDTO) {
 		// TODO Auto-generated method stub
-		getSession().merge(userDTO); // merge is used here rather than 'save'
+		System.out.println("152:DAOImpl:");
+		Object status = getSession().merge(userDTO); // merge is used here rather than 'save'
+		System.out.println("Status :" +status);
+		if (status != null){
+			
+			return true;  	
+		}
+		else{
+			return false;
+		}
+		
 		
 	}
    

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
 import edu.irabank.dto.UserDTO;
+import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.UserService;
 @Service
@@ -71,7 +72,6 @@ public class UserServiceImpl implements UserService
 		newUser.setPassword(encryptedPassword);
 		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setEmailId(userRegistrationFormBean.getEmailId());
-		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setSecAns1(userRegistrationFormBean.getSecAns1());
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
@@ -104,10 +104,44 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
-	public void updateUserDetails(UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		userDAO.updateUserDetails(userDTO);
-		System.out.println("comes in updateUserDetails ");
+	public Boolean updateUserDetails(UserDetailsFormBean userDetailsFormBean) {
+	
+		UserDTO newUser = new UserDTO();
+		newUser.setFirstName(userDetailsFormBean.getFirstName());
+		newUser.setLastName(userDetailsFormBean.getLastName());
+		newUser.setContactNum(userDetailsFormBean.getContactNum());
+		newUser.setAddress(userDetailsFormBean.getAddress());
+		newUser.setUserName(userDetailsFormBean.getUserName());
+		newUser.setEmailId(userDetailsFormBean.getEmailId());
+		newUser.setSecAns1(userDetailsFormBean.getSecAns1());
+		newUser.setSecAns2(userDetailsFormBean.getSecAns2());
+		newUser.setSecQue1(userDetailsFormBean.getSecQue1());
+		newUser.setSecQue2(userDetailsFormBean.getSecQue2());
+		newUser.setRoleId(userDetailsFormBean.getRoleId());	
+		
+		//TODO - currently these are hidden,so using like these.
+		newUser.setDob(userDetailsFormBean.getDob());
+		newUser.setPassword(userDetailsFormBean.getPassword());
+		newUser.setUserId(userDetailsFormBean.getUserId());
+		
+		
+		// TODO check here if the user is already present	
+		// Add this newly created UserDTO Object into the DB. 
+		System.out.println("Comes till here : 130 of UserServiceUpdateDetails");
+		Boolean isUserUpdated = userDAO.updateUserDetails(newUser);
+		if(!isUserUpdated) {
+			System.out.println("Some issues in updating user details, Please try again later!");
+			return false;
+		}
+		
+		else{
+			
+ 			System.out.println("User updated successfully");
+ 			return true;
+		}
+		
+
+
 		
 	}
 

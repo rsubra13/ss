@@ -9,13 +9,13 @@ function editUser(id) {
 
 		$("#UserDetailsDialog").dialog('open');
 
-		initializeDatePicker();
+	
 	});
 }
 
 function initializeDatePicker() {
 	$(".datepicker").datepicker({
-		dateFormat : "yy-mm-dd",
+		dateFormat : "yyyy-mm-dd",
 		changeMonth : true,
 		changeYear : true,
 		showButtonPanel : true

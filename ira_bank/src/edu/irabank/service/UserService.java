@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.irabank.controller.UserDetailsController;
 import edu.irabank.dto.UserDTO;
+import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 
 public interface UserService {
@@ -16,7 +17,7 @@ public interface UserService {
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean);
 
 	//Update/Edit User details
-	public void updateUserDetails(UserDTO userDTO);
+	public Boolean updateUserDetails(UserDetailsFormBean userDetailsFormBean);
 	public UserDTO getUserDTOByUserId(Integer userId);
 
 	//Get User(s) information
