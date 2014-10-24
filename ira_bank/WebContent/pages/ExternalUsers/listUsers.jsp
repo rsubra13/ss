@@ -70,10 +70,7 @@
            <div id=style="width: 95%; margin: 0 auto;">
 
            <!-- Include the hidden form ( the modal pops up has details of these.) -->
-           <div id="UserDetailsDialog" style="display: none;">
-           <label> comes here </label>
-            <jsp:include page="/pages/InternalUsers/userDetailsForm.jsp"></jsp:include>
-           </div>
+           
                 
                     <h1>List Of Users</h1>
                 
@@ -118,10 +115,14 @@
                              <i class="fa fa-pencil"></i> Edit
                         </button>
 
+                         <form class=" row-fluid" method="POST" id="delete"
+                         command="userDetailsFormBean" action="/ira_bank/delete">
+
                         <a href="delete/${user1.userId}" class="pure-button pure-button-primary"
-                   onclick="return confirm('Are you sure you want to delete this User?');">
+                        onclick="return confirm('Are you sure you want to delete this User?');">
                              <i class="fa fa-times"></i>Delete
                         </a>
+                        </form>
                             </tr>
                             </c:forEach>
                         </tbody>

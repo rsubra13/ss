@@ -1,20 +1,22 @@
 function editUser(id) {
 	console.log("comes here")
 	$.get("get/" + id, function(result) {
-		console.log("comes out")
-		console.log(result)
+		console.log("comes out");
+		console.log(result);
+		
 		$("#UserDetailsDialog").html(result);
 
 		$('#UserDetailsDialog').dialog("option", "title", 'Edit User Details');
 
 		$("#UserDetailsDialog").dialog('open');
 
+		initializeDatePicker();
 	
 	});
 }
 
 function initializeDatePicker() {
-	$(".datepicker").datepicker({
+	$(".datepicker1").datepicker({
 		dateFormat : "yyyy-mm-dd",
 		changeMonth : true,
 		changeYear : true,

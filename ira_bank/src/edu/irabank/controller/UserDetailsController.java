@@ -33,6 +33,7 @@ import edu.irabank.service.UserService;
 				@RequestMapping(value="/listUsers", method = RequestMethod.GET)
 				public String listAllUsers(ModelMap model) {
 					// redirect to the listUsers.jsp
+					System.out.println("List All Users : Controller");
 					model.put("userDetailsFormBean", new UserDetailsFormBean());
 					model.put("usersList", userService.listUsers());
 					return "/ExternalUsers/listUsers";
@@ -79,13 +80,17 @@ import edu.irabank.service.UserService;
 				 
 				 
 
-				 
 				  // Delete User.
-					@RequestMapping("/delete/{userId}")
-					public String deleteUser(@PathVariable("userId") Integer userId) {
-
+				 @RequestMapping(value = "/delete", method = RequestMethod.POST)
+					public ModelAndView deleteUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,BindingResult result, ModelMap model, @RequestParam("userId") Integer userId) {
+						System.out.println("Comes in Delete" + userId);
 						userService.deleteUser(userId);
-						return "/ExternalUsers/listUsers";
+						model.addAttribute("userdeleteStatus", "User Deleted successfully");
+						//model.put("userDetailsFormBean", new UserDetailsFormBean());
+						model.put("usersList", userService.listUsers());
+						System.out.println("63 : comes in Delete conroller");
+						return new ModelAndView("/ExternalUsers/listUsers");
+						//return "redirect:/ExternalUsers/listAllUsers";
 					}
 
 		

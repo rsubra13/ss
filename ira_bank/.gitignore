@@ -1,11 +1,8 @@
 /.classpath
 /.project
+
 #java specific
 *.class
-
-
-
-
 ## generic files to ignore
 *~
 *.lock

@@ -49,6 +49,7 @@ I.R.A BANK
 				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
 
 				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration<span></a>
+				<a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password<span></a>
 				</div>
 
 			 </form>

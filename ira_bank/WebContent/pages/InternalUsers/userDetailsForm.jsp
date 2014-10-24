@@ -17,6 +17,7 @@
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 
 
+
 <form:form id="userDetailsForm" commandName="userDetailsFormBean" method="post"
 	action="${actionUrl}" class="pure-form pure-form-aligned">
 
@@ -66,7 +67,7 @@
               <label for="dob">DOB</label>
 
                   <div class="input-group date">
-                      <input type="text" id="dob" name="dob" class="datepicker" placeholder= "Select your date of birth" value="${userDetailsFormBean.dob}" required>
+                      <input type="text" id="dob" name="dob" class="datepicker1" placeholder= "Select your date of birth" value="${userDetailsFormBean.dob}" required>
                       <!-- bootstrap Date picker -->
                       <script type="text/javascript">
                          $('.datepicker').datepicker(
@@ -116,7 +117,5 @@
 </form:form>
 
 
-
-<script src="<%=request.getContextPath()%>/js/jquery.ui.datepicker.js"  type="text/javascript" ></script>
 
 </body>

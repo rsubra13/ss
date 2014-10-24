@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService
 	@Override
 	@Transactional
 	public void deleteUser(Integer userId) {
-		Boolean isDeleted= userDAO.deleteUser(userId);
+		userDAO.deleteUser(userId);
 		// TODO Auto-generated method stub
 		
 	}

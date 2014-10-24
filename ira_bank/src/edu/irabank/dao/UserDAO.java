@@ -12,7 +12,7 @@ public interface UserDAO {
 	public UserDTO getUserDTOByUserId(Integer userId);
 	public Boolean addNewUser(UserDTO userDTO); // Pass user object as an argument
 	public List<UserDTO> listUsers();
-	public Boolean deleteUser(Integer userId);
+	public void deleteUser(Integer userId);
 	public Boolean updateUserDetails(UserDTO userDTO);
 
 

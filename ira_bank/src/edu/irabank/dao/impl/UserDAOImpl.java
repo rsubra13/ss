@@ -126,8 +126,18 @@ public class UserDAOImpl implements UserDAO
 	}
 
 	@Override
-	public Boolean deleteUser(Integer userId) {
-		return null; 
+	public void deleteUser(Integer userId) {
+		
+//		/UserDTO delUser = new UserDTO();
+		UserDTO delUser = getUserDTOByUserId(userId); 
+		try{
+			getSession().delete(delUser); 
+		}
+		
+		catch(Exception e){
+			System.out.println("the exception is" + e);
+		}
+		
 		// TODO Auto-generated method stub
 		
 	}
