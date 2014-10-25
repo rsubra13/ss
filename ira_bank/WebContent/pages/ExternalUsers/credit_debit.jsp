@@ -9,10 +9,10 @@
 </head>
 <body>
 
-<%@include file="../navbar.jsp" %>
+<%@include file="../navbar.jsp" %> 
 
 <div class="panel panel-primary">
-  <div class="panel-heading"> CREDIT / DEBIT Funds</div>
+  <div class="panel-heading"> CREDIT/DEBIT Funds</div>
 </div>
 
 <div class="panel panel-default">

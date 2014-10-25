@@ -8,10 +8,7 @@
  
 </head>
 <body>
-<%
-String context_path=request.getContextPath();
-String navbar_path=context_path+"/pages/navbar.jsp";
-%>
+
 <%@include file="../navbar.jsp" %>
 
 <div class="panel panel-primary">
