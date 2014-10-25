@@ -31,7 +31,7 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 	public String getAccountNumber(String accountno)	
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNO"); //using NamedQuery
+		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("AccountNo here: " + accountno);
 		query.setParameter("accountNO", accountno);
 		System.out.println("query : " + query);

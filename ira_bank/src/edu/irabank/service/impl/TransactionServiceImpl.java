@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService
 		{
 			
 			// Set balance to Account table
-			boolean isaccountUpdatesuccess = accountdetailsDAO.updateAccount(userAccountNo);
+			boolean isaccountUpdatesuccess = accountdetailsDAO.creditBalance(userAccountNo, newBalance);
 			if(isaccountUpdatesuccess)
 			{
 			// Add row to transaction table
