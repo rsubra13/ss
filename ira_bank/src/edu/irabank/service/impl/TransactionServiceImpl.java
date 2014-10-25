@@ -36,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService
 		int userBalance = accountdetailsDAO.getBalance(inputbalance);
 		int newBalance = userBalance + inputbalance;
 		
-		if(!userAccountNo.isEmpty() && !userBalance.isEmpty())
+		if(!userAccountNo.isEmpty())
 		{
 			
 			// Set balance to Account table

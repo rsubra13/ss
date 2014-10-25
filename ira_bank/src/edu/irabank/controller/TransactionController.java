@@ -58,7 +58,7 @@ import edu.irabank.service.TransactionService;
 		public boolean validateAccntFields(String accountNo, int balance)
 		{
 			
-			if((accountNo.isEmpty()) || (balance.isNull()))
+			if(accountNo.isEmpty())
 			{
 				return false;
 			}
