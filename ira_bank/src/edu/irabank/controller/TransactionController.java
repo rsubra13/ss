@@ -19,7 +19,7 @@ import edu.irabank.service.TransactionService;
 	@Controller
 	public class TransactionController 
 	{
-		
+/*		
 		@Autowired
 		private TransactionService transactionService; 
 
@@ -63,7 +63,7 @@ import edu.irabank.service.TransactionService;
 				return false;
 			}
 			return true;
-		}
+		}*/
 }
 	 
 	 

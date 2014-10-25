@@ -17,6 +17,7 @@ import edu.irabank.dto.AccountDetailsDTO;
  * @author Abha Upadhyay
  *
  */
+/*
 
 @Repository
 public class AccountDetailsDAOImpl implements AccountDetailsDAO 	
@@ -49,10 +50,23 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 		int Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
 		return Balance;
 	}
+	//Used in Credit to Update Balance
+	/*
+	public Integer creditBalance(String accountno, int balance)	
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("AccountDetailsDTO.findByBalance"); //using NamedQuery
+		System.out.println("Balance here: " + balance);
+		query.setParameter("Balance", balance);
+		System.out.println("query : " + query);
+		//int Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
+		//return Balance;
+	}*/
 
    
 	
-}
+//}
+
 
 
 

@@ -13,10 +13,11 @@ import edu.irabank.dao.impl.TransactionDetailsDAOImpl;
 import edu.irabank.dto.TransactionDetailsDTO;
 
 import edu.irabank.dao.AccountDetailsDAO;
-import edu.irabank.dao.impl.AccountDetailsDAOImpl;
+//import edu.irabank.dao.impl.AccountDetailsDAOImpl;
 import edu.irabank.dto.AccountDetailsDTO;
 //import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.TransactionService;
+/*
 @Service
 public class TransactionServiceImpl implements TransactionService
 {
@@ -27,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService
 	@Autowired
 	private AccountDetailsDAO accountdetailsDAO;
 	
-	
+/*	
 	@Transactional
 	public boolean CreditBalance(String inputAccountNo, int inputbalance)
 	{
@@ -44,16 +45,21 @@ public class TransactionServiceImpl implements TransactionService
 			if(isaccountUpdatesuccess)
 			{
 			// Add row to transaction table
+				/*
 			TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
 			// Check what values need to be set
-			newTransaction.setTransID();
-			newTransaction.setTransDate();
+			newTransaction.setTransId(Integer );
+			newTransaction.setTransDate(Date);
 			newTransaction.setTransAmt(newBalance);
-			newTransaction.setToAccnt(userAccountNo);			
+			newTransaction.setFromAcct();
+			newTransaction.setToAcct(userAccountNo);	
+			newTransaction.setTemp1();
+			newTransaction.setTemp2();
+			
 			return true;
 			}
 			
-			
+		
 		}
 		return false;
 	}
@@ -61,3 +67,4 @@ public class TransactionServiceImpl implements TransactionService
 
 
 }
+*/
