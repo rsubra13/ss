@@ -56,9 +56,9 @@ public class UserDAOImpl implements UserDAO
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
-		System.out.println("userName here: " + userName);
+		//System.out.println("userName here: " + userName);
 		query.setParameter("userName", userName);
-		System.out.println("query : " + query);
+		//System.out.println("query : " + query);
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
 		return password;
 	}
@@ -89,18 +89,36 @@ public class UserDAOImpl implements UserDAO
 		}
 		catch (ConstraintViolationException e){
 		 System.out.println("The error is "+ e);
-		 e.printStackTrace();
+		 //e.printStackTrace();
 		 return false;	 
 		}
 		
 	} // End of addNewuser
 
 	@Override
-	public UserDTO getUserDTOByUserID(Integer userId) {
+	// used by get/userid 
+	public UserDTO getUserDTOByUserId(Integer userId) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+		System.out.println("userId DAO: " + userId);
+		query.setParameter("userId", userId);
+		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		
+		try{
+		System.out.println("query : " + query);
+		}
+		
+		catch(Exception e){
+		System.out.println("41 : the exception is " + e);
+		e.printStackTrace();
+		}
+		return userDTO;
+		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserDTO> listUsers() {
 		// TODO Auto-generated method stub
@@ -108,8 +126,18 @@ public class UserDAOImpl implements UserDAO
 	}
 
 	@Override
-	public Boolean deleteUser(Integer userId) {
-		return null; 
+	public void deleteUser(Integer userId) {
+		
+//		/UserDTO delUser = new UserDTO();
+		UserDTO delUser = getUserDTOByUserId(userId); 
+		try{
+			getSession().delete(delUser); 
+		}
+		
+		catch(Exception e){
+			System.out.println("the exception is" + e);
+		}
+		
 		// TODO Auto-generated method stub
 		
 	}
@@ -125,6 +153,24 @@ public class UserDAOImpl implements UserDAO
 
 	private SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+
+	@Override
+	// Save method of user edit
+	public Boolean updateUserDetails(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		System.out.println("152:DAOImpl:");
+		Object status = getSession().merge(userDTO); // merge is used here rather than 'save'
+		System.out.println("Status :" +status);
+		if (status != null){
+			
+			return true;  	
+		}
+		else{
+			return false;
+		}
+		
+		
 	}
    
 	

@@ -9,10 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -38,7 +36,6 @@ public class AccountDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "ACCT_ID")
     private Integer acctId;
@@ -52,8 +49,7 @@ public class AccountDetailsDTO implements Serializable {
     @Basic(optional = false)
     @NotNull
     private int balance;
-    @JoinColumn(name = "ACCT_ID", referencedColumnName = "ACCT_ID", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @OneToOne(mappedBy = "acctId", fetch = FetchType.LAZY)
     private UserDTO userDTO;
 
     public AccountDetailsDTO() {

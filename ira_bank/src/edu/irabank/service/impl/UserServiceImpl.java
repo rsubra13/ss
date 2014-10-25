@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
 import edu.irabank.dto.UserDTO;
+import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.UserService;
 @Service
@@ -31,12 +32,10 @@ public class UserServiceImpl implements UserService
 		
 		BCryptPasswordEncoder bdecrypt = new  BCryptPasswordEncoder();
 		String encryptedPassword = bdecrypt.encode(inputPassword);
-//		System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
+		//System.out.println("inputUserName" + inputUserName + "passwd " + inputPassword);
 		String userPassword = userDAO.getPassword(inputUserName);
-//		System.out.println("userPassword  = " + userPassword);
-//		System.out.println("encryptedPassword Password = " + encryptedPassword);
 		Boolean b_match = bdecrypt.matches(inputPassword, userPassword);
-		/*System.out.println("bmatch" + b_match);*/
+		/*System.out.println("b_match" + b_match);*/
 		if(!userPassword.isEmpty())
 		{
 			if(userPassword.equals(encryptedPassword) || b_match)
@@ -51,6 +50,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Transactional
+	// For Login functionality 
 	public UserDTO getUserDTOByUsername(String userName)
 	{
 		return userDAO.getUserDTOByUsername(userName);
@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
+	// Register a new User
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean) {
 		
 		UserDTO newUser = new UserDTO();
@@ -71,7 +72,6 @@ public class UserServiceImpl implements UserService
 		newUser.setPassword(encryptedPassword);
 		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setEmailId(userRegistrationFormBean.getEmailId());
-		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setSecAns1(userRegistrationFormBean.getSecAns1());
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
@@ -84,12 +84,11 @@ public class UserServiceImpl implements UserService
 		newUser.setRoleId(userRegistrationFormBean.getRole());
 		
 		
-		// TODO check here if the user is already present
-		
+		// TODO check here if the user is already present	
 		// Add this newly created UserDTO Object into the DB. 
 		Boolean isUserRegisted = userDAO.addNewUser(newUser);
 		if(!isUserRegisted) {
-			System.out.println("Some issues in User Registration");
+			System.out.println("Some issues in User Registration, Please try again later!");
 			return false;
 		}
 		
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService
 			// TODO 1. Think about generating an autogen account number here 
 			// through acctnumber service or 2. send a notification to admin
 			// to accept and assign an acct number for this user.
- 			System.out.println("User registered");
+ 			System.out.println("User registered successfully");
  			return true;
 		}
 		
@@ -105,8 +104,44 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
-	public void updateUserDetails(UserDTO userDTO) {
-		// TODO Auto-generated method stub
+	public Boolean updateUserDetails(UserDetailsFormBean userDetailsFormBean) {
+	
+		UserDTO newUser = new UserDTO();
+		newUser.setFirstName(userDetailsFormBean.getFirstName());
+		newUser.setLastName(userDetailsFormBean.getLastName());
+		newUser.setContactNum(userDetailsFormBean.getContactNum());
+		newUser.setAddress(userDetailsFormBean.getAddress());
+		newUser.setUserName(userDetailsFormBean.getUserName());
+		newUser.setEmailId(userDetailsFormBean.getEmailId());
+		newUser.setSecAns1(userDetailsFormBean.getSecAns1());
+		newUser.setSecAns2(userDetailsFormBean.getSecAns2());
+		newUser.setSecQue1(userDetailsFormBean.getSecQue1());
+		newUser.setSecQue2(userDetailsFormBean.getSecQue2());
+		newUser.setRoleId(userDetailsFormBean.getRoleId());	
+		
+		//TODO - currently these are hidden,so using like these.
+		newUser.setDob(userDetailsFormBean.getDob());
+		newUser.setPassword(userDetailsFormBean.getPassword());
+		newUser.setUserId(userDetailsFormBean.getUserId());
+		
+		
+		// TODO check here if the user is already present	
+		// Add this newly created UserDTO Object into the DB. 
+		System.out.println("Comes till here : 130 of UserServiceUpdateDetails");
+		Boolean isUserUpdated = userDAO.updateUserDetails(newUser);
+		if(!isUserUpdated) {
+			System.out.println("Some issues in updating user details, Please try again later!");
+			return false;
+		}
+		
+		else{
+			
+ 			System.out.println("User updated successfully");
+ 			return true;
+		}
+		
+
+
 		
 	}
 
@@ -129,9 +164,17 @@ public class UserServiceImpl implements UserService
 	@Override
 	@Transactional
 	public void deleteUser(Integer userId) {
-		Boolean isDeleted= userDAO.deleteUser(userId);
+		userDAO.deleteUser(userId);
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	@Transactional
+	public UserDTO getUserDTOByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return userDAO.getUserDTOByUserId(userId);
+	}
+	
 
 }
