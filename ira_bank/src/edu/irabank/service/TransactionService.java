@@ -1,6 +1,10 @@
 package edu.irabank.service;
 
-public class TransactionService {
+import java.util.List;
+
+import edu.irabank.dto.TransactionDetailsDTO;
+
+public interface TransactionService {
 
 	//TODO : ADD THE FOLLOWING SERVICES
 	
@@ -20,6 +24,7 @@ public class TransactionService {
 
 */
 	
+	public boolean CreditBalance(String accountNo, int balance);
 	
 	
 }
