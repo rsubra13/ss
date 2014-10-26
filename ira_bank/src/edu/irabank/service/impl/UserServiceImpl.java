@@ -2,6 +2,7 @@ package edu.irabank.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
+import edu.irabank.service.impl.AccountServiceImpl;
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
+import edu.irabank.service.AccountService;
 import edu.irabank.service.UserService;
 @Service
 public class UserServiceImpl implements UserService
@@ -25,6 +29,9 @@ public class UserServiceImpl implements UserService
 
 /*	@Autowired
 	private UserDAOImpl userDAOImplobject;*/
+	
+	@Autowired
+	private AccountService acctService;
 	
 	@Transactional
 	public boolean validateUser(String inputUserName, String inputPassword)
@@ -61,6 +68,7 @@ public class UserServiceImpl implements UserService
 	// Register a new User
 	public boolean addNewUser(UserRegistrationFormBean userRegistrationFormBean) {
 		
+		
 		UserDTO newUser = new UserDTO();
 		newUser.setFirstName(userRegistrationFormBean.getFirstName());
 		newUser.setLastName(userRegistrationFormBean.getLastName());
@@ -76,7 +84,7 @@ public class UserServiceImpl implements UserService
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
 		newUser.setSecQue2(userRegistrationFormBean.getSecQue2());
-		
+				
 		// TODO : this is not the way to go ahead with Roles.
 		// Check if the User is Regular user , then assign him the ROLE_USER
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
@@ -87,6 +95,10 @@ public class UserServiceImpl implements UserService
 		// TODO check here if the user is already present	
 		// Add this newly created UserDTO Object into the DB. 
 		Boolean isUserRegisted = userDAO.addNewUser(newUser);
+		
+		
+		System.out.println("userid is:="+newUser.getUserId());
+		
 		if(!isUserRegisted) {
 			System.out.println("Some issues in User Registration, Please try again later!");
 			return false;
@@ -97,6 +109,12 @@ public class UserServiceImpl implements UserService
 			// through acctnumber service or 2. send a notification to admin
 			// to accept and assign an acct number for this user.
  			System.out.println("User registered successfully");
+ 	
+ 			
+ 			//Now Adding an account for the user
+ 			acctService.addNewAccount(newUser);
+ 		
+ 			
  			return true;
 		}
 		

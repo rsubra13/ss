@@ -79,17 +79,18 @@
                      <table class="table table-condensed">
                         <thead>
                            <tr>
+                           	  <th width="12%">Sr. No</th>
                               <th width="12%">Account Number</th>
                               <th width="12%">Balance</th>
                               
                            </tr>
                         </thead>
                         <tbody>
-                           <c:forEach items="${usersList}" var="user" varStatus="loopCounter">
+                           <c:forEach items="${accountsList}" var="accounts" varStatus="loopCounter">
                            <tr>
                                <td><c:out value="${loopCounter.count}" /></td>
-                               <td><c:out value="${accountsList.accountNumber}" /></td>
-                               <td><c:out value="${accountsList.balance}" /></td>
+                               <td><c:out value="${accounts.accountNumber}" /></td>
+                               <td><c:out value="${accounts.balance}" /></td>
                                
 
                             </tr>
