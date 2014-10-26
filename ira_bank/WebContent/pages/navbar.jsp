@@ -31,7 +31,8 @@
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Payments.jsp">Payment</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/credit_debit.jsp">Debit/Credit</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
-
+		    <li><a href="<%=request.getContextPath()%>/pages/SampTrans">Request Transactions</a></li>
+			
                 </ul>
                 
             </div>

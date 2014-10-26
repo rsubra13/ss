@@ -8,7 +8,8 @@
  
 </head>
 <body>
-
+${userRegistrationStatus}<br/>
+${userName}<br/>
 <%@include file="../navbar.jsp" %>
 
 <div class="panel panel-primary">
@@ -20,23 +21,23 @@
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" action="/ira_bank/Transfer" method="post">
   <div class="form-group">
     <label for="inputText3" class="col-sm-2 control-label">From</label>
     <div class="col-sm-7">
-      <input type="Text" class="form-control" id="inputText3" placeholder="From Account Number">
+      <input name="from_account" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value="${SampTransFormBean.from_account}">
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number">
+      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${SampTransFormBean.to_account}">
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input type="Text" class="form-control" id="inputamount" placeholder="Amount">
+      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${SampTransFormBean.amount}">
     </div>
   </div>
   <div class="form-group">
