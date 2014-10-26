@@ -10,9 +10,12 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -60,6 +63,9 @@ public class RequestDetailsDTO implements Serializable {
     @Size(max = 25)
     @Column(name = "REQ_PRIORITY")
     private String reqPriority;
+    @JoinColumn(name = "REQ_USER_ID", referencedColumnName = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserDTO reqUserId;
 
     public RequestDetailsDTO() {
     }
@@ -122,6 +128,14 @@ public class RequestDetailsDTO implements Serializable {
 
     public void setReqPriority(String reqPriority) {
         this.reqPriority = reqPriority;
+    }
+
+    public UserDTO getReqUserId() {
+        return reqUserId;
+    }
+
+    public void setReqUserId(UserDTO reqUserId) {
+        this.reqUserId = reqUserId;
     }
 
     @Override
