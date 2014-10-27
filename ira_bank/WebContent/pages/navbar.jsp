@@ -28,7 +28,7 @@
                   <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Accounts.jsp">Account</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Transfer_funds.jsp">Transfer Funds</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Payments.jsp">Payment</a></li>
-            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/credit_debit.jsp">Debit/Credit</a></li>
+            <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Debit/Credit</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
 
                 </ul>

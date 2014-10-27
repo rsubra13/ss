@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.irabank.dao.TransactionDetailsDAO;
 import edu.irabank.dao.impl.TransactionDetailsDAOImpl;
 import edu.irabank.dto.TransactionDetailsDTO;
-
 import edu.irabank.dao.AccountDetailsDAO;
 //import edu.irabank.dao.impl.AccountDetailsDAOImpl;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.UserDTO;
 //import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.TransactionService;
-/*
+
 @Service
 public class TransactionServiceImpl implements TransactionService
 {
@@ -28,43 +28,72 @@ public class TransactionServiceImpl implements TransactionService
 	@Autowired
 	private AccountDetailsDAO accountdetailsDAO;
 	
-/*	
 	@Transactional
-	public boolean CreditBalance(String inputAccountNo, int inputbalance)
+	public String getAccountDTOByAccountNumber(String accountNO)
+	{
+		return accountdetailsDAO.getAccountDTOByAccountNumber(accountNO);
+	}
+	
+	@Transactional
+	public boolean CreditBalance(String inputAccountNo, Integer inputbalance)
 	{
 		
 		String userAccountNo = accountdetailsDAO.getAccountNumber(inputAccountNo);
-		int userBalance = accountdetailsDAO.getBalance(inputbalance);
-		int newBalance = userBalance + inputbalance;
+		Integer userBalance = accountdetailsDAO.getBalance(inputAccountNo);
+		Integer newBalance = userBalance + inputbalance;
 		
 		if(!userAccountNo.isEmpty())
 		{
 			
 			// Set balance to Account table
-			boolean isaccountUpdatesuccess = accountdetailsDAO.creditBalance(userAccountNo, newBalance);
+			boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(userAccountNo, newBalance);
 			if(isaccountUpdatesuccess)
 			{
-			// Add row to transaction table
-				/*
-			TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
-			// Check what values need to be set
-			newTransaction.setTransId(Integer );
-			newTransaction.setTransDate(Date);
-			newTransaction.setTransAmt(newBalance);
-			newTransaction.setFromAcct();
-			newTransaction.setToAcct(userAccountNo);	
-			newTransaction.setTemp1();
-			newTransaction.setTemp2();
+				// Add row to transaction table
+				Date sysDate = new Date();
+				TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
+				// 	Check what values need to be set
+				newTransaction.setTransDate(sysDate);
+				newTransaction.setTransAmt(newBalance);
+				newTransaction.setToAcct(userAccountNo);	
 			
-			return true;
-			}
-			
+				return true;
+			}					
+		}
+		return false;
+	}
+	
+	@Transactional
+	public boolean DebitBalance(String inputAccNo, Integer inputbal)
+	{
 		
+		String userAccountNo = accountdetailsDAO.getAccountNumber(inputAccNo);
+		Integer userBalance = accountdetailsDAO.getBalance(inputAccNo);
+		if(userBalance >= inputbal)
+		{
+			Integer newBalance = userBalance - inputbal;
+		
+			if(!userAccountNo.isEmpty())
+			{
+			
+				// Set balance to Account table
+				boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(userAccountNo, newBalance);
+				if(isaccountUpdatesuccess)
+				{
+					// Add row to transaction table
+					Date sysDate = new Date();
+					TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
+					// Check what values need to be set
+					newTransaction.setTransDate(sysDate);
+					newTransaction.setTransAmt(newBalance);
+					newTransaction.setToAcct(userAccountNo);
+			
+					return true;
+				}
+			}
 		}
 		return false;
 	}
 
-
-
 }
-*/
+
