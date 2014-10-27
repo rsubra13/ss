@@ -6,12 +6,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.SampTransDAO;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 /**
  * @author Rakesh Subramanian
@@ -20,10 +22,15 @@ import edu.irabank.dto.UserDTO;
 @Repository
 public class SampTransDAOImpl implements SampTransDAO {
 	
-	public AccountDetailsDTO DTO = new AccountDetailsDTO();
+	 
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	HttpSession sessionID;
+	
+	
+
 	/*public void setSessionFactory(SessionFactory sessionFactory) {
 	    this.sessionFactory = sessionFactory;
 	}*/
@@ -31,31 +38,49 @@ public class SampTransDAOImpl implements SampTransDAO {
 		this.sessionFactory = sessionFactory;
 	}*/
 	/*public SampTransDAOImpl(){}*/
-	
+	@Override
 	public AccountDetailsDTO getAccountsDTObyUserID(int userId)
 	{
 		try{
-			HttpSession sessionID = null;
-			sessionID.setAttribute("userId", userId);
+			/*HttpSession sessionID = null;
+			sessionID.setAttribute("userId", userId);*/
 		System.out.println("Entered Try Loop for DAO" + userId);
-		//setSessionFactory(sessionFactory);	
-		Session session = sessionFactory.getCurrentSession();	
+		
+		
+		
+		
 		System.out.println("passed sessionfactory!!!!!!!!!!!!!");
-		Query query = session.getNamedQuery("AccountDetailsDTO.findByUId");
+		Query query = getSession().getNamedQuery("AccountDetailsDTO.findByUId");
 		System.out.println("userName here: " + userId);
 		query.setParameter("uId", userId);
-		DTO = (AccountDetailsDTO) query.uniqueResult();
+		AccountDetailsDTO DTO = (AccountDetailsDTO) query.uniqueResult();
 		System.out.println("Account Number: "+DTO.getAccountNumber());
+		System.out.println(DTO.getUId());
+		return DTO;
 		
 		}
 		catch(Exception e){
 			System.out.println("Exception: "+ e);
+			return null;
 		
 		}
-		return DTO;
+		
 		
 	}
-	
+	@Override
+		public Boolean RequestDetailsSave(RequestDetailsDTO requestDetailsDTO) {
+		System.out.println("Entered Save Hibernate");
+		try{
+			sessionFactory.getCurrentSession().save(requestDetailsDTO);
+			return true;
+		}
+		catch (Exception e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+	}
+		
 	private Session getSession() {
 		Session sessionobj = getSessionFactory().getCurrentSession();
 		if (sessionobj == null) {
@@ -64,10 +89,7 @@ public class SampTransDAOImpl implements SampTransDAO {
 		return sessionobj;
 	}
 	private SessionFactory getSessionFactory() {
-		//sessionFactory = new Configuration().configure().buildSessionFactory();
-/*if(sessionFactory == null)
-{
-	sesssionFactory = }*/
+		
 		return sessionFactory;
 	}
 	

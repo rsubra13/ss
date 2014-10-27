@@ -18,26 +18,34 @@ import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.form.SampTransFormBean;
 @Service
+@Transactional
 public class SampTransServiceImpl implements SampTransService{
 
+@Autowired
+SampTransDAO DAO;
 
-SampTransDAOImpl DAO = new SampTransDAOImpl();
 
-@Transactional
+
+
+
+
+@Override
 public boolean createTransactions(SampTransFormBean trans, int userId)
 {
-	AccountDetailsDTO DTO= new AccountDetailsDTO();
+	
 	//req_user_id
 	try{
-		HttpSession sessionID = null;
-		sessionID.setAttribute("userId", userId);
-		System.out.println("Entered Try Loop for ServiceImple and sessionID is "+sessionID.getAttribute("userId"));
 		
-		DTO = DAO.getAccountsDTObyUserID(userId);
+		System.out.println("Entered Try Loop for ServiceImple and userId is " + userId);
+		AccountDetailsDTO DTO = new AccountDetailsDTO();
+		DTO =DAO.getAccountsDTObyUserID(userId);
+		
+		System.out.println("UserID"+DTO.getUId());
+		
 		System.out.println("Done : 32");
 		return true;
 	}
-	catch(Exception e){System.out.println("Exception is:"+e);return true;}
+	catch(Exception e){System.out.println("Exception is:"+e);return false;}
 	
 	//should return false but true for testing case
 	
@@ -57,15 +65,21 @@ public boolean setRequestDetails(SampTransFormBean sampTransFormBean,int uId)
 {
 	try{
 		System.out.println("Entered SetRequestDetails");
-	RequestDetailsDTO DTO= new RequestDetailsDTO();
-	DTO.setReqDesc((String)sampTransFormBean.getTo_account());
-	DTO.setReqId(uId);
-	DTO.setReqStatus(0);
+	RequestDetailsDTO RequestDTO= new RequestDetailsDTO();
+	RequestDTO.setReqDesc((String)sampTransFormBean.getTo_account());
+	RequestDTO.setReqId(uId);
+	RequestDTO.setReqStatus(0);
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
-	DTO.setReqDate(date);
-	DTO.setIsAuthorized(0);
-	DTO.setReqType("transact");
+	RequestDTO.setReqDate(date);
+	RequestDTO.setIsAuthorized(0);
+	RequestDTO.setReqType("transact");
+	//RequestDetailsSave(RequestDetailsDTO request)
+	Boolean isRequestSaved = DAO.RequestDetailsSave(RequestDTO);
+	if(!isRequestSaved) {
+		System.out.println("Some issues in User Registration, Please try again later!");
+		return false;
+	}
 	
 	System.out.println("Request Details Set");
 	
