@@ -32,44 +32,25 @@ public class AccountServiceImpl implements AccountService
 
 	@Override
 	@Transactional
-	public boolean addNewAccount(Integer userID) {
-		
-		//check if userID already exists in account details table
-		//add account only if userID is not there in the table
-		//try{
-		AccountDetailsDTO accountDetailsDTO = accountDAO.getAccountDetailsDTOByUserID(userID);
-		if(accountDetailsDTO.getAccountNumber() != null)
-		{
-			System.out.println("Account already exists");
-			return false;
-		}
-		else{
-			//create a new row and add the account
+	public boolean addNewAccount(UserDTO userDTO) {
 			
 			AccountDetailsDTO newAccount = new AccountDetailsDTO();
 			newAccount.setBalance(500); //set default balance to 500
-			newAccount.setUId(userID); //set userID
-		
+			newAccount.setUId(userDTO); //set userID
+			
+			
+			//Create random acct number
 			Random rand = new Random();
 			long num = rand.nextInt(900000000) + 100000000;
 			
 			String accNo = String.valueOf(num);
 			
-			// TODO : If it exists in database, change it. 
-			//Otherwise store it in database
 			newAccount.setAccountNumber(accNo); //set the accountNumber		
 			
+			Boolean isAdded = accountDAO.addNewAccount(newAccount);
+			
 			return true;
-		//}
-		
-		}
-		/*catch(Exception e)
-		{
-			System.out.println("Error in creating account");
-		}*/
-		
-	
-		
+			
 	}
 	
 	@Override
@@ -83,8 +64,8 @@ public class AccountServiceImpl implements AccountService
 	
 	@Override
 	@Transactional
-	public void deleteAccount(Integer accountID) {
-		Boolean isDeleted= accountDAO.deleteAccount(accountID);
+	public void deleteAccount(Integer userID) {
+		accountDAO.deleteAccount(userID);
 		// TODO Auto-generated method stub
 		
 	}
