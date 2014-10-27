@@ -11,7 +11,7 @@
 
 <nav class="navbar navbar-default " role="navigation">
         <div class="container">
-        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Issues.jsp" class="navbar-link">Submit an Issue</a></p>
+        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/ExternalUsers/Issues" class="navbar-link">Submit an Issue</a></p>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 
@@ -29,7 +29,7 @@
                   <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Accounts.jsp">Account</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Transfer_funds.jsp">Transfer Funds</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Payments.jsp">Payment</a></li>
-            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/credit_debit.jsp">Debit/Credit</a></li>
+            <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Debit/Credit</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
 		    <li><a href="/ira_bank/SampTrans">Request Transactions</a></li>
 			

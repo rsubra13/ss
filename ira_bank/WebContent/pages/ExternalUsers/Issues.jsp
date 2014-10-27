@@ -12,32 +12,34 @@
 <div class="panel panel-primary">
   <div class="panel-heading">Submit An Issue</div>
 </div>
-<form class="form-horizontal" role="form">
+
+<form class="form-horizontal" role="form" method="POST" id="issueFormBean" 
+                commandName="issueFormBean" action="Issues">
   <div class="form-group">
     <label for="inputissues" class="col-sm-2 control-label">Issues</label>
     <div class="col-sm-7">
-      <select class="form-control" id="inputissues">
-  <option>First Issue</option>
-  <option>Second Issue</option>
-  <option>Third Issue</option>
-  <option>Fourth Issue</option>
-  <option>Fifth Issue</option>
+      <select class="form-control" id="inputissues" name="issue">
+  <option value="First Issue">First Issue</option>
+  <option value="Second Issue">Second Issue</option>
+  <option value="Third Issue">Third Issue</option>
+  <option value="Fourth Issue">Fourth Issue</option>
+  <option value="Fifth Issue">Fifth Issue</option>
 </select>
     </div>
   </div>
   <div class="form-group">
     <label for="inputDesc" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-7">
-      <textarea class="form-control" rows="3" id="inputDesc"></textarea>
+      <textarea class="form-control" rows="3" id="inputDesc" name="description"></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="inputpriority" class="col-sm-2 control-label">Priority</label>
     <div class="col-sm-7">
-      <select class="form-control" id="inputpriority">
-  <option>Critical</option>
-  <option>Normal</option>
-  <option>Medium</option>
+      <select class="form-control" id="inputpriority" name="priority">
+  <option value="Critical">Critical</option>
+  <option value="Normal">Normal</option>
+  <option value="Medium">Medium</option>
  
 </select>
     </div>

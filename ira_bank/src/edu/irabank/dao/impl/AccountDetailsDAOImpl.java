@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 import antlr.collections.Stack;
 import edu.irabank.dao.AccountDetailsDAO;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.UserDTO;
 
 /**
  * @author Abha Upadhyay
  *
  */
-/*
+
 
 @Repository
 public class AccountDetailsDAOImpl implements AccountDetailsDAO 	
@@ -25,7 +26,17 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	
+	public String getAccountDTOByAccountNumber(String accountNO)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
+		System.out.println("AccountNo here: " + accountNO);
+		query.setParameter("accountNO", accountNO);
+		System.out.println("query : " + query);
+		String accountno = ((AccountDetailsDTO) query.uniqueResult()).getAccountNumber();
+		return accountno;
+		
+	}
 	
 		
 	// Used in Credit/Debit
@@ -40,32 +51,33 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 		return accountNo;
 	}
 	// Used in Credit/Debit
-	public int getBalance(int balance)	
+	public int getBalance(String accntno)	
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("AccountDetailsDTO.findByBalance"); //using NamedQuery
-		System.out.println("Balance here: " + balance);
-		query.setParameter("Balance", balance);
+		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
+		System.out.println("AccountNo here: " + accntno);
+		query.setParameter("accountNO", accntno);
 		System.out.println("query : " + query);
-		int Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
+		Integer Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
 		return Balance;
 	}
-	//Used in Credit to Update Balance
-	/*
-	public Integer creditBalance(String accountno, int balance)	
+	//Used in Credit and Debit to Update Balance
+
+	public boolean updateBalance(String accountno, Integer balance)	
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("AccountDetailsDTO.findByBalance"); //using NamedQuery
+		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("Balance here: " + balance);
-		query.setParameter("Balance", balance);
+		query.setParameter("accountNO", accountno);
 		System.out.println("query : " + query);
-		//int Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
-		//return Balance;
-	}*/
+		((AccountDetailsDTO) query.uniqueResult()).setBalance(balance);
+		//To Do
+		return true;
+	}
 
    
 	
-//}
+}
 
 
 
