@@ -39,8 +39,11 @@ public boolean createTransactions(SampTransFormBean trans, int userId)
 		System.out.println("Entered Try Loop for ServiceImple and userId is " + userId);
 		AccountDetailsDTO DTO = new AccountDetailsDTO();
 		DTO =DAO.getAccountsDTObyUserID(userId);
+		System.out.println("-------------Final Value got from DAO!----------------");
 		
-		System.out.println("UserID"+DTO.getUId());
+		System.out.println("Account Number Retreived: "+DTO.getAccountNumber());
+		System.out.println("------------------------------------------------------");
+		
 		
 		System.out.println("Done : 32");
 		return true;
