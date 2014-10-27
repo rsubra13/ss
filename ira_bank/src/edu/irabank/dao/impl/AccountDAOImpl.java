@@ -32,9 +32,12 @@ public class AccountDAOImpl implements AccountDAO
 	@Override
 	public Boolean addNewAccount(AccountDetailsDTO accountdetailsDTO) {
 		
-		// TODO check if the account is already present in service Layer
+		System.out.println("comes in DAO");
+		
 		try{
+		
 			sessionFactory.getCurrentSession().save(accountdetailsDTO);
+		
 			return true;
 		}
 		catch (ConstraintViolationException e){
@@ -48,6 +51,7 @@ public class AccountDAOImpl implements AccountDAO
 	@Override
 	public AccountDetailsDTO getAccountDetailsDTOByUserID(Integer userId) {
 		// TODO Auto-generated method stub
+		//System.out.println("are u coming heree??");
 		return null;
 	}
 	
@@ -58,11 +62,17 @@ public class AccountDAOImpl implements AccountDAO
 	}
 	
 	@Override
-	public Boolean deleteAccount(Integer accountID)
+	public void deleteAccount(Integer userID)
 	{
+		AccountDetailsDTO delAccount = getAccountDetailsDTOByUserID(userID); 
+		try{
+			getSession().delete(delAccount); 
+		}
 		
-		
-		return null;
+		catch(Exception e){
+			System.out.println("the exception is" + e);
+		}
+	
 	}
 
 		

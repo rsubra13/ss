@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RequestDetailsDTO.findByReqStatus", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqStatus = :reqStatus"),
     @NamedQuery(name = "RequestDetailsDTO.findByReqDate", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqDate = :reqDate"),
     @NamedQuery(name = "RequestDetailsDTO.findByReqType", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqType = :reqType"),
-    @NamedQuery(name = "RequestDetailsDTO.findByIsAuthorized", query = "SELECT r FROM RequestDetailsDTO r WHERE r.isAuthorized = :isAuthorized")})
+    @NamedQuery(name = "RequestDetailsDTO.findByIsAuthorized", query = "SELECT r FROM RequestDetailsDTO r WHERE r.isAuthorized = :isAuthorized"),
+    @NamedQuery(name = "RequestDetailsDTO.findByReqPriority", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqPriority = :reqPriority")})
 public class RequestDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,8 +60,11 @@ public class RequestDetailsDTO implements Serializable {
     private String reqType;
     @Column(name = "IS_AUTHORIZED")
     private Integer isAuthorized;
+    @Size(max = 25)
+    @Column(name = "REQ_PRIORITY")
+    private String reqPriority;
     @JoinColumn(name = "REQ_USER_ID", referencedColumnName = "USER_ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserDTO reqUserId;
 
     public RequestDetailsDTO() {
@@ -115,6 +120,14 @@ public class RequestDetailsDTO implements Serializable {
 
     public void setIsAuthorized(Integer isAuthorized) {
         this.isAuthorized = isAuthorized;
+    }
+
+    public String getReqPriority() {
+        return reqPriority;
+    }
+
+    public void setReqPriority(String reqPriority) {
+        this.reqPriority = reqPriority;
     }
 
     public UserDTO getReqUserId() {
