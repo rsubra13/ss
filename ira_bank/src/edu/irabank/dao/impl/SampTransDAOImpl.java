@@ -61,6 +61,7 @@ public class SampTransDAOImpl implements SampTransDAO {
 		AccountDetailsDTO DTO = (AccountDetailsDTO) query.uniqueResult();
 		System.out.println("Account Number: "+DTO.getAccountNumber());
 		System.out.println(DTO.getUId());
+	
 		return DTO;
 		
 		}

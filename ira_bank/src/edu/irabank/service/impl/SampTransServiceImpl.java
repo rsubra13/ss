@@ -1,7 +1,6 @@
 package edu.irabank.service.impl;
 
 import java.text.DateFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.service.SampTransService;
 import edu.irabank.dao.SampTransDAO;
+import edu.irabank.dao.TransactionDetailsDAO;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.SampTransDAOImpl;
 import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.RequestDetailsDTO;
+import edu.irabank.dto.TransactionDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.SampTransFormBean;
 /**
@@ -33,6 +34,9 @@ SampTransDAO DAO;
 
 @Autowired
 UserDAO userDAO;
+
+@Autowired
+TransactionDetailsDAO transDAO;
 
 
 
@@ -111,6 +115,7 @@ public boolean createTransactions(SampTransFormBean sampTransFormBean, int userI
 		
 	
 		else{System.out.println("Request Details Set");
+		setTransactionDetails(sampTransFormBean,RequestDTO.getReqId());
 		return true;
 		}
 	}
@@ -126,10 +131,33 @@ public boolean createTransactions(SampTransFormBean sampTransFormBean, int userI
 
 @Override
 @Transactional
-public boolean setTransactionDetails(SampTransFormBean sampTransFormBean,int uId)
+public boolean setTransactionDetails(SampTransFormBean sampTransFormBean,int reqId)
 {
-return false;
-}
+	
+	//send request id from ReqDEtails to TransactionDAO to set transactions
+	TransactionDetailsDTO transDTO = new TransactionDetailsDTO();
+	System.out.println("Entered SetRequestDetails");
+	transDTO.setTransId(reqId);
+	transDTO.setFromAcct(sampTransFormBean.getFrom_account());
+	transDTO.setToAcct(sampTransFormBean.getTo_account());
+	transDTO.setTransAmt(sampTransFormBean.getAmount());
+	Date date = new Date();
+	transDTO.setTransDate(date);
+	
+	//RequestDetailsSave(RequestDetailsDTO request)
+	Boolean isTransSave = transDAO.TransactionDetailsSave(transDTO);
+	if(!isTransSave) 
+	{
+		System.out.println("Some issues in Transaction Save, Please try again later!");
+		return false;
+	}
+		
+	
+
+	else{System.out.println("Transaction Details Set");
+	return true;
+	}
+	}
 /*@Override
 @Transactional
 public boolean setRequestDetails(SampTransFormBean sampTransFormBean,int uId)
