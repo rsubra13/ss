@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class AccountServiceImpl implements AccountService
 
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	HttpSession sessionID;
 
 	@Override
 	@Transactional
@@ -44,6 +48,8 @@ public class AccountServiceImpl implements AccountService
 			long num = rand.nextInt(900000000) + 100000000;
 			
 			String accNo = String.valueOf(num);
+			
+			
 			
 			newAccount.setAccountNumber(accNo); //set the accountNumber		
 			

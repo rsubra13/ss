@@ -26,16 +26,17 @@ import edu.irabank.service.impl.SampTransServiceImpl;
 @SessionAttributes
 public class SampTransController 
 {
-	
-	SampTransService sampTransServiceImpl = new SampTransServiceImpl();
-	@RequestMapping(value="/SampTrans", method = RequestMethod.GET)
+	@Autowired
+	private SampTransService sampTransService;
+
+	@RequestMapping(value="SampTrans", method = RequestMethod.GET)
 	public ModelAndView sampTransRoute( HttpSession sessionID)
 	{//userId
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
 		int userId = sessionID.getAttribute("userId");
 		System.out.println("userId is:" + userId);
-		return new ModelAndView("/SampTrans");
+		return new ModelAndView("/ExternalUsers/Transfer_funds");
 		
 	}
 	@RequestMapping(value="Transfer", method = RequestMethod.POST)
@@ -46,17 +47,16 @@ public class SampTransController
 		//int userId = (int)sessionID.getAttribute("userId");
 		int userId;
 		System.out.println("userName is:" + userId);
-		boolean isCreateSuccess = sampTransServiceImpl.createTransactions(trans,userId);
-		try{System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
+		boolean isCreateSuccess = sampTransService.createTransactions(trans,userId);
+		try{//System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
 		if(isCreateSuccess == true)
 		{
-			sampTransServiceImpl.setRequestDetails(trans, userId);
+			//sampTransService.setRequestDetails(trans, userId);
 			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
 			model.addAttribute("userName", userName);
 
 		}
-		//this part not able to create sessionFactory obj
-		//
+		
 		}
 		catch(Exception e){
 			System.out.println("Exception: "+e);
