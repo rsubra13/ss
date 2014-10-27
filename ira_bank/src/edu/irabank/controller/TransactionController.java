@@ -50,6 +50,22 @@ import edu.irabank.service.TransactionService;
 			String type = accountFormBean.getCreditDebit();
 			boolean isAccountExist = transactionService.getAccountNumber(Accountnum);
 			
+			if(!isAccountExist) 
+			{
+				System.out.println("Enter a valid account number ");
+				model.addAttribute("accountStatus", "Please enter a valid account number");
+				model.addAttribute("accountFormBean",accountFormBean);
+				return new ModelAndView("/ExternalUsers/credit_debit", model);
+			}
+			else if(balAnce <= 0)
+			{
+				System.out.println("Enter a valid Amount ");
+				model.addAttribute("accountStatus", "Please enter a valid Amount");
+				model.addAttribute("accountFormBean",accountFormBean);
+				return new ModelAndView("/ExternalUsers/credit_debit", model);
+				
+			}
+			
 			if(isAccountExist)
 			{
 				System.out.println("isAccountExist" + isAccountExist);
@@ -92,14 +108,7 @@ import edu.irabank.service.TransactionService;
 					}
 				}
 			}
-			else 
-			{
-				System.out.println("Account doesn't exists ");
-				model.addAttribute("accountStatus", "Please enter a valid account number");
-				model.addAttribute("accountFormBean",accountFormBean);
-				return new ModelAndView("/ExternalUsers/credit_debit", model);
-			}
-			model.addAttribute("accountStatus", "Please enter a valid account number");
+			model.addAttribute("accountStatus", "Please enter valid details");
 			model.addAttribute("accountFormBean",accountFormBean);
 		return new ModelAndView("/ExternalUsers/credit_debit", model);
 		}
