@@ -8,9 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<nav class="navbar navbar-inverse " role="navigation">
+
+<nav class="navbar navbar-default " role="navigation">
         <div class="container">
-        
+        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/ExternalUsers/Issues" class="navbar-link">Submit an Issue</a></p>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 
@@ -30,8 +31,10 @@
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Payments.jsp">Payment</a></li>
             <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Debit/Credit</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
-
+		    <li><a href="<%=request.getContextPath()%>/pages/SampTrans">Request Transactions</a></li>
+			
                 </ul>
+                
             </div>
         
         </div>

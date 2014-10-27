@@ -10,10 +10,13 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,13 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AccountDetailsDTO.findAll", query = "SELECT a FROM AccountDetailsDTO a"),
     @NamedQuery(name = "AccountDetailsDTO.findByAcctId", query = "SELECT a FROM AccountDetailsDTO a WHERE a.acctId = :acctId"),
     @NamedQuery(name = "AccountDetailsDTO.findByAccountNumber", query = "SELECT a FROM AccountDetailsDTO a WHERE a.accountNumber = :accountNumber"),
-    @NamedQuery(name = "AccountDetailsDTO.findByUId", query = "SELECT a FROM AccountDetailsDTO a WHERE a.uId = :uId"),
-    @NamedQuery(name = "AccountDetailsDTO.findByBalance", query = "SELECT a FROM AccountDetailsDTO a WHERE a.balance = :balance")})
+    @NamedQuery(name = "AccountDetailsDTO.findByBalance", query = "SELECT a FROM AccountDetailsDTO a WHERE a.balance = :balance"),
+    @NamedQuery(name = "AccountDetailsDTO.findByTemp1", query = "SELECT a FROM AccountDetailsDTO a WHERE a.temp1 = :temp1"),
+    @NamedQuery(name = "AccountDetailsDTO.findByTemp2", query = "SELECT a FROM AccountDetailsDTO a WHERE a.temp2 = :temp2")})
 public class AccountDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ACCT_ID")
     private Integer acctId;
     @Basic(optional = false)
@@ -44,13 +48,18 @@ public class AccountDetailsDTO implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "ACCOUNT_NUMBER")
     private String accountNumber;
-    @Column(name = "U_ID")
-    private Integer uId;
     @Basic(optional = false)
     @NotNull
     private int balance;
-    @OneToOne(mappedBy = "acctId", fetch = FetchType.LAZY)
-    private UserDTO userDTO;
+    @Size(max = 45)
+    @Column(name = "TEMP_1")
+    private String temp1;
+    @Size(max = 45)
+    @Column(name = "TEMP_2")
+    private String temp2;
+    @JoinColumn(name = "U_ID", referencedColumnName = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserDTO uId;
 
     public AccountDetailsDTO() {
     }
@@ -81,14 +90,6 @@ public class AccountDetailsDTO implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public Integer getUId() {
-        return uId;
-    }
-
-    public void setUId(Integer uId) {
-        this.uId = uId;
-    }
-
     public int getBalance() {
         return balance;
     }
@@ -97,12 +98,37 @@ public class AccountDetailsDTO implements Serializable {
         this.balance = balance;
     }
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    public String getTemp1() {
+        return temp1;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public void setTemp1(String temp1) {
+        this.temp1 = temp1;
+    }
+
+    public String getTemp2() {
+        return temp2;
+    }
+
+    public void setTemp2(String temp2) {
+        this.temp2 = temp2;
+    }
+
+  /*  public UserDTO getUId() {
+        return uId;
+    }
+
+    public void setUId(UserDTO uId) {
+        this.uId = uId;
+    }
+*/
+    
+    public UserDTO getUId() {
+        return uId;
+    }
+
+    public void setUId(UserDTO uId) {
+        this.uId = uId;
     }
 
     @Override

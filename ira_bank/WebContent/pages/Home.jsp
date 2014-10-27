@@ -43,6 +43,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                    <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
+                   <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Transfer_funds.jsp">Transfer</a></li>
                    
                 </ul>
             </div>

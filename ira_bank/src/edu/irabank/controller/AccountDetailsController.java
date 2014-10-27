@@ -43,7 +43,7 @@ import edu.irabank.service.UserService;
 				}
 		
 				
-				// POST Method of Register - comes back after the submit of User Details Form.
+				/*// POST Method of Register - comes back after the submit of User Details Form.
 				@RequestMapping(value="/listAccounts", method = RequestMethod.POST)
 				public ModelAndView createNewAccount(Map<String, Object> map, SessionStatus status) {
 					
@@ -57,7 +57,7 @@ import edu.irabank.service.UserService;
 					return null;
 					
 				}
-		
+		*/
 		
 		}
 	
