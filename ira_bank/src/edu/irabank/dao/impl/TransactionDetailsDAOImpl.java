@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import antlr.collections.Stack;
 import edu.irabank.dao.TransactionDetailsDAO;
 import edu.irabank.dto.TransactionDetailsDTO;
+import edu.irabank.dto.UserDTO;
 
 /**
  * @author Abha Upadhyay
@@ -24,6 +25,13 @@ public class TransactionDetailsDAOImpl implements TransactionDetailsDAO
 	/*
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+
+
+	
+	
+	
+
 	
 	
 	public UserDTO getUserDTOByUsername(String userName)

@@ -1,4 +1,4 @@
-package edu.irabank.controller;
+/*package edu.irabank.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import edu.irabank.form.SampTransFormBean;
 import edu.irabank.service.SampTransService;
 import edu.irabank.service.UserService;
 import edu.irabank.service.impl.SampTransServiceImpl;
-/**
+*//**
  * @author Rakesh Subramanian
  *
- */
+ *//*
 @Controller
 @SessionAttributes
 public class SampTransController 
@@ -33,7 +33,7 @@ public class SampTransController
 	{//userId
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
-		int userId = (int)sessionID.getAttribute("userId");
+		int userId = sessionID.getAttribute("userId");
 		System.out.println("userId is:" + userId);
 		return new ModelAndView("/SampTrans");
 		
@@ -43,7 +43,8 @@ public class SampTransController
 	{
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
-		int userId = (int)sessionID.getAttribute("userId");
+		//int userId = (int)sessionID.getAttribute("userId");
+		int userId;
 		System.out.println("userName is:" + userId);
 		boolean isCreateSuccess = sampTransServiceImpl.createTransactions(trans,userId);
 		try{System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
@@ -65,3 +66,4 @@ public class SampTransController
 	}
 
 }
+*/

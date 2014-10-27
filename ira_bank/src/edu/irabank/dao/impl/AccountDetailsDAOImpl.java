@@ -26,37 +26,35 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public String getAccountDTOByAccountNumber(String accountNO)
+	public boolean getAccountNum(String accountNO)
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("AccountNo here: " + accountNO);
-		query.setParameter("accountNO", accountNO);
+		query.setParameter("accountNumber", accountNO);
 		System.out.println("query : " + query);
-		String accountno = ((AccountDetailsDTO) query.uniqueResult()).getAccountNumber();
-		return accountno;
+		
+		try{
+			String accountno = ((AccountDetailsDTO) query.uniqueResult()).getAccountNumber();
+			System.out.println("query : " + query);
+			System.out.println("Retrieved Accountnumber = " + accountno);
+			return true;
+			}			
+			catch(Exception e){
+			System.out.println("41 : the exception is " + e);
+			e.printStackTrace();
+			return false;
+				
+			}
 		
 	}
 	
-		
-	// Used in Credit/Debit
-	public String getAccountNumber(String accountno)	
-	{
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
-		System.out.println("AccountNo here: " + accountno);
-		query.setParameter("accountNO", accountno);
-		System.out.println("query : " + query);
-		String accountNo = ((AccountDetailsDTO) query.uniqueResult()).getAccountNumber();
-		return accountNo;
-	}
-	// Used in Credit/Debit
 	public int getBalance(String accntno)	
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("AccountNo here: " + accntno);
-		query.setParameter("accountNO", accntno);
+		query.setParameter("accountNumber", accntno);
 		System.out.println("query : " + query);
 		Integer Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
 		return Balance;
@@ -68,10 +66,9 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("Balance here: " + balance);
-		query.setParameter("accountNO", accountno);
+		query.setParameter("accountNumber", accountno);
 		System.out.println("query : " + query);
 		((AccountDetailsDTO) query.uniqueResult()).setBalance(balance);
-		//To Do
 		return true;
 	}
 
