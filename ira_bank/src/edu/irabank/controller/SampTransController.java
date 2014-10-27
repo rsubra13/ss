@@ -47,16 +47,15 @@ public class SampTransController
 		int userId = (int)sessionID.getAttribute("userId");
 		System.out.println("userName is:" + userId);
 		boolean isCreateSuccess = sampTransService.createTransactions(trans,userId);
-		try{System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
+		try{//System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
 		if(isCreateSuccess == true)
 		{
-			sampTransService.setRequestDetails(trans, userId);
+			//sampTransService.setRequestDetails(trans, userId);
 			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
 			model.addAttribute("userName", userName);
 
 		}
-		//this part not able to create sessionFactory obj
-		//
+		
 		}
 		catch(Exception e){
 			System.out.println("Exception: "+e);

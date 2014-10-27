@@ -48,12 +48,7 @@ public class SampTransDAOImpl implements SampTransDAO {
 			/*HttpSession sessionID = null;
 			sessionID.setAttribute("userId", userId);*/
 		System.out.println("Entered Try Loop for DAO" + userId);
-		
-		
-		
-		
-		System.out.println("passed sessionfactory!!!!!!!!!!!!!");
-		
+				
 		//get UserDTO to pass it to AccountDetails
 		UserDTO userDTO = new UserDTO();
 		userDTO = userDAO.getUserDTOByUserId(userId);
@@ -78,6 +73,24 @@ public class SampTransDAOImpl implements SampTransDAO {
 		
 	}
 	@Override
+	public AccountDetailsDTO getAccountbyAccountNumber(String accountNumber)
+	{
+		try{
+			System.out.println("Entered getAccountIDbyAccountNumber!");
+			Query query = getSession().createQuery("SELECT a FROM AccountDetailsDTO a WHERE a.accountNumber = :accountNumber");
+			query.setParameter("accountNumber", accountNumber);
+			AccountDetailsDTO DTO = (AccountDetailsDTO) query.uniqueResult();
+			System.out.println(DTO.getAcctId());
+			return DTO;
+		
+			
+		}
+		catch(Exception e){System.out.println("Exception"+e);
+		return null;
+		}
+		
+	}
+	@Override
 		public Boolean RequestDetailsSave(RequestDetailsDTO requestDetailsDTO) {
 		System.out.println("Entered Save Hibernate");
 		try{
@@ -90,6 +103,20 @@ public class SampTransDAOImpl implements SampTransDAO {
 		 return false;	 
 		}
 	}
+	
+	@Override
+	public Boolean AccountDetailsSave(AccountDetailsDTO accountsDTO) {
+	System.out.println("Entered Save Hibernate");
+	try{
+		sessionFactory.getCurrentSession().save(accountsDTO);
+		return true;
+	}
+	catch (Exception e){
+	 System.out.println("The error is "+ e);
+	 //e.printStackTrace();
+	 return false;	 
+	}
+}
 		
 	private Session getSession() {
 		Session sessionobj = getSessionFactory().getCurrentSession();
