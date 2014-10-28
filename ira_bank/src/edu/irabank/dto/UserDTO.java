@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -142,8 +141,12 @@ public class UserDTO implements Serializable {
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
     private Integer acctLockedStatus;
-    @OneToMany(mappedBy = "uId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reqUserId")
+    private List<RequestDetailsDTO> requestDetailsDTOList;
+    @OneToMany(mappedBy = "uId")
     private List<AccountDetailsDTO> accountDetailsDTOList;
+    @OneToMany(mappedBy = "notificationUserId")
+    private List<NotificationDetailsDTO> notificationDetailsDTOList;
 
     public UserDTO() {
     }
@@ -344,12 +347,30 @@ public class UserDTO implements Serializable {
     }
 
     @XmlTransient
+    public List<RequestDetailsDTO> getRequestDetailsDTOList() {
+        return requestDetailsDTOList;
+    }
+
+    public void setRequestDetailsDTOList(List<RequestDetailsDTO> requestDetailsDTOList) {
+        this.requestDetailsDTOList = requestDetailsDTOList;
+    }
+
+    @XmlTransient
     public List<AccountDetailsDTO> getAccountDetailsDTOList() {
         return accountDetailsDTOList;
     }
 
     public void setAccountDetailsDTOList(List<AccountDetailsDTO> accountDetailsDTOList) {
         this.accountDetailsDTOList = accountDetailsDTOList;
+    }
+
+    @XmlTransient
+    public List<NotificationDetailsDTO> getNotificationDetailsDTOList() {
+        return notificationDetailsDTOList;
+    }
+
+    public void setNotificationDetailsDTOList(List<NotificationDetailsDTO> notificationDetailsDTOList) {
+        this.notificationDetailsDTOList = notificationDetailsDTOList;
     }
 
     @Override

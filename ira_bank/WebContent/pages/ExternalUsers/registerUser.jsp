@@ -6,6 +6,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
+
  <title>User Registration</title>
 
 
@@ -27,7 +28,7 @@
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
-
+<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
 <!-- bootstap js -->
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
@@ -40,14 +41,15 @@
 <!-- Registration -->
 <!--first split-->
 
-<div class="row">
-<br><br>
-   <div class="col-md-6">
-     
 
-         <div class="panel panel-info">
-              <div class="panel-heading">
-                <form class=" row-fluid" method="POST" id="userRegistrationFormBean" 
+
+         <div class="panel panel-primary">
+  <div class="panel-heading">REGISTER FORM</div>
+
+
+               <div class="panel-body">
+   
+                <form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
                       <c:if test="${ userRegistrationStatus != null}">
                            <div class="btn-primary">
@@ -55,23 +57,24 @@
                            </div>
                       </c:if>
 
-             <div class="btn-warning"><h2>Register Form</h2></strong></div>
             <span class="glyphicon glyphicon-asterisk"></span>Required Fields</strong>
-                
+                <div class="container-fluid">
+                <div class="row">
+                <div class="col-md-offset-1 col-md-5">
             <!--  username -->
             <div class="form-group">
-                <label  for="Username">Username</label>
-                    <div class="input-group">
-                            <input type="text" id="userName" name="userName" placeholder="" class="form-control " value="${userRegistrationFormBean.userName}">
+                <label class="control-label" for="Username">Username</label>
+                    <div class="col-md-12 input-group">
+                            <input type="text" id="userName" name="userName" placeholder="Username" class="form-control"  data-validate="required,alphanumeric"  value="${userRegistrationFormBean.userName}">
                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
 
             <!-- Password-->      
             <div class="form-group">
-              <label  for="Password">Password</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control " id="password" name="password"  placeholder="password" value="${userRegistrationFormBean.password}" required>
+              <label class="control-label" for="Password">Password</label>
+                    <div class="col-md-12 input-group">
+                        <input type="password" class="form-control " id="password" name="password"  placeholder="password"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.password}" >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                        
                     </div>
@@ -79,67 +82,62 @@
         
                     <!-- First Name -->            
             <div class="form-group">
-              <label for="FirstName">First Name</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" value="${userRegistrationFormBean.firstName}" required>
+              <label class="control-label" for="FirstName">First Name</label>
+                    <div class="col-md-12 input-group">
+                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.firstName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
 
             <!-- Last Name -->
              <div class="form-group">
-              <label for="LastName">Last Name</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" value="${userRegistrationFormBean.lastName}" required>
+              <label class=" control-label" for="LastName">Last Name</label>
+                    <div class="col-md-12 input-group">
+                        <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.lastName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
 
          <!-- Email -->
             <div class="form-group">
-              <label for="InputEmail">Email</label>
-                    <div class="input-group">
-                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" value="${userRegistrationFormBean.emailId}" required>
+              <label class=" control-label" for="InputEmail">Email</label>
+                    <div class="col-md-12 input-group">
+                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" data-validate="required,email" value="${userRegistrationFormBean.emailId}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
             </div>
 
         <!-- Address -->
             <div class="form-group">
-              <label for="Address">Address</label>
-                    <div class="input-group">
-                        <textarea class="form-control col-md-12" id="address"  rows="4" ,cols="4" name="address"  placeholder="Address" value="${userRegistrationFormBean.address}" required> </textarea>
-                        
+              <label class=" control-label" for="address">Address</label>
+                    <div class="col-md-12 input-group">
+                        <textarea class="form-control " id="address"  rows="2"  name="address"  placeholder="Address" data-validate="required,alphanumeric" value="${userRegistrationFormBean.address}" > </textarea>
+                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
             </div>
 
+       <div class="form-group">
+              <labelclass=" control-label" for="contactNum">Phone Number</label>
+                    <div class="input-group col-md-12">
+                        <input type="phone" class="form-control" id="contactNum" name="contactNum"   placeholder="Phone Number" data-validate="required,phone" value="${userRegistrationFormBean.contactNum}" >
+                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+            </div>
        
        </div>
-      </div>
-    </div>
+     
 
   <!--   Start the second split -->   
-   <div class="col-md-6" >
-      <div class=" panel panel-info">
-         <div class="panel-heading">
-        <!-- DOB -->
-        <!-- This is not proper , need to make it perfect. -->
-
-         <!-- Ph Number -->
-            <div class="form-group">
-              <label for="contactNum">Phone Number</label>
-                    <div class="input-group">
-                        <input type="phone"  id="contactNum" name="contactNum"   placeholder="Phone Number" value="${userRegistrationFormBean.contactNum}" required>
-                      
-                        </div>
-            </div>
-
+   <div class="col-md-offset-1 col-md-5" >
+      
+            
             <div class="form-group">
               <label for="dob">DOB</label>
 
-                  <div class="input-group date">
-                      <input type="text" id="dob" name="dob" class="datepicker" placeholder= "Select your date of birth" value="${userRegistrationFormBean.dob}" required>
-                      <!-- bootstrap Date picker -->
+                  <div class="input-group date col-md-12 ">
+                      <input type="text"  id="dob" name="dob" class="datepicker form-control" data-validate="required" placeholder= "Select your date of birth"  value="${userRegistrationFormBean.dob}" >
+ <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>                    
+ 				<!-- bootstrap Date picker -->
                       <script type="text/javascript">
                          $('.datepicker').datepicker(
                             { 
@@ -159,7 +157,7 @@
         <!-- User Role -->
         <div class="form-group">
             <label class="control-label"  for="Role">Type of User</label>
-                <div class="controls">
+                <div class="controls col-md-12">
                     <select name="role">  
                             <option value=6715>Regular User</option>     
                             <option value=8767> Merchant </option>
@@ -167,54 +165,53 @@
                 </div>
         </div>
 
-
        <!-- Sec Que 1 -->
-            <div class="form-group">
-              <label for="Address">Security Question 1</label>
-                    <div class="input-group">
-                        <textarea class="form-inline" id="secQue1" rows="3" ,cols="7" name="secQue1"   placeholder="Security Que 1" value="${userRegistrationFormBean.secQue1}" required> </textarea>
-                      
+            <div class="form-group ">
+              <label class="control-label" for="secQue1" >Security Question 1</label>
+                    <div class="input-group col-md-12">
+                        <textarea class="form-control" id="secQue1" rows="2"  name="secQue1" data-validate="required,alphanumeric"  placeholder="Security Que 1" value="${userRegistrationFormBean.secQue1}" > </textarea>
+                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
-
+					</div>
          <!-- Sec Ans 1 -->
-            <div class="form-group">
-              <label for="Address">Security Answer 1</label>
-                    <div class="input-group">
-                        <textarea class="form-inline" id="secAns1" rows="3" ,cols="7" name="secAns1"   placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" required> </textarea>
-                   
+            <div class="form-group ">
+              <label  class="control-label" for="secAns1">Security Answer 1</label>
+                    <div class="input-group col-md-12">
+                        <textarea class="form-control" id="secAns1" rows="2"  name="secAns1" data-validate="required,alphanumeric"  placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" > </textarea>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                        
                         </div>
-            </div> <br>
+            </div> 
 
          <!-- Sec Que 2 -->
-            <div class="form-group">
-              <label for="Address">Security Question 2</label>
-                    <div class="input-group">
-                        <textarea class="form-control" id="secQue2" rows="" ,cols="3" name="secQue2"   placeholder="Security Que 2" value="${userRegistrationFormBean.secQue2}" required> </textarea>
+            <div class="form-group ">
+              <label  class="control-label" for="secQue2">Security Question 2</label>
+                    <div class="input-group  col-md-12">
+                        <textarea class="form-control" id="secQue2" rows="2"  name="secQue2"   placeholder="Security Que 2" data-validate="required,alphanumeric"  value="${userRegistrationFormBean.secQue2}" > </textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         
                         </div>
             </div>
          <!-- Sec Ans 2 -->
-            <div class="form-group">
-              <label for="Address">Security Answer 2</label>
-                    <div class="input-group">
-                        <textarea class="form-control" id="secAns2" rows="" , cols="3" name="secAns2"   placeholder="security Ans 2" value="${userRegistrationFormBean.secAns2}" required></textarea>
+            <div class="form-group ">
+              <label class="control-label" for="secAns2" >Security Answer 2</label>
+                    <div class="input-group col-md-12 ">
+                        <textarea class="form-control" id="secAns2" rows="2"  name="secAns2"   placeholder="security Ans 2"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.secAns2}" ></textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
+            
             </div> 
 
-
-
-
     </div>
-    </div>
-    </div>
-    <div class="form control">
-                <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-danger pull-center">
-      </div>   
+    <div class="col-md-12">
+    <div class="form-group">
+                <input type="submit" name="submit" id="submit" value="Submit" class="submit btn btn-danger centered ">
+      </div> 
+      </div>
+     
+      </div>  
         </form><!-- Registration form End-->
-    
+    </div>
       
 </div>
 

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,6 +67,8 @@ public class TransactionDetailsDTO implements Serializable {
     @Size(max = 45)
     @Column(name = "TEMP_2")
     private String temp2;
+    @OneToOne(mappedBy = "reqTransId")
+    private RequestDetailsDTO requestDetailsDTO;
 
     public TransactionDetailsDTO() {
     }
@@ -134,6 +137,14 @@ public class TransactionDetailsDTO implements Serializable {
 
     public void setTemp2(String temp2) {
         this.temp2 = temp2;
+    }
+
+    public RequestDetailsDTO getRequestDetailsDTO() {
+        return requestDetailsDTO;
+    }
+
+    public void setRequestDetailsDTO(RequestDetailsDTO requestDetailsDTO) {
+        this.requestDetailsDTO = requestDetailsDTO;
     }
 
     @Override
