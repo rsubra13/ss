@@ -85,6 +85,7 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 	@Override
 	public String getAccountNumbyUserID(Integer Userid)
 	{
+		try{
 		System.out.println("Entered Try Loop for DAO" + Userid);
 				
 		//get UserDTO to pass it to AccountDetails
@@ -100,6 +101,12 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 		System.out.println("Account Number: "+ Accountnum);
 	
 		return Accountnum;
+		}
+		catch(Exception e){
+			System.out.println("Exception: "+ e);
+			return null;
+		
+		}
 	}
 	
 	private Session getSession() {
