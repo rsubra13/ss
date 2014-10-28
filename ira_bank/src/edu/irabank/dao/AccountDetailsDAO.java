@@ -11,5 +11,6 @@ public interface AccountDetailsDAO {
 	public int getBalance(String accntno);
 	public boolean updateBalance(String accountNo, Integer bal);
 	public boolean getAccountNum(String accountNO);
+	public String getAccountNumbyUserID(Integer Userid);
 
 }

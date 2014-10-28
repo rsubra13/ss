@@ -21,23 +21,35 @@ ${userName}<br/>
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form" action="/ira_bank/Transfer" method="post">
+      <c:if test="${transferStatus != null}">
+                <div class="btn-primary">
+                   <div id="status" class="label-primary">${transferStatus}</div>
+                </div>
+  </c:if>
+    <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
+    commandName="transferFormBean" action="/ira_bank/ExternalUsers/Transfer_funds">
   <div class="form-group">
     <label for="inputText3" class="col-sm-2 control-label">From</label>
     <div class="col-sm-7">
-      <input name="from_account" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value="${SampTransFormBean.from_account}">
+      <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%> readonly="true" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${SampTransFormBean.to_account}">
+      <input name="toaccount" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${TransferFormBean.toaccount}" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${SampTransFormBean.amount}">
+      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${TransferFormBean.amount}" required>
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="pki" class="col-sm-2 control-label">PKI</label>
+    <div class="col-sm-7 col-md-7">
+      <input name="pki" type="Text" class="form-control" id="inputpki" placeholder="PKI" value="${TransferFormBean.pki}">
     </div>
   </div>
   <div class="form-group">

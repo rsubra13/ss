@@ -58,15 +58,9 @@ public class TransactionServiceImpl implements TransactionService
 				newTransaction.setTransAmt(inputbalance);
 				newTransaction.setToAcct(inputAccountNo);
 							
-				// Add this newly created TransactionDetailsDTO Object into the DB. 							
-					try{
-						sessionFactory.getCurrentSession().save(newTransaction);
-						return true;
-					}
-					catch (ConstraintViolationException e){
-					 System.out.println("The error is "+ e);
-					 return false;	 
-					}
+				// Add this newly created TransactionDetailsDTO Object into the DB. 
+				boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
+				return transDetailsave;
 			}					
 		return false;
 	}
@@ -92,20 +86,58 @@ public class TransactionServiceImpl implements TransactionService
 					newTransaction.setTransDate(sysDate);
 					newTransaction.setTransAmt(inputbal);
 					newTransaction.setFromAcct(inputAccNo);
-					// Add this newly created TransactionDetailsDTO Object into the DB. 							
-					try{
-						sessionFactory.getCurrentSession().save(newTransaction);
-						return true;
-					}
-					catch (ConstraintViolationException e){
-					 System.out.println("The error is "+ e);
-					 //e.printStackTrace();
-					 return false;	 
-					}
+					// Add this newly created TransactionDetailsDTO Object into the DB.
+					
+					boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
+					return transDetailsave;
 				}
 			}
 		return false;
 	}
-
+	
+	@Transactional
+	public String getAccountNumberbyUserID(Integer UserID)
+	{
+		
+		String accountnum = accountdetailsDAO.getAccountNumbyUserID(UserID);
+		return accountnum;
+		
+	}
+	
+	@Transactional
+	public boolean TransferBalance(String toAccount, String fromAccount, Integer inputbal)
+	{
+		Integer toBalance = accountdetailsDAO.getBalance(toAccount);
+		Integer fromBalance = accountdetailsDAO.getBalance(fromAccount);
+		if(fromBalance < inputbal)
+		{
+			return false;
+	
+		}
+		else
+		{
+			Integer newtoBalance = toBalance + inputbal;
+			Integer newfromBalance = fromBalance - inputbal;
+			// Set balance to To Account table
+			boolean istoaccountUpdatesuccess = accountdetailsDAO.updateBalance(toAccount, newtoBalance);
+			boolean isfromaccountUpdatesuccess = accountdetailsDAO.updateBalance(fromAccount, newfromBalance);
+			System.out.println("istoaccountUpdatesuccess" + istoaccountUpdatesuccess);
+			System.out.println("isfromaccountUpdatesuccess" + isfromaccountUpdatesuccess);
+			if(istoaccountUpdatesuccess && isfromaccountUpdatesuccess)
+			{
+				// Add row to transaction table
+				Date sysDate = new Date();
+				TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
+				newTransaction.setTransDate(sysDate);
+				newTransaction.setTransAmt(inputbal);
+				newTransaction.setFromAcct(fromAccount);
+				newTransaction.setToAcct(toAccount);
+				// Add this newly created TransactionDetailsDTO Object into the DB.			
+				boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
+				return transDetailsave;
+			}
+			return false;
+		}	
+	}
 }
 

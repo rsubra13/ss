@@ -44,7 +44,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">From/To</label>
     <div class="col-sm-7 col-md-7">
-      <input type="text" name="accountNumber" class="form-control" id="accountNumber" placeholder="From/To Account Number" required>
+      <input type="text" name="accountNumber" class="form-control" id="accountNumber" placeholder="From/To Account Number" value = <%=request.getAttribute("TextValue")%> readonly="true" required>
     </div>
   </div>
   <div class="form-group">
