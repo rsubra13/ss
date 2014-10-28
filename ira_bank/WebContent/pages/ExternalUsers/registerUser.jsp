@@ -6,6 +6,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
+
  <title>User Registration</title>
 
 
@@ -27,7 +28,7 @@
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
-
+<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
 <!-- bootstap js -->
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
@@ -42,6 +43,7 @@
 
 <div class="row">
 <br><br>
+
    <div class="col-md-6">
      
 
@@ -62,7 +64,7 @@
             <div class="form-group">
                 <label  for="Username">Username</label>
                     <div class="input-group">
-                            <input type="text" id="userName" name="userName" placeholder="" class="form-control " value="${userRegistrationFormBean.userName}">
+                            <input type="text" id="userName" name="userName" placeholder="" class="form-control"  data-validate="alphanumeric,required"  value="${userRegistrationFormBean.userName}">
                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
@@ -71,7 +73,7 @@
             <div class="form-group">
               <label  for="Password">Password</label>
                     <div class="input-group">
-                        <input type="password" class="form-control " id="password" name="password"  placeholder="password" value="${userRegistrationFormBean.password}" required>
+                        <input type="password" class="form-control " id="password" name="password"  placeholder="password"  data-validate="alphanumeric,required" value="${userRegistrationFormBean.password}" >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                        
                     </div>
@@ -81,7 +83,7 @@
             <div class="form-group">
               <label for="FirstName">First Name</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" value="${userRegistrationFormBean.firstName}" required>
+                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" data-validate="regex(a-z),required" value="${userRegistrationFormBean.firstName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
@@ -90,7 +92,7 @@
              <div class="form-group">
               <label for="LastName">Last Name</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" value="${userRegistrationFormBean.lastName}" required>
+                        <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" value="${userRegistrationFormBean.lastName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
             </div>
@@ -99,7 +101,7 @@
             <div class="form-group">
               <label for="InputEmail">Email</label>
                     <div class="input-group">
-                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" value="${userRegistrationFormBean.emailId}" required>
+                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" value="${userRegistrationFormBean.emailId}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
             </div>
@@ -108,7 +110,7 @@
             <div class="form-group">
               <label for="Address">Address</label>
                     <div class="input-group">
-                        <textarea class="form-control col-md-12" id="address"  rows="4" ,cols="4" name="address"  placeholder="Address" value="${userRegistrationFormBean.address}" required> </textarea>
+                        <textarea class="form-control col-md-12" id="address"  rows="4" ,cols="4" name="address"  placeholder="Address" value="${userRegistrationFormBean.address}" > </textarea>
                         
                         </div>
             </div>
@@ -129,7 +131,7 @@
             <div class="form-group">
               <label for="contactNum">Phone Number</label>
                     <div class="input-group">
-                        <input type="phone"  id="contactNum" name="contactNum"   placeholder="Phone Number" value="${userRegistrationFormBean.contactNum}" required>
+                        <input type="phone"  id="contactNum" name="contactNum"   placeholder="Phone Number" value="${userRegistrationFormBean.contactNum}" >
                       
                         </div>
             </div>
@@ -138,7 +140,7 @@
               <label for="dob">DOB</label>
 
                   <div class="input-group date">
-                      <input type="text" id="dob" name="dob" class="datepicker" placeholder= "Select your date of birth" value="${userRegistrationFormBean.dob}" required>
+                      <input type="text" id="dob" name="dob" class="datepicker" placeholder= "Select your date of birth" value="${userRegistrationFormBean.dob}" >
                       <!-- bootstrap Date picker -->
                       <script type="text/javascript">
                          $('.datepicker').datepicker(
@@ -172,7 +174,7 @@
             <div class="form-group">
               <label for="Address">Security Question 1</label>
                     <div class="input-group">
-                        <textarea class="form-inline" id="secQue1" rows="3" ,cols="7" name="secQue1"   placeholder="Security Que 1" value="${userRegistrationFormBean.secQue1}" required> </textarea>
+                        <textarea class="form-inline" id="secQue1" rows="3" ,cols="7" name="secQue1"   placeholder="Security Que 1" value="${userRegistrationFormBean.secQue1}" > </textarea>
                       
                         </div>
 
@@ -180,7 +182,7 @@
             <div class="form-group">
               <label for="Address">Security Answer 1</label>
                     <div class="input-group">
-                        <textarea class="form-inline" id="secAns1" rows="3" ,cols="7" name="secAns1"   placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" required> </textarea>
+                        <textarea class="form-inline" id="secAns1" rows="3" ,cols="7" name="secAns1"   placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" > </textarea>
                    
                        
                         </div>
@@ -190,7 +192,7 @@
             <div class="form-group">
               <label for="Address">Security Question 2</label>
                     <div class="input-group">
-                        <textarea class="form-control" id="secQue2" rows="" ,cols="3" name="secQue2"   placeholder="Security Que 2" value="${userRegistrationFormBean.secQue2}" required> </textarea>
+                        <textarea class="form-control" id="secQue2" rows="" ,cols="3" name="secQue2"   placeholder="Security Que 2" value="${userRegistrationFormBean.secQue2}" > </textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         
                         </div>
@@ -199,7 +201,7 @@
             <div class="form-group">
               <label for="Address">Security Answer 2</label>
                     <div class="input-group">
-                        <textarea class="form-control" id="secAns2" rows="" , cols="3" name="secAns2"   placeholder="security Ans 2" value="${userRegistrationFormBean.secAns2}" required></textarea>
+                        <textarea class="form-control" id="secAns2" rows="" , cols="3" name="secAns2"   placeholder="security Ans 2" value="${userRegistrationFormBean.secAns2}" ></textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
             </div> 
@@ -211,7 +213,7 @@
     </div>
     </div>
     <div class="form control">
-                <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-danger pull-center">
+                <input type="submit" name="submit" id="submit" value="Submit" class="submit btn btn-danger pull-center">
       </div>   
         </form><!-- Registration form End-->
     
