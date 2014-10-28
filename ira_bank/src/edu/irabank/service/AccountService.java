@@ -14,6 +14,8 @@ public interface AccountService {
 	public void deleteAccount(Integer userID);
 	
 	public List<AccountDetailsDTO> listAccounts();
+	
+	public AccountDetailsDTO showAccountInfo(Integer UserId);
 	/*createAccountInfo(); - to create account details for a newly registered user. ( default bal , randowmm acct number)
 	delAcct()
 	modifyAcct()

@@ -69,6 +69,13 @@ public class AccountServiceImpl implements AccountService
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
+	public AccountDetailsDTO showAccountInfo(Integer UserId){
+		return (accountDAO.showAccountInfo(UserId));
+		
+	}
+	
+	@Override
 	@Transactional
 	public void deleteAccount(Integer userID) {
 		accountDAO.deleteAccount(userID);

@@ -17,7 +17,9 @@ public interface AccountDAO {
 	
 	public void deleteAccount(Integer userID); //Delete accountDetails of the selected account
 	
-	public List<AccountDetailsDTO> listAccounts(); //List All accounts in the Account_Details table
+	public List<AccountDetailsDTO> listAccounts(); //List All accounts from the Account_Details table
+	
+	public AccountDetailsDTO showAccountInfo(Integer userId); //Display account info of the current user
 	
 	public AccountDetailsDTO getAccountDetailsDTOByUserID(Integer userId);
 

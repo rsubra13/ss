@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import antlr.collections.List;
 import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean;
@@ -42,6 +43,17 @@ import edu.irabank.service.UserService;
 					return "/ExternalUsers/listAccounts";
 				}
 		
+				@RequestMapping(value="/showAccountInfo", method = RequestMethod.GET)
+				public String Accounts(ModelMap model, SessionStatus status, HttpSession sessionID) {
+					Integer userId = (Integer)sessionID.getAttribute("userId");
+					
+					model.put("AccountDetailsDTO", new AccountDetailsDTO());
+					model.put("showAccountInfo",accountService.showAccountInfo(userId));
+					
+					
+					return "/ExternalUsers/showAccountInfo";
+				}
+
 				
 				/*// POST Method of Register - comes back after the submit of User Details Form.
 				@RequestMapping(value="/listAccounts", method = RequestMethod.POST)
