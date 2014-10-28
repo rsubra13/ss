@@ -15,7 +15,8 @@ ${userName}<br/>
 <div class="panel panel-primary">
   <div class="panel-heading">TRANSFER FUNDS</div>
 </div>
-
+<div ><label for="inputText3"> ${StatusHere}</label>
+ </div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title"></h3>
@@ -26,9 +27,12 @@ ${userName}<br/>
                    <div id="status" class="label-primary">${transferStatus}</div>
                 </div>
   </c:if>
+  
     <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
-    commandName="transferFormBean"> //ira_bank/ExternalUsers/Transfer_funds
+    commandName="transferFormBean"> 
+  
   <div class="form-group">
+ 
     <label for="inputText3" class="col-sm-2 control-label">From</label>
     <div class="col-sm-7">
       <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%>  readonly="true" required>

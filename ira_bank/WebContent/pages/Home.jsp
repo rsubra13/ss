@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                    <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
-                   <li><a href="/ira_bank/SampTrans">Transfer</a></li>
+                   <li><a href="/ira_bank/SampTrans">Request Transaction</a></li>
                    
                 </ul>
             </div>

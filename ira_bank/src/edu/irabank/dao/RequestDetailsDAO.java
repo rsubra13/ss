@@ -1,0 +1,11 @@
+package edu.irabank.dao;
+
+import java.util.List;
+
+import edu.irabank.dto.RequestDetailsDTO;
+
+public interface RequestDetailsDAO {
+
+	List<RequestDetailsDTO> listTransactions();
+
+}

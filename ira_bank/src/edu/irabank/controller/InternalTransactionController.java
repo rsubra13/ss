@@ -34,20 +34,23 @@ public class InternalTransactionController
 	private InternalTransactionService internalTransactionService;
 
 	@RequestMapping(value="SampTrans", method = RequestMethod.GET)
-	public ModelAndView sampTransRoute( HttpSession sessionID)
+	public ModelAndView sampTransRoute( HttpSession sessionID,HttpServletRequest request,ModelMap model)
 	{//userId
+		
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
 		int userId = (int)sessionID.getAttribute("userId");
+		String Accountnum = transactionService.getAccountNumberbyUserID(userId);
+		model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+		request.setAttribute("TextValue",Accountnum);
 		System.out.println("userId is:" + userId);
 		return new ModelAndView("/ExternalUsers/Transfer_funds");
 		
 	}
 	@RequestMapping(value="Transfer", method = RequestMethod.POST)
-	public ModelAndView createTrans(@ModelAttribute("trans") InternalTransactionFormBean trans, HttpSession sessionID,ModelMap model,HttpServletRequest request)
+	public ModelAndView createTrans(@ModelAttribute("trans") InternalTransactionFormBean trans, HttpSession sessionID,ModelMap model)
 	{
 		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
-		request.setAttribute("TextValue",Accountnum);
 		System.out.println("Account number in controller is:"+Accountnum);
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);

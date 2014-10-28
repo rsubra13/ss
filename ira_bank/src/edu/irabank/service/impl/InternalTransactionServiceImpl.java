@@ -3,6 +3,7 @@ package edu.irabank.service.impl;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.service.InternalTransactionService;
 import edu.irabank.dao.InternalTransactionDAO;
+import edu.irabank.dao.RequestDetailsDAO;
 import edu.irabank.dao.TransactionDetailsDAO;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.InternalTransactionImplDAOImpl;
@@ -38,6 +40,8 @@ UserDAO userDAO;
 @Autowired
 TransactionDetailsDAO transDAO;
 
+@Autowired
+RequestDetailsDAO requestDAO;
 
 
 
@@ -191,5 +195,16 @@ public boolean setRequestDetails(InternalTransactionFormBean sampTransFormBean,i
 	catch(Exception e){}
 	return true;
 }*/
+
+@Override
+public List<RequestDetailsDTO> listTransactions() {
+	List transactionList = requestDAO.listTransactions();
+	System.out.println("userList in Service" + transactionList);
+	return transactionList;
+	
+	
+	// TODO Auto-generated method stub
+	
+}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.service.UserService;

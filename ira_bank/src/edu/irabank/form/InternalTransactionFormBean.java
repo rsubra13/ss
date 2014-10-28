@@ -4,7 +4,7 @@ package edu.irabank.form;
  *
  */
 
-public class SampTransFormBean {
+public class InternalTransactionFormBean {
 	private String to_account;
 	private String from_account;
 	private int amount;
