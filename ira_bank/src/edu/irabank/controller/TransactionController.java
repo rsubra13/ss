@@ -1,5 +1,6 @@
 package edu.irabank.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,33 @@ import edu.irabank.service.TransactionService;
 		
 		// GET Method of Credit/Debit Form
 		@RequestMapping(value="/credit_debit", method = RequestMethod.GET)
-		public String createNewCreditDebit(ModelMap model) {
+		public String createNewCreditDebit(HttpSession sessionID, HttpServletRequest request) {
+			String userName = (String)sessionID.getAttribute("userName");
+			System.out.println("userName is:" + userName);
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			System.out.println("userID is:" + userId);
+			String Accountnum = transactionService.getAccountNumberbyUserID(userId);
+			request.setAttribute("TextValue",Accountnum);
+			
 			// redirect to the CreditDebit.jsp
 			System.out.println("comes at credit_debit get method");
 			return "/ExternalUsers/credit_debit";
+			
 		}
 		
 		// Post Method after submitting Account details in CreditDebit Form
 		@RequestMapping(value="/credit_debit", method=RequestMethod.POST)
-	    public ModelAndView accountCreditDebit(@ModelAttribute("accountFormBean") AccountFormBean accountFormBean,  BindingResult result, ModelMap model, SessionStatus status)
+	    public ModelAndView accountCreditDebit(@ModelAttribute("accountFormBean") AccountFormBean accountFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID, HttpServletRequest request)
 	    {
+			String userName = (String)sessionID.getAttribute("userName");
+			System.out.println("userName is:" + userName);
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			System.out.println("userID is:" + userId);
+			String Accountnum = transactionService.getAccountNumberbyUserID(userId);
+			request.setAttribute("TextValue",Accountnum);
+			
 			System.out.println("comes at credit_debit post method");
-			String Accountnum = accountFormBean.getAccountNumber();
+			String Accountno = accountFormBean.getAccountNumber();
 			System.out.println("balance from formbean account" + accountFormBean.getAccountNumber());
 			System.out.println("balance from formbean" + accountFormBean.getAmount());
 			Integer balAnce = Integer.parseInt(accountFormBean.getAmount());
@@ -82,6 +98,7 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Account Credited Successfully! ");
 						model.addAttribute("accountStatus", "Account Credited Successfully!");
 						model.addAttribute("accountFormBean",accountFormBean);
+						request.setAttribute("TextValue",Accountno);
 						return new ModelAndView("/ExternalUsers/credit_debit", model);
 					
 					}
@@ -96,6 +113,7 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Account Debited Successfully!");
 						model.addAttribute("accountStatus", "Account Debited Successfully!");
 						model.addAttribute("accountFormBean",accountFormBean);
+						request.setAttribute("TextValue",Accountno);
 						return new ModelAndView("/ExternalUsers/credit_debit", model);
 					}
 					else
@@ -103,6 +121,7 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Please Enter a valid amount!");
 						model.addAttribute("accountStatus", "Please Enter a valid amount!");
 						model.addAttribute("accountFormBean",accountFormBean);
+						request.setAttribute("TextValue",Accountno);
 						return new ModelAndView("/ExternalUsers/credit_debit", model);
 						
 					}
@@ -110,6 +129,7 @@ import edu.irabank.service.TransactionService;
 			}
 			model.addAttribute("accountStatus", "Please enter valid details");
 			model.addAttribute("accountFormBean",accountFormBean);
+			request.setAttribute("TextValue",Accountno);
 		return new ModelAndView("/ExternalUsers/credit_debit", model);
 		}
 
