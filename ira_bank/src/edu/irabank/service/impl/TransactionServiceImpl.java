@@ -3,6 +3,8 @@ package edu.irabank.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,38 +30,44 @@ public class TransactionServiceImpl implements TransactionService
 	@Autowired
 	private AccountDetailsDAO accountdetailsDAO;
 	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@Transactional
-	public String getAccountDTOByAccountNumber(String accountNO)
+	public boolean getAccountNumber(String accountNO)
 	{
-		return accountdetailsDAO.getAccountDTOByAccountNumber(accountNO);
+		return accountdetailsDAO.getAccountNum(accountNO);
 	}
 	
+	@Override
 	@Transactional
 	public boolean CreditBalance(String inputAccountNo, Integer inputbalance)
 	{
-		
-		String userAccountNo = accountdetailsDAO.getAccountNumber(inputAccountNo);
 		Integer userBalance = accountdetailsDAO.getBalance(inputAccountNo);
 		Integer newBalance = userBalance + inputbalance;
-		
-		if(!userAccountNo.isEmpty())
-		{
-			
+				
 			// Set balance to Account table
-			boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(userAccountNo, newBalance);
+			boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(inputAccountNo, newBalance);
+			System.out.println("isaccountUpdatesuccess" + isaccountUpdatesuccess);
 			if(isaccountUpdatesuccess)
 			{
 				// Add row to transaction table
 				Date sysDate = new Date();
 				TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
-				// 	Check what values need to be set
 				newTransaction.setTransDate(sysDate);
-				newTransaction.setTransAmt(newBalance);
-				newTransaction.setToAcct(userAccountNo);	
-			
-				return true;
+				newTransaction.setTransAmt(inputbalance);
+				newTransaction.setToAcct(inputAccountNo);
+							
+				// Add this newly created TransactionDetailsDTO Object into the DB. 							
+					try{
+						sessionFactory.getCurrentSession().save(newTransaction);
+						return true;
+					}
+					catch (ConstraintViolationException e){
+					 System.out.println("The error is "+ e);
+					 return false;	 
+					}
 			}					
-		}
 		return false;
 	}
 	
@@ -67,31 +75,35 @@ public class TransactionServiceImpl implements TransactionService
 	public boolean DebitBalance(String inputAccNo, Integer inputbal)
 	{
 		
-		String userAccountNo = accountdetailsDAO.getAccountNumber(inputAccNo);
 		Integer userBalance = accountdetailsDAO.getBalance(inputAccNo);
 		if(userBalance >= inputbal)
 		{
 			Integer newBalance = userBalance - inputbal;
 		
-			if(!userAccountNo.isEmpty())
-			{
-			
+		
 				// Set balance to Account table
-				boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(userAccountNo, newBalance);
+				boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(inputAccNo, newBalance);
+				System.out.println("isaccountUpdatesuccess" + isaccountUpdatesuccess);
 				if(isaccountUpdatesuccess)
 				{
 					// Add row to transaction table
 					Date sysDate = new Date();
 					TransactionDetailsDTO newTransaction = new TransactionDetailsDTO();
-					// Check what values need to be set
 					newTransaction.setTransDate(sysDate);
-					newTransaction.setTransAmt(newBalance);
-					newTransaction.setToAcct(userAccountNo);
-			
-					return true;
+					newTransaction.setTransAmt(inputbal);
+					newTransaction.setFromAcct(inputAccNo);
+					// Add this newly created TransactionDetailsDTO Object into the DB. 							
+					try{
+						sessionFactory.getCurrentSession().save(newTransaction);
+						return true;
+					}
+					catch (ConstraintViolationException e){
+					 System.out.println("The error is "+ e);
+					 //e.printStackTrace();
+					 return false;	 
+					}
 				}
 			}
-		}
 		return false;
 	}
 

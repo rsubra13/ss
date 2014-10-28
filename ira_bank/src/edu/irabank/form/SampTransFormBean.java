@@ -1,4 +1,8 @@
 package edu.irabank.form;
+/**
+ * @author Rakesh Subramanian
+ *
+ */
 
 public class SampTransFormBean {
 	private String to_account;

@@ -1,4 +1,4 @@
-package edu.irabank.controller;
+/*package edu.irabank.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +18,25 @@ import edu.irabank.form.SampTransFormBean;
 import edu.irabank.service.SampTransService;
 import edu.irabank.service.UserService;
 import edu.irabank.service.impl.SampTransServiceImpl;
-/**
+*//**
  * @author Rakesh Subramanian
  *
- */
+ *//*
 @Controller
 @SessionAttributes
 public class SampTransController 
 {
-	
-	SampTransService sampTransServiceImpl = new SampTransServiceImpl();
-	@RequestMapping(value="/SampTrans", method = RequestMethod.GET)
+	@Autowired
+	private SampTransService sampTransService;
+
+	@RequestMapping(value="SampTrans", method = RequestMethod.GET)
 	public ModelAndView sampTransRoute( HttpSession sessionID)
 	{//userId
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
-		int userId = (int)sessionID.getAttribute("userId");
+		int userId = sessionID.getAttribute("userId");
 		System.out.println("userId is:" + userId);
-		return new ModelAndView("/SampTrans");
+		return new ModelAndView("/ExternalUsers/Transfer_funds");
 		
 	}
 	@RequestMapping(value="Transfer", method = RequestMethod.POST)
@@ -43,19 +44,19 @@ public class SampTransController
 	{
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
-		int userId = (int)sessionID.getAttribute("userId");
+		//int userId = (int)sessionID.getAttribute("userId");
+		int userId;
 		System.out.println("userName is:" + userId);
-		boolean isCreateSuccess = sampTransServiceImpl.createTransactions(trans,userId);
-		try{System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
+		boolean isCreateSuccess = sampTransService.createTransactions(trans,userId);
+		try{//System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
 		if(isCreateSuccess == true)
 		{
-			sampTransServiceImpl.setRequestDetails(trans, userId);
+			//sampTransService.setRequestDetails(trans, userId);
 			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
 			model.addAttribute("userName", userName);
 
 		}
-		//this part not able to create sessionFactory obj
-		//
+		
 		}
 		catch(Exception e){
 			System.out.println("Exception: "+e);
@@ -65,3 +66,4 @@ public class SampTransController
 	}
 
 }
+*/
