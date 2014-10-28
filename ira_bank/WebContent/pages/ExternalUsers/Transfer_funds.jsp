@@ -27,23 +27,23 @@ ${userName}<br/>
                 </div>
   </c:if>
     <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
-    commandName="transferFormBean" action="/ira_bank/ExternalUsers/Transfer_funds">
+    commandName="transferFormBean"> //ira_bank/ExternalUsers/Transfer_funds
   <div class="form-group">
     <label for="inputText3" class="col-sm-2 control-label">From</label>
     <div class="col-sm-7">
-      <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%> readonly="true" required>
+      <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%>  readonly="true" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="toaccount" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${TransferFormBean.toaccount}" required>
+      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}">
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${TransferFormBean.amount}" required>
+      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}">
     </div>
   </div>
     <div class="form-group">
@@ -54,7 +54,11 @@ ${userName}<br/>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-7 col-md-offset-2 col-md-7">
-      <button type="submit" class="btn btn-default">Submit</button>
+	  <!-- Button for Transfer -->
+	  <button type="submit" class="btn btn-default" formaction="ira_bank/ExternalUsers/Transfer_funds">Submit</button>
+	   <!-- Button for Request Transaction -->
+	  <button type="submit" class="btn btn-default" formaction="/ira_bank/Transfer">Request Transaction</button>
+      
     </div>
   </div>
 </form>
