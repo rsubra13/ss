@@ -57,7 +57,7 @@
 		   
 		  <!--   <li> <a class="dropdown-toggle" data-toggle="dropdown">Transactions<b class="caret"></b></a>
                <ul class="dropdown-menu"> -->
-                 <li><a href="<%=request.getContextPath()%>/ExternalUsers/Request">Request Transactions</a></li>
+                 <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/Request">Request Transactions</a></li>
 		     	 <li><a href="<%=request.getContextPath()%>/ExternalUsers/listTransactions">My Transactions</a></li>
 		      	<li><a href="<%=request.getContextPath()%>/admin/listTransactions">List Transactions</a></li>
              <!--   </ul>

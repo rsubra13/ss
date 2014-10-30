@@ -29,7 +29,7 @@ ${userName}<br/>
                 </div>
   </c:if>
   
-    <form class="form-horizontal" role="form" action="/ira_bank/ExternalUsers/Request" method="POST" id="transferFormBean" 
+    <form class="form-horizontal" role="form" action="/ira_bank/user/CreateTransaction" method="POST" id="transferFormBean" 
     commandName="transferFormBean"> 
   
   <div class="form-group">
