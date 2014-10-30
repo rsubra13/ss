@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import antlr.collections.Stack;
 import edu.irabank.dao.UserIssueDAO;
 import edu.irabank.dto.RequestDetailsDTO;
+import edu.irabank.dto.UserDTO;
 
 /**
  * @author Ramki Subramanian
@@ -29,9 +30,19 @@ public class UserIssueDAOImpl implements UserIssueDAO
 	 * @param userName
 	 * @return Integer
 	 */
-	
+	private Session getSession() {
+		Session sessionobj = getSessionFactory().getCurrentSession();
+		if (sessionobj == null) {
+			sessionobj = getSessionFactory().openSession();
+		}
+		return sessionobj;
+	}
+
+	private SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 	@Override
-	public Boolean addNewIssue(RequestDetailsDTO requestdetailsdto) {
+	public Boolean addNewIssue(RequestDetailsDTO requestdetailsdto, UserDTO userDTO) {
 		System.out.println("try in DAOImpl");
 		// TODO check if the user is already present in service Layer
 		try{
@@ -45,6 +56,13 @@ public class UserIssueDAOImpl implements UserIssueDAO
 		}
 		
 	} // End of addNewIssue
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RequestDetailsDTO> listIssues() {
+		// TODO Auto-generated method stub
+		System.out.println("listing issues");
+		return getSession().createCriteria(RequestDetailsDTO.class).list();
+	}
 }
 
 

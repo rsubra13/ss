@@ -9,7 +9,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class IssueFormBean {
+public class IssueDetailsFormBean {
 	
     private String issue;
     private String description;
@@ -30,8 +30,8 @@ public class IssueFormBean {
 	public String getPriority() {
 		return priority;
 	}
-	public void setPriority(String priority) {
-		this.priority = priority;
+	public String setPriority() {
+		return priority;
 	}
 	
     
