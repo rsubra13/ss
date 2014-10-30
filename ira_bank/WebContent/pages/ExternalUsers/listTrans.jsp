@@ -76,6 +76,8 @@
                 
 
                      <br>
+                     <c:if test="${useThis == true}" >
+                                 <li><a href="<%=request.getContextPath()%>/admin/ApprovedTransactions">Approved Transactions</a></li>
                      
                      <table class="table table-condensed">
                         <thead>
@@ -115,8 +117,64 @@
                                <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                 <td>
                      
-                       
+                       		 <c:if test="${button== true}" >
                              <button form="form1"  name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
+     						 </c:if>
+						 
+
+                        
+                       
+                       		 </form>
+                            </tr>
+                            </c:if>
+                            </c:forEach>
+                            
+                        </tbody>
+                     </table>
+                     </c:if>
+         </div>
+         <!-- List of All Approved Transactions -->
+         <br>
+                     <c:if test="${approved == true}" >
+                     <table class="table table-condensed">
+                        <thead>
+                           <tr class="success">
+                              <th width="4%">S.No</th>
+                              <th width="12%">Request Id</th>
+                              <th width="12%">Request User Id</th>
+                              <th width="12%">Request Description</th>
+                              <th width="12%">Request Status</th>
+                              <th width="12%">Request Date</th>
+                              <th width="12%">Request Type</th>
+                              <th width="12%">Is_Authorized</th>
+                              <th width="12%">Request Priority</th>
+                              <th width="12%">Request Transaction ID</th>
+                             
+                           </tr>
+                        </thead>
+                       
+                        <tbody>
+                           <c:forEach items="${RequestDetailsList}" var="requestDetails" varStatus="loopCounter">
+                           <c:if test="${ requestDetails.getIsApproved() == true}">
+                           <tr>
+                            <form method = "POST" id="form1">
+                               <td><c:out value="${loopCounter.count}" /></td>
+                               <td><input form="form1" name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
+                               
+                             <td><input name="userId" form= "form1" type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
+                               <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
+                               </td>
+                               <td><c:out value="${requestDetails.getReqStatus()}" /></td>
+                               <td><c:out value="${requestDetails.getReqDate()}" /></td>
+                               <td><c:out value="${requestDetails.getReqType()}" /></td>
+                               <td><c:out value="${requestDetails.getIsApproved()}" /></td>
+                               
+                               <td><c:out value="${requestDetails.getReqPriority()}" /></td>
+                               
+                               <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
+                                <td>
+                     
+                       
       
 						 
 
@@ -129,8 +187,52 @@
                             
                         </tbody>
                      </table>
+                     </c:if>
          </div>
+<div>
+<c:if test="${useThis == false}">
+<table class="table table-condensed">
+<thead>
+                           <tr class="success">
+                              <th width="4%">S.No</th>
+                           
+                              <th width="12%">Request Description</th>
+                              <th width="12%">Request Date</th>
+                              <th width="12%">Request Type</th>
+                            
+                             
+                           </tr>
+                        </thead>
+<c:forEach items="${RequestDetailsList}" var="requestDetails" varStatus="loopCounter">
+<c:if test="${userIdCompare == requestDetails.getReqUserId().getUserId()}">
 
+                        
+                       
+                        <tbody>
+                           
+                           
+                           <tr>
+                            <form method = "POST" id="form1">
+                               <td><c:out value="${loopCounter.count}" /></td>
+                              <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
+                               </td>
+                               <td><c:out value="${requestDetails.getReqDate()}" /></td>
+                               <td><c:out value="${requestDetails.getReqType()}" /></td>
+                         
+                                            
+                       		 </form>
+                            </tr>
+
+                           
+                            
+                        </tbody>
+                          </c:if>
+                      </c:forEach>
+                     </table>
+                     </c:if>
+                   
+
+</div>
 
 
      </div>

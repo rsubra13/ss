@@ -49,9 +49,9 @@
 		    
 		    
 		   <!--  Transactions -->
-		     <li><a href="<%=request.getContextPath()%>/ExternalUsers/Request">Request Transactions</a></li>
+		     <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/Request">Request Transactions</a></li>
 		     
-		      <li><a href="<%=request.getContextPath()%>/ExternalUsers/listTransactions">My Transactions</a></li>
+		      <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/listTransactions">My Transactions</a></li>
 		      <li><a href="<%=request.getContextPath()%>/admin/listTransactions">List Transactions</a></li>
 			 
 			<!--  TODO Rakesh to add : 
