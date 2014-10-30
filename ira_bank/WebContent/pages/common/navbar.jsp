@@ -23,37 +23,49 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="collapse  navbar-collapse navbar-ex1-collapse">
              <ul class="nav navbar-nav">
             
             <!-- Accounts -->
             
             <!-- User -->
+            
+          
             <li><a href="<%=request.getContextPath()%>/user/showAccountInfo">My Account Details</a></li>
             <!--  Admin -->
              <li><a href="<%=request.getContextPath()%>/admin/listAccounts">User Accounts Management</a></li>
             
             <!-- Functionalities -->
             
+            
             <!-- credit debit -->
             <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Credit/Debit Transactions</a></li>
-            <!-- transfer funds -->
-            
+              <!-- transfer funds -->
             <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
             
             <!-- Bill pay -->
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
+          
+         
+            
 
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
 		    
 		    
 		   <!--  Transactions -->
-		     <li><a href="<%=request.getContextPath()%>/ExternalUsers/Request">Request Transactions</a></li>
-		     
-		      <li><a href="<%=request.getContextPath()%>/ExternalUsers/listTransactions">My Transactions</a></li>
-		      <li><a href="<%=request.getContextPath()%>/admin/listTransactions">List Transactions</a></li>
-			 
+		   
+		  <!--   <li> <a class="dropdown-toggle" data-toggle="dropdown">Transactions<b class="caret"></b></a>
+               <ul class="dropdown-menu"> -->
+                 <li><a href="<%=request.getContextPath()%>/ExternalUsers/Request">Request Transactions</a></li>
+		     	 <li><a href="<%=request.getContextPath()%>/ExternalUsers/listTransactions">My Transactions</a></li>
+		      	<li><a href="<%=request.getContextPath()%>/admin/listTransactions">List Transactions</a></li>
+             <!--   </ul>
+            </li>
+		    -->
+		   
+		    
+		
 			<!--  TODO Rakesh to add : 
 			 View all pending/non-pending transactions - admin
 			 --> 

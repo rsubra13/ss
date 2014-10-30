@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 // TODO: add DTO and services 
 
 
+
 //DTO to be done??
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.IssueFormBean; 
@@ -49,10 +50,16 @@ import edu.irabank.service.RequestService;
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/ExternalUsers/Issues", method = RequestMethod.POST)
 		
-		public ModelAndView createNewRequest(@ModelAttribute("issueFormBean") IssueFormBean issueFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
+		public ModelAndView createNewRequest(@ModelAttribute("issueFormBean") IssueFormBean issueFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID) {
 			// use the Form Elements values from Issue form
 			//Calling add new issue method of issueFormBean
-			Boolean issueCreationStatus = requestService.addNewIssue(issueFormBean);
+			
+			//getting the userID from session
+			Integer userId = (Integer) sessionID.getAttribute("userId");
+			UserDTO userDTO = new UserDTO();
+			userDTO.setUserId(userId);
+			
+			Boolean issueCreationStatus = requestService.addNewIssue(issueFormBean, userDTO);
 			System.out.println("issueCreationStatus is :" + issueCreationStatus);
 				if(issueCreationStatus){
 				 model.addAttribute("issueCreationStatus", "Issue submitted successfully");
