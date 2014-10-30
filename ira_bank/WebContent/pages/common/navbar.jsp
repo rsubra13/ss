@@ -45,25 +45,25 @@
 
 <nav class="navbar navbar-default " role="navigation">
 <div class="container">
-        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/ExternalUsers/Issues" class="navbar-link">Submit an Issue</a></p>
+  
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">I.R.A Bank</a>
             </div>
-
+		
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse  navbar-collapse navbar-ex1-collapse">
-             
-             <ul class="nav navbar-nav">
-                    <!-- Accounts -->
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            
+            <div class="btn-group"> <!-- main button group -->
+
+               <!-- Accounts -->
+                   
+               <!-- first button group -->
+                   
+                <div class="btn-group">
+                
+                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     Accounts <span class="caret"></span>
                     </button>
                     
@@ -83,8 +83,8 @@
                      <!-- Functionalities -->
                      <!-- credit debit -->
 
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                <div class="btn-group">
+                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     External Transactions <span class="caret"></span>
                     </button>
                     
@@ -99,13 +99,13 @@
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
                     </sec:authorize>  
-                      </ul>
+                    </ul>
                 </div>
 
                     
-                      <!-- Issues -->
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                <!-- Issues -->
+                <div class="btn-group">
+                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     Issues <span class="caret"></span>
                     </button>
                      
@@ -131,16 +131,16 @@
                         
                 <!--  Transactions -->
 
-                  <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                  <div class="btn-group">
+                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     Internal Transactions <span class="caret"></span>
                     </button>
                     
                      <!--  Admin -->   
                     <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu2">
                     <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                          <li><a href="<%=request.getContextPath()%>/ExternalUsers/Request">Request Transactions</a></li>
-                             <li><a href="<%=request.getContextPath()%>/ExternalUsers/listTransactions">My Transactions</a></li>
+                          <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/Request">Request Transactions</a></li>
+                             <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/listTransactions">My Transactions</a></li>
                     </sec:authorize>  
 
                       <!-- Admin -->
@@ -151,19 +151,13 @@
 
                       </ul>
                 </div>
-            		    
-            		
-            			<!--  TODO Rakesh to add : 
-            			 View all pending/non-pending transactions - admin
-            			 --> 
-            			
-            			 <!--  Admin view Issues -->
-            			  
-            			  <!-- Admin view Trans.requests -->
-                 </ul>
-                
+            	<!--  TODO Rakesh to add : 
+                 View all pending/non-pending transactions - admin
+                --> 		
+            	<!--  Admin view Issues -->		  
+            	<!-- Admin view Trans.requests -->
+             </div>  <!-- button group div -->   
             </div>
-        
         </div>
         <!-- /.container -->
     </nav>
