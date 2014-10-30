@@ -51,7 +51,7 @@
 
                <div class="panel-body">
    
-                <form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+                <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
                       <c:if test="${ userRegistrationStatus != null}">
                            <div class="btn-primary">
