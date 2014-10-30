@@ -33,7 +33,8 @@ public class InternalTransactionController
 	@Autowired
 	private InternalTransactionService internalTransactionService;
 
-	@RequestMapping(value="SampTrans", method = RequestMethod.GET)
+	// Ext Users request / create a new transaction.	
+	@RequestMapping(value="/ExternalUsers/Request", method = RequestMethod.GET)
 	public ModelAndView sampTransRoute( HttpSession sessionID,HttpServletRequest request,ModelMap model)
 	{//userId
 		
@@ -44,10 +45,12 @@ public class InternalTransactionController
 		model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
 		request.setAttribute("TextValue",Accountnum);
 		System.out.println("userId is:" + userId);
-		return new ModelAndView("/ExternalUsers/Transfer_funds");
+		return new ModelAndView("/ExternalUsers/RequestTransaction");
 		
 	}
-	@RequestMapping(value="Transfer", method = RequestMethod.POST)
+	
+	// POST method of create Transaction -> 
+	@RequestMapping(value="/ExternalUsers/CreateTransaction", method = RequestMethod.POST)
 	public ModelAndView createTrans(@ModelAttribute("trans") InternalTransactionFormBean trans, HttpSession sessionID,ModelMap model)
 	{
 		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
@@ -77,10 +80,11 @@ public class InternalTransactionController
 			System.out.println("Exception: "+e);
 	
 		}
-		return new ModelAndView("/ExternalUsers/Transfer_funds",model);
+		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
 	}
 
-	@RequestMapping(value = "Approve" ,method = RequestMethod.POST)
+	// Admin Transaction approval
+	@RequestMapping(value = "admin/Transaction/Approval" ,method = RequestMethod.POST)
 	public ModelAndView setIsAuthorized(@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("transId") String transId,@RequestParam("reqId") String reqId, @RequestParam("userId") int userId,@RequestParam("reqDesc")String reqDesc,HttpSession sessionID,HttpServletRequest request,ModelMap model)
 	{//to_account and acmount need to be got!
 		//after approve.. account details need to be changed and request and transact need to have isauthorized set.
@@ -113,7 +117,7 @@ public class InternalTransactionController
 		}
 		}
 		catch(Exception e){System.out.println("Exception at APPROVAL"+e);}
-		return new ModelAndView("/ExternalUsers/Transfer_funds",model);
+		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
 		
 	}
 }

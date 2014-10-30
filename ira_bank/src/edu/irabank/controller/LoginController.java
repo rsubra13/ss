@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,13 +93,23 @@ import edu.irabank.service.UserService;
 			return "/securedLogin/login";
 	 
 		}
-
+        // New Home page
 		@RequestMapping(value="/home", method = RequestMethod.GET)
-		public String redirectToHome(ModelMap model, HttpSession session) {
+		public ModelAndView redirectToHome(ModelMap model, HttpSession sessionID) {
 			logger.debug("Comes in Common Home");
 			System.out.println("are u coming here : 98");
-		    return "/common/commonHome";
-		}
+			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String userName = user.getUsername(); //get logged in username
+            
+            // Setting session variables
+            sessionID.setAttribute("userName", userName);
+			UserDTO uDTO = userService.getUserDTOByUsername(userName);
+			
+			sessionID.setAttribute("userId", uDTO.getUserId());
+			model.addAttribute("userName", userName);
+			return new ModelAndView("/common/commonHome",model);
+		    
+  	}
 		
 		@RequestMapping(value="/home", method = RequestMethod.POST)
 		public String redirectToHomePost(ModelMap model, HttpSession session) {

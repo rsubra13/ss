@@ -23,7 +23,7 @@ import edu.irabank.service.TransactionService;
 	@Controller
 	@SessionAttributes
 	@RequestMapping("ExternalUsers")
-	public class TransactionController 
+	public class CreditDebitController 
 	{
 		
 		@Autowired
@@ -31,8 +31,11 @@ import edu.irabank.service.TransactionService;
 
 		
 		// GET Method of Credit/Debit Form
+		
 		@RequestMapping(value="/credit_debit", method = RequestMethod.GET)
 		public String createNewCreditDebit(HttpSession sessionID, HttpServletRequest request) {
+			
+			// Account Number is auto populated.
 			String userName = (String)sessionID.getAttribute("userName");
 			System.out.println("userName is:" + userName);
 			Integer userId = (Integer)sessionID.getAttribute("userId");
@@ -43,7 +46,6 @@ import edu.irabank.service.TransactionService;
 			// redirect to the CreditDebit.jsp
 			System.out.println("comes at credit_debit get method");
 			return "/ExternalUsers/credit_debit";
-			
 		}
 		
 		// Post Method after submitting Account details in CreditDebit Form

@@ -13,11 +13,13 @@ import edu.irabank.service.InternalTransactionService;
 import edu.irabank.service.impl.InternalTransactionServiceImpl;
 
 @Controller
-public class ViewTransController {
+public class ViewTransactionsController {
 	@Autowired
 	InternalTransactionService internalService;
 	
-	@RequestMapping(value="listTransaction", method = RequestMethod.GET)
+	// List of un-approved transactions
+	
+	@RequestMapping(value="/admin/listTransactions", method = RequestMethod.GET)
 	public String listAllTransactions(ModelMap model) {
 		// redirect to the listTrans.jsp
 		System.out.println("List All Transactions");

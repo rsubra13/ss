@@ -45,9 +45,7 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private UserRoleDAO userRoleDAO;
 	
-	@Autowired
-	private UserRoleDAO userRoleDAO;
-	
+
 	@Autowired
 	private AccountService acctService;
 	
