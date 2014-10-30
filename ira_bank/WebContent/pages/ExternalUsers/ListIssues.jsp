@@ -80,7 +80,7 @@
                         <thead>
                            <tr>
                            	  <th width="12%">Sr. No</th>
-                           	 <th width="12%">User ID</th>
+                           	 
                               <th width="12%">Issue Type</th>
                               <th width="12%">Description</th>
                               <th width="12%">Status</th>
@@ -93,7 +93,7 @@
                            <c:forEach items="${issuesList}" var="issues" varStatus="loopCounter">
                            <tr>
                                <td><c:out value="${loopCounter.count}" /></td>
-                                <td><c:out value="${usersList.reqUserId}" /></td>
+                                
                                 <td><c:out value="${issues.reqType}" /></td>
                                 <td><c:out value="${issues.reqDesc}" /></td>
                                 <td><c:out value="${issues.reqStatus}" /></td>

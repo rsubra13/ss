@@ -14,6 +14,7 @@ import edu.irabank.form.IssueFormBean;
 public interface RequestService {
 
 	
+	
 	// Add new issue
 	public boolean addNewIssue(IssueFormBean issueFormBean, UserDTO userDTO);
 	public List <RequestDetailsDTO> listIssues();

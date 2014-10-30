@@ -29,29 +29,20 @@ public class UserIssueImpl implements RequestService
 	
 	@Override
 	@Transactional
-	// Register a new User
+	// Add a new issue
 	public boolean addNewIssue(IssueFormBean IssueFormBean, UserDTO userDTO) {
-		
-		
 		
 		RequestDetailsDTO newIssue = new RequestDetailsDTO();
 		newIssue.setReqDesc(IssueFormBean.getDescription());
 		newIssue.setReqType(IssueFormBean.getIssue());
 		newIssue.setReqPriority(IssueFormBean.getPriority());
 		newIssue.setReqStatus(0);
-		//java.util.Date date= new java.util.Date();
-		 //System.out.println(new Timestamp(date.getTime()));
-		//newIssue.setReqDate(new Date(date.);
-	
-		//System.out.println(dateFormat.format(date));
-		
-		
 		Date date= new Date();
 		newIssue.setReqDate(date);
-		//UserDTO newUser = new UserDTO();
+		
 		
 		newIssue.setReqUserId(userDTO);
-		System.out.println("comes in 33: User Service ");
+		
 	    Boolean issueSubmitted=userissueDAO.addNewIssue(newIssue, userDTO);
 		if(!issueSubmitted) {
 			System.out.println("Some issues in Submitting issue, Please try again later!");

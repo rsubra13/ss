@@ -42,7 +42,7 @@ import edu.irabank.service.UserService;
 					model.put("UserDTO", new UserDTO());
 				//	 List <RequestDetailsDTO> issuesList = requestService.listIssues();
 					model.put("issuesList", requestService.listIssues());
-					model.put("usersList", userService.listUsers());
+					//model.put("usersList", userService.listUsers());
 					//System.out.println("listUsers in controller" + issuesList );
 					return "/ExternalUsers/ListIssues";
 				}
