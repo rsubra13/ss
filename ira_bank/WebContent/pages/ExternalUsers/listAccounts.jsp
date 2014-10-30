@@ -91,6 +91,7 @@
                                <td><c:out value="${loopCounter.count}" /></td>
                                <td><c:out value="${accounts.accountNumber}" /></td>
                                <td><c:out value="${accounts.balance}" /></td>
+                              
                                
 
                             </tr>

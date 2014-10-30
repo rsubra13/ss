@@ -30,8 +30,8 @@ public class IssueFormBean {
 	public String getPriority() {
 		return priority;
 	}
-	public String setPriority() {
-		return priority;
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 	
     

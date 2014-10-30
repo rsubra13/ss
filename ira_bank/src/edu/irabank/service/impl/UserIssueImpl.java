@@ -1,5 +1,8 @@
 package edu.irabank.service.impl; 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,9 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.jmx.snmp.Timestamp;
+
 import edu.irabank.dao.UserIssueDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
 import edu.irabank.dto.RequestDetailsDTO;
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.IssueFormBean;
 import edu.irabank.service.RequestService;
 @Service
@@ -24,14 +30,29 @@ public class UserIssueImpl implements RequestService
 	@Override
 	@Transactional
 	// Register a new User
-	public boolean addNewIssue(IssueFormBean IssueFormBean) {
+	public boolean addNewIssue(IssueFormBean IssueFormBean, UserDTO userDTO) {
 		
-		//Date date= new Date();
+		
+		
 		RequestDetailsDTO newIssue = new RequestDetailsDTO();
 		newIssue.setReqDesc(IssueFormBean.getDescription());
 		newIssue.setReqType(IssueFormBean.getIssue());
+		newIssue.setReqPriority(IssueFormBean.getPriority());
+		newIssue.setReqStatus(0);
+		//java.util.Date date= new java.util.Date();
+		 //System.out.println(new Timestamp(date.getTime()));
+		//newIssue.setReqDate(new Date(date.);
+	
+		//System.out.println(dateFormat.format(date));
+		
+		
+		Date date= new Date();
+		newIssue.setReqDate(date);
+		//UserDTO newUser = new UserDTO();
+		
+		newIssue.setReqUserId(userDTO);
 		System.out.println("comes in 33: User Service ");
-	    Boolean issueSubmitted=userissueDAO.addNewIssue(newIssue);
+	    Boolean issueSubmitted=userissueDAO.addNewIssue(newIssue, userDTO);
 		if(!issueSubmitted) {
 			System.out.println("Some issues in Submitting issue, Please try again later!");
 			return false;
@@ -48,4 +69,13 @@ public class UserIssueImpl implements RequestService
 		
 
  }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<RequestDetailsDTO> listIssues() {
+		// TODO Auto-generated method stub
+		List issueList = userissueDAO.listIssues();
+		System.out.println("IssuesList in Service" + issueList);
+		return issueList;
+	}
 }
