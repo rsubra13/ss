@@ -74,7 +74,7 @@ public class AccountDAOImpl implements AccountDAO
 		query.setParameter("uId", userDTO);
 		AccountDetailsDTO accDTO = (AccountDetailsDTO) query.uniqueResult();
 		
-		return   accDTO;		
+		return  accDTO;		
 	}
 		
 	
