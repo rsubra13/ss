@@ -18,23 +18,27 @@
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form" action="" method="post">
+  
+      <c:if test="${ accountStatus != null}">
+                <div class="btn-primary">
+                   <div id="status" class="label-primary">${accountStatus}</div>
+                </div>
+  	</c:if>
+  
+    <form class="form-horizontal" role="form" action="/ira_bank/ExternalUsers/Billpaymerchant" method="post" id="billpaymerchantFormBean" 
+                commandName="billpaymerchantFormBean">
+    
   <div class="form-group">
-    <label for="inputusername" class="col-sm-2 control-label">Select Username</label>
-    <div class="col-sm-7">
-      <select class="form-control" id="inputusername" name="username">
-  <option value="First Issue">First user</option>
-  <option value="Second Issue">Second user</option>
-  <option value="Third Issue">Third user</option>
-  <option value="Fourth Issue">Fourth user</option>
-  <option value="Fifth Issue">Fifth user</option>
-</select>
+    <label for="accountnumber" class="col-sm-2 control-label">Amount</label>
+    <div class="col-sm-7 col-md-7">
+      <input name="account" type="Text" class="form-control" id="inputaccount" placeholder="Account Number" value="" required>
     </div>
   </div>
+
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="">
+      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="" required>
     </div>
   </div>
   <div class="form-group">

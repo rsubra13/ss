@@ -3,6 +3,8 @@ package edu.irabank.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.TransactionDetailsDAO;
-import edu.irabank.dao.impl.TransactionDetailsDAOImpl;
 import edu.irabank.dto.TransactionDetailsDTO;
 import edu.irabank.dao.AccountDetailsDAO;
-//import edu.irabank.dao.impl.AccountDetailsDAOImpl;
-import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dao.BillpayDAO;
+import edu.irabank.dao.impl.UserDAOImpl;
 import edu.irabank.dto.UserDTO;
-//import edu.irabank.form.UserRegistrationFormBean;
+import edu.irabank.dto.BillPayDTO;
 import edu.irabank.service.TransactionService;
 
 @Service
@@ -31,8 +32,14 @@ public class TransactionServiceImpl implements TransactionService
 	private AccountDetailsDAO accountdetailsDAO;
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private BillpayDAO billpayDAO;
 	
+	@Autowired
+	private UserDAOImpl userDAOImpl;
+	
+	@Autowired
+	HttpSession sessionID;
+		
 	@Transactional
 	public boolean getAccountNumber(String accountNO)
 	{
@@ -57,6 +64,7 @@ public class TransactionServiceImpl implements TransactionService
 				newTransaction.setTransDate(sysDate);
 				newTransaction.setTransAmt(inputbalance);
 				newTransaction.setToAcct(inputAccountNo);
+				newTransaction.setIsAuthorized(true);
 							
 				// Add this newly created TransactionDetailsDTO Object into the DB. 
 				boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
@@ -86,6 +94,7 @@ public class TransactionServiceImpl implements TransactionService
 					newTransaction.setTransDate(sysDate);
 					newTransaction.setTransAmt(inputbal);
 					newTransaction.setFromAcct(inputAccNo);
+					newTransaction.setIsAuthorized(true);
 					// Add this newly created TransactionDetailsDTO Object into the DB.
 					
 					boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
@@ -95,6 +104,7 @@ public class TransactionServiceImpl implements TransactionService
 		return false;
 	}
 	
+	@Override
 	@Transactional
 	public String getAccountNumberbyUserID(Integer UserID)
 	{
@@ -132,12 +142,32 @@ public class TransactionServiceImpl implements TransactionService
 				newTransaction.setTransAmt(inputbal);
 				newTransaction.setFromAcct(fromAccount);
 				newTransaction.setToAcct(toAccount);
+				newTransaction.setIsAuthorized(true);
 				// Add this newly created TransactionDetailsDTO Object into the DB.			
 				boolean transDetailsave = transactiondetailsDAO.TransactionDetailsSave(newTransaction);
 				return transDetailsave;
 			}
 			return false;
 		}	
+	}
+	
+	@Transactional
+	public boolean BillPay(String AccountNo, Double balance, String status)
+	{
+		Integer userId = (Integer)sessionID.getAttribute("userId");
+		System.out.println("userID is:" + userId);
+		UserDTO merchantid = userDAOImpl.getUserDTOByUserId(userId);
+		// Add row to BillPay table
+		BillPayDTO newBillPay = new BillPayDTO();
+		newBillPay.setAcctNumber(AccountNo);
+		newBillPay.setAmount(balance);
+		newBillPay.setStatus(status);
+		newBillPay.setMerchantId(merchantid);
+		
+		// Add this newly created TransactionDetailsDTO Object into the DB.			
+		boolean Billpaysave = billpayDAO.BillpaySave(newBillPay);
+		return Billpaysave;
+		
 	}
 
 	
