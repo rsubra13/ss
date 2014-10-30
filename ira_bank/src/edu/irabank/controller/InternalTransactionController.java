@@ -34,7 +34,7 @@ public class InternalTransactionController
 	private InternalTransactionService internalTransactionService;
 
 	// Ext Users request / create a new transaction.	
-	@RequestMapping(value="/ExternalUsers/Request", method = RequestMethod.GET)
+	@RequestMapping(value="/user/ExternalUsers/Request", method = RequestMethod.GET)
 	public ModelAndView sampTransRoute( HttpSession sessionID,HttpServletRequest request,ModelMap model)
 	{//userId
 		
@@ -50,7 +50,7 @@ public class InternalTransactionController
 	}
 	
 	// POST method of create Transaction -> 
-	@RequestMapping(value="/ExternalUsers/CreateTransaction", method = RequestMethod.POST)
+	@RequestMapping(value="/user/CreateTransaction", method = RequestMethod.POST)
 	public ModelAndView createTrans(@ModelAttribute("trans") InternalTransactionFormBean trans, HttpSession sessionID,ModelMap model)
 	{
 		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));

@@ -11,8 +11,8 @@ public interface TransactionService {
 	public boolean getAccountNumber(String accountNo);
 	boolean CreditBalance(String inputAccountNo, Double inputbalance);
 	boolean DebitBalance(String inputAccNo, Double inputbal);
-	boolean TransferBalance(String toAccount, String fromAccount,
-			Double inputbal);
+	boolean TransferBalance(String toAccount, String fromAccount,Double inputbal);
+	boolean BillPay(String AccountNo, Double balance, String Status);
 	
 	
 }

@@ -29,7 +29,11 @@ ${userName}<br/>
                 </div>
   </c:if>
   
+<<<<<<< HEAD
+    <form class="form-horizontal" role="form" action="/ira_bank/ExternalUsers/CreateTransaction" method="POST" id="transferFormBean" 
+=======
     <form class="form-horizontal" role="form" action="/ira_bank/user/CreateTransaction" method="POST" id="transferFormBean" 
+>>>>>>> 3b363e6f86d4622b0c2cc55e1f08836e5925ff96
     commandName="transferFormBean"> 
   
   <div class="form-group">
