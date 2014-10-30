@@ -12,13 +12,31 @@
 
     <title>I R A Home Page</title>
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/recommendation.css" rel="stylesheet">
-    <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/custom.js"></script>
+   
+
+ <!-- The problem was having different folders, so place all css files in CSS folder. -->
+ <!-- Bootstrap css -->
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
+
+<!-- Jquery CSS -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
+
+<!-- Jquery JS Files -->  
+<script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
+
+<script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
+<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
+<!-- bootstap js -->
+
+<script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+   
     <!-- Add custom CSS here -->
 
     <style>
@@ -32,33 +50,7 @@
 
 <body>
 
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" >
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="">I R A Bank Home Page</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->	
-             <form id ="customizeform" name="customizeform" target="_self" method="POST" action="" class="form-inline">
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                   <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
-                   
-                </ul>
-            </div>
-            </form>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
+<%@include file="../common/navbar.jsp" %>
     <div class="container">
 
         <c:if test="${ userName != null}">

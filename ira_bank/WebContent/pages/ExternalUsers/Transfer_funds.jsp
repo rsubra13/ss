@@ -30,7 +30,7 @@ ${userName}<br/>
   </c:if>
   
     <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
-    commandName="transferFormBean"> 
+    commandName="transferFormBean action="ira_bank/ExternalUsers/Transfer_funds"> 
   
   <div class="form-group">
  
@@ -42,7 +42,7 @@ ${userName}<br/>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}">
+      <input name="toaccount" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.toaccount}">
     </div>
   </div>
   <div class="form-group">
@@ -60,10 +60,8 @@ ${userName}<br/>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-7 col-md-offset-2 col-md-7">
 	  <!-- Button for Transfer -->
-	  <button type="submit" class="btn btn-default" formaction="ira_bank/ExternalUsers/Transfer_funds">Submit</button>
-	   <!-- Button for Request Transaction -->
-	  <button type="submit" class="btn btn-default" formaction="/ira_bank/Transfer">Request Transaction</button>
-      
+	  <button type="submit" class="btn btn-default">Submit</button>
+	 
     </div>
   </div>
 </form>
