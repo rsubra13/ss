@@ -25,6 +25,17 @@
 			 
 			 <br>
 
+			 <!-- Login Failed Test -->
+			  <c:if test="${not empty LoginStatus}">
+				<div class="btn-primary">
+					<div id="status" class="label-primary">Login failed. Please try again.
+					${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
+					</div>
+					<br /> 
+				</div>
+			</c:if>
+
+			<!-- Registration Failed Test -->
 			 <c:if test="${ userRegistrationStatus != null}">
 	             <div class="btn-primary">
 	                   <div id="status" class="label-primary">${userRegistrationStatus}</div>

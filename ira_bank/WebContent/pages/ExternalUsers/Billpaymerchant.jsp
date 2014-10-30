@@ -7,7 +7,7 @@
 <title>I.R.A Bank</title>
 </head>
 <body>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 
 <div class="panel panel-primary">
   <div class="panel-heading">Bill Pay Merchant</div>

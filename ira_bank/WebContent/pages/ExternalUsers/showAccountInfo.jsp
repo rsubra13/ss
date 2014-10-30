@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 <div class="row ">
 <div class="col-md-offset-1 col-md-10">
   <div class="panel panel-primary">

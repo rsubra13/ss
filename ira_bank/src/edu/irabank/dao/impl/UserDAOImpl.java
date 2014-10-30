@@ -29,27 +29,15 @@ public class UserDAOImpl implements UserDAO
 	
 	public UserDTO getUserDTOByUsername(String userName)
 	{
+		
 		System.out.println("28 : getUserDTOByUsername " + userName);
 		Session session = sessionFactory.getCurrentSession();
 		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
 		Query query = session.createQuery(queryString);
 		query.setParameter("userName", userName);
-		
-		// TODO check if UserDTO is null
-		try{
-			UserDTO userDTO = (UserDTO) query.uniqueResult();
-		System.out.println("query : " + query);
-		System.out.println("Retrieved UserName = " + userDTO.getUserName());
+		UserDTO userDTO = (UserDTO) query.uniqueResult();
 		return userDTO;
-		}
 		
-		
-		catch(Exception e){
-		System.out.println("41 : the exception is " + e);
-		e.printStackTrace();
-		return null;
-			
-		}
 
 		
 	}

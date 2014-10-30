@@ -9,7 +9,7 @@
 </head>
 
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onload="">
-<%@include file="navbar.jsp" %>
+<%@include file="./common/navbar.jsp" %>
 
 
     <div class="container">

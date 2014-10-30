@@ -1,12 +1,17 @@
 
 package edu.irabank.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,11 +42,12 @@ import edu.irabank.service.UserService;
 
 			/*Login Method - GET*/
 		@RequestMapping(value="login", method = RequestMethod.GET)
-		public String userLogin(ModelMap model) {
+		public ModelAndView userLogin(ModelMap model) {
 			/*redirect to login.jsp*/
 			logger.debug("Comes in Login controller");
 			System.out.println("comes here in Login Controller");
-			return "/securedLogin/login";
+//			/model.addAttribute("LoginStatus", "true");
+			return new ModelAndView("/securedLogin/login", model);
 		}
 		
 		// Post Method after submitting user details in Login Form
@@ -88,9 +94,10 @@ import edu.irabank.service.UserService;
 		
 		/*LoginFailed - wrong password or username*/
 		@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
-		public String userLoginError(ModelMap model) {
-			model.addAttribute("error", "true");
-			return "/securedLogin/login";
+		public ModelAndView userLoginError(ModelMap model) {
+			model.addAttribute("LoginStatus", "true");
+			return new ModelAndView("/securedLogin/login", model);
+		
 	 
 		}
         // New Home page
@@ -98,15 +105,20 @@ import edu.irabank.service.UserService;
 		public ModelAndView redirectToHome(ModelMap model, HttpSession sessionID) {
 			logger.debug("Comes in Common Home");
 			System.out.println("are u coming here : 98");
-			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String userName = user.getUsername(); //get logged in username
-            
-            // Setting session variables
-            sessionID.setAttribute("userName", userName);
-			UserDTO uDTO = userService.getUserDTOByUsername(userName);
 			
-			sessionID.setAttribute("userId", uDTO.getUserId());
-			model.addAttribute("userName", userName);
+			// Set session variables.
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetails =
+						 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			
+				String userName =	userDetails.getUsername();
+				// Setting session variables
+				sessionID.setAttribute("userName", userName);
+				UserDTO uDTO = userService.getUserDTOByUsername(userName);
+				sessionID.setAttribute("userId", uDTO.getUserId());
+				model.addAttribute("userName", userName);
+			}
 			return new ModelAndView("/common/commonHome",model);
 		    
   	}
