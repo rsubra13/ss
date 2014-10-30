@@ -90,11 +90,12 @@
             </div>     
         
                     <!-- First Name -->            
-            <div class="form-group">
-              <label class="control-label" for="FirstName">First Name</label>                    
-              <div class="col-md-12 input-group">
+           <div class="form-group">
+              <label class=" control-label" for="FirstName">First Name</label>
+                    <div class="col-md-12 input-group">
+                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.firstName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    	<form:errors path="firstName" class="label label-primary" cssclass="error"></form:errors>
+                    	 <form:errors path="firstName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
 
