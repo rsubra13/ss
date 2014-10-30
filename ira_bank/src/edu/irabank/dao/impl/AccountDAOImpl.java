@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.Stack;
 import edu.irabank.dao.AccountDAO;
+import edu.irabank.dao.UserDAO;
 import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 
@@ -27,14 +28,18 @@ public class AccountDAOImpl implements AccountDAO
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Autowired
+	private UserDAO userDAO;
+	
 	
 		// Save the Account to the DB and return success or failure to service.
 	@Override
 	public Boolean addNewAccount(AccountDetailsDTO accountdetailsDTO) {
 		
-		// TODO check if the account is already present in service Layer
 		try{
+		
 			sessionFactory.getCurrentSession().save(accountdetailsDTO);
+		
 			return true;
 		}
 		catch (ConstraintViolationException e){
@@ -48,6 +53,7 @@ public class AccountDAOImpl implements AccountDAO
 	@Override
 	public AccountDetailsDTO getAccountDetailsDTOByUserID(Integer userId) {
 		// TODO Auto-generated method stub
+		//System.out.println("are u coming heree??");
 		return null;
 	}
 	
@@ -58,11 +64,32 @@ public class AccountDAOImpl implements AccountDAO
 	}
 	
 	@Override
-	public Boolean deleteAccount(Integer accountID)
+	public AccountDetailsDTO showAccountInfo(Integer UserId){
+		
+		UserDTO userDTO = new UserDTO();
+		userDTO = userDAO.getUserDTOByUserId(UserId);
+		
+		Query query = getSession().createQuery("SELECT a FROM AccountDetailsDTO a WHERE a.uId = :uId");
+		
+		query.setParameter("uId", userDTO);
+		AccountDetailsDTO accDTO = (AccountDetailsDTO) query.uniqueResult();
+		
+		return  accDTO;		
+	}
+		
+	
+	@Override
+	public void deleteAccount(Integer userID)
 	{
+		AccountDetailsDTO delAccount = getAccountDetailsDTOByUserID(userID); 
+		try{
+			getSession().delete(delAccount); 
+		}
 		
-		
-		return null;
+		catch(Exception e){
+			System.out.println("the exception is" + e);
+		}
+	
 	}
 
 		

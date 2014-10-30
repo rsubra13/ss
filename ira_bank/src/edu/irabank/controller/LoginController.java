@@ -25,7 +25,7 @@ import edu.irabank.service.UserService;
 		private UserService userService; 
 
 		public static final Logger logger = Logger.getLogger(LoginController.class);
-		// GET Method of Login Form
+		// GET Method of Login Forms
 		@RequestMapping(value="/Welcome", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
 			// redirect to the Welcome.jsp

@@ -9,11 +9,13 @@ import edu.irabank.form.AccountFormBean;
 
 public interface AccountService {
 
-	public boolean addNewAccount(Integer userID);
+	public boolean addNewAccount(UserDTO userDTO);
 	
-	public void deleteAccount(Integer accountID);
+	public void deleteAccount(Integer userID);
 	
 	public List<AccountDetailsDTO> listAccounts();
+	
+	public AccountDetailsDTO showAccountInfo(Integer UserId);
 	/*createAccountInfo(); - to create account details for a newly registered user. ( default bal , randowmm acct number)
 	delAcct()
 	modifyAcct()

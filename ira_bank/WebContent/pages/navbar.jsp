@@ -1,4 +1,3 @@
-
 <html>
 <head>
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css" />  
@@ -11,7 +10,7 @@
 
 <nav class="navbar navbar-default " role="navigation">
         <div class="container">
-        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Issues.jsp" class="navbar-link">Submit an Issue</a></p>
+        <p class="navbar-text navbar-right"><a href="<%=request.getContextPath()%>/ExternalUsers/Issues" class="navbar-link">Submit an Issue</a></p>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 
@@ -26,12 +25,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                  <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Accounts.jsp">Account</a></li>
-            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Transfer_funds.jsp">Transfer Funds</a></li>
-            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Payments.jsp">Payment</a></li>
-            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/credit_debit.jsp">Debit/Credit</a></li>
+                  <li><a href="<%=request.getContextPath()%>/showAccountInfo">AccountInfo</a></li>
+            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
+            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
+            <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Credit/Debit</a></li>
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
-
+		    <li><a href="/ira_bank/SampTrans">Request Transactions</a></li>
+			
                 </ul>
                 
             </div>
@@ -44,3 +45,4 @@
     <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 </html>
+

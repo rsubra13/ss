@@ -2,6 +2,7 @@ package edu.irabank.dao;
 
 import java.util.List;
 
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean;
 
@@ -14,6 +15,8 @@ public interface UserDAO {
 	public List<UserDTO> listUsers();
 	public void deleteUser(Integer userId);
 	public Boolean updateUserDetails(UserDTO userDTO);
+	
+	
 
 
 

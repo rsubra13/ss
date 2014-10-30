@@ -30,6 +30,7 @@
               </c:if>
              <br>
 
+                   <li><a href="/ira_bank/SampTrans">Request Transaction</a></li>
              
             <%
                 /*Check if Login did not happen*/

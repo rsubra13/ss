@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.Stack;
 import edu.irabank.dao.UserDAO;
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 
 /**
@@ -37,7 +38,7 @@ public class UserDAOImpl implements UserDAO
 		UserDTO userDTO = (UserDTO) query.uniqueResult();
 		try{
 		System.out.println("query : " + query);
-		System.out.println("Retrieved UserName = " + userDTO);
+		System.out.println("Retrieved UserName = " + userDTO.getUserName());
 		}
 		
 		
@@ -63,6 +64,7 @@ public class UserDAOImpl implements UserDAO
 		return password;
 	}
 
+	
 
 	/**
 	 * @param userName
@@ -122,6 +124,7 @@ public class UserDAOImpl implements UserDAO
 	@Override
 	public List<UserDTO> listUsers() {
 		// TODO Auto-generated method stub
+		System.out.println("listing users");
 		return getSession().createCriteria(UserDTO.class).list();
 	}
 

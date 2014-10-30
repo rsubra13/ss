@@ -63,6 +63,10 @@ public class RolesDTO implements Serializable {
     public RolesDTO() {
     }
 
+
+    public RolesDTO() {
+    }
+
     public RolesDTO(Integer roleId) {
         this.roleId = roleId;
     }
