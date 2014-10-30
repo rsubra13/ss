@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
 
@@ -43,21 +45,27 @@
 
 
 
-         <div class="panel panel-primary">
+<div class="panel panel-primary">
   <div class="panel-heading">REGISTER FORM</div>
 
-
-               <div class="panel-body">
+        <div class="panel-body">
    
-                <form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+          <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+                
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
-                      <c:if test="${ userRegistrationStatus != null}">
+                <c:if test="${ userRegistrationStatus != null}">
                            <div class="btn-primary">
                                  <div id="status" class="label-primary">${userRegistrationStatus}</div>
                            </div>
+                </c:if>
+                      
+                       <c:if test="${ result != null}">
+                           <div class="btn-primary">
+                                 <div id="status" class="label-primary">${result}</div>
+                           </div>
                       </c:if>
 
-            <span class="glyphicon glyphicon-asterisk"></span>Required Fields</strong>
+            <span class="glyphicon glyphicon-asterisk"></span> Fields</strong>
                 <div class="container-fluid">
                 <div class="row">
                 <div class="col-md-offset-1 col-md-5">
@@ -67,6 +75,7 @@
                     <div class="col-md-12 input-group">
                             <input type="text" id="userName" name="userName" placeholder="Username" class="form-control"  data-validate="required,alphanumeric"  value="${userRegistrationFormBean.userName}">
                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    		 <form:errors path="userName" cssclass="error"></form:errors>
                     </div>
             </div>
 
@@ -81,11 +90,12 @@
             </div>     
         
                     <!-- First Name -->            
-            <div class="form-group">
-              <label class="control-label" for="FirstName">First Name</label>
+           <div class="form-group">
+              <label class=" control-label" for="FirstName">First Name</label>
                     <div class="col-md-12 input-group">
-                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.firstName}" >
+                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.firstName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    	 <form:errors path="firstName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
 
@@ -95,6 +105,7 @@
                     <div class="col-md-12 input-group">
                         <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.lastName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    	 <form:errors path="lastName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
 
@@ -210,7 +221,7 @@
       </div>
      
       </div>  
-        </form><!-- Registration form End-->
+      </form:form>
     </div>
       
 </div>

@@ -22,14 +22,14 @@ import edu.irabank.service.TransactionService;
 	@Controller
 	@SessionAttributes
 	@RequestMapping("ExternalUsers")
-	public class TransferController 
+	public class TransferFundsController 
 	{
 		
 		@Autowired
 		private TransactionService transactionService; 
 
 		
-		// GET Method of Transfer Form
+		// GET Method of Transfer Funds
 		@RequestMapping(value="/Transfer_funds", method = RequestMethod.GET)
 		public String createNewTransfer(HttpSession sessionID, HttpServletRequest request) {
 			String userName = (String)sessionID.getAttribute("userName");

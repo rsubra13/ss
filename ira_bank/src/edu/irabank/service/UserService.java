@@ -2,6 +2,8 @@ package edu.irabank.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.User;
+
 import edu.irabank.controller.UserDetailsController;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserDetailsFormBean;

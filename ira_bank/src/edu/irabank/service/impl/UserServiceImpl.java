@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.UserRoleDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
-import edu.irabank.service.impl.AccountServiceImpl;
+import edu.irabank.dto.RolesDTO;
 import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.RolesDTO;
 import edu.irabank.dto.UserDTO;
@@ -20,6 +20,21 @@ import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.AccountService;
 import edu.irabank.service.UserService;
+
+import java.util.ArrayList;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 @Service
 public class UserServiceImpl implements UserService
 {
@@ -31,9 +46,6 @@ public class UserServiceImpl implements UserService
 	private UserRoleDAO userRoleDAO;
 	
 
-/*	@Autowired
-	private UserDAOImpl userDAOImplobject;*/
-	
 	@Autowired
 	private AccountService acctService;
 	
@@ -93,6 +105,7 @@ public class UserServiceImpl implements UserService
 		// Check if the User is Regular user , then assign him the ROLE_USER
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
 		// This needs spring security?  check it. 
+		
 		RolesDTO rolesDTO = new RolesDTO();
 		rolesDTO = userRoleDAO.getUserRoleDTOById(userRegistrationFormBean.getRole());
 		newUser.setRoleId(rolesDTO);
@@ -141,19 +154,45 @@ public class UserServiceImpl implements UserService
 		newUser.setSecAns2(userDetailsFormBean.getSecAns2());
 		newUser.setSecQue1(userDetailsFormBean.getSecQue1());
 		newUser.setSecQue2(userDetailsFormBean.getSecQue2());
+		
+		//newUser.setRoleId(userDetailsFormBean.getRoleId());	
+		
 		RolesDTO rolesDTO = new RolesDTO();
 		rolesDTO = userRoleDAO.getUserRoleDTOById(userDetailsFormBean.getRoleId());
 		newUser.setRoleId(rolesDTO);
 		
+		
+		
 		//TODO - currently these are hidden,so using like these.
-		newUser.setDob(userDetailsFormBean.getDob());
-		newUser.setPassword(userDetailsFormBean.getPassword());
-		newUser.setUserId(userDetailsFormBean.getUserId());
+		// Currently converting string into datetime object.
+		/*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/dd/yyyy");
+        try
+        {
+        	 String str = userDetailsFormBean.getDob();
+            System.out.println("Selected date is " + str);
+            Date date = simpleDateFormat.parse(str);
+             System.out.println("Parsed date is " + date);
+            newUser.setDob(date);
+            System.out.println("date parsed: "+simpleDateFormat.format(date));
+        }
+        catch (ParseException e)
+        {
+            System.out.println("Exception "+e);
+        }*/
+		
+		//newUser.setDob(userDetailsFormBean.getDob());
+		//newUser.setPassword(userDetailsFormBean.getPassword());
+		// newUser.setUserId(userDetailsFormBean.getUserId());
 		
 		
-		// TODO check here if the user is already present	
-		// Add this newly created UserDTO Object into the DB. 
-		System.out.println("Comes till here : 130 of UserServiceUpdateDetails");
+		
+		// Get the existing values from DB and set it.
+		UserDTO tempUserDTO = getUserDTOByUserId(userDetailsFormBean.getUserId());
+		newUser.setDob(tempUserDTO.getDob());
+		newUser.setPassword(tempUserDTO.getPassword());
+		newUser.setUserId(tempUserDTO.getUserId());
+	     
+		System.out.println("Comes till here : 156 of UserServiceUpdateDetails" + newUser.getDob());
 		Boolean isUserUpdated = userDAO.updateUserDetails(newUser);
 		if(!isUserUpdated) {
 			System.out.println("Some issues in updating user details, Please try again later!");
@@ -202,6 +241,8 @@ public class UserServiceImpl implements UserService
 		return userDAO.getUserDTOByUserId(userId);
 	}
 
+
 	
+		
 
 }

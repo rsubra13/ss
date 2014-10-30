@@ -43,7 +43,7 @@
             
             <!-- Bill pay -->
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
-            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchant">Merchant Billpay</a></li>
+            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
 
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
 		    

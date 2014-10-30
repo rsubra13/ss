@@ -7,19 +7,21 @@ package edu.irabank.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,9 +57,10 @@ public class RolesDTO implements Serializable {
     private Date createdDate;
     @Column(name = "IS_ACTIVE")
     private Short isActive;
-    @OneToOne(mappedBy = "roleId")
-    private UserDTO userDTO;
+    @OneToMany(mappedBy = "roleId")
+    private List<UserDTO> userDTOList;
 
+ 
     public RolesDTO() {
     }
 
@@ -110,12 +113,13 @@ public class RolesDTO implements Serializable {
         this.isActive = isActive;
     }
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    @XmlTransient
+    public List<UserDTO> getUserDTOList() {
+        return userDTOList;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public void setUserDTOList(List<UserDTO> userDTOList) {
+        this.userDTOList = userDTOList;
     }
 
     @Override

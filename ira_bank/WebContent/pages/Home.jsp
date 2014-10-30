@@ -1,76 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>I.R.A Bank</title>
 
-    <title>I R A Home Page</title>
-
-   
-    <!-- Add custom CSS here -->
-
-    <style>
-        body {
-            margin-top: 60px;
-        }
-    </style>
- 
-
+    
 </head>
-
 <body>
 
+<div class="row">
+<div class="well-lg col-md-6">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" >
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="">I R A Bank Home Page</a>
+
+<div class="panel panel-primary">
+            <div class="panel panel-heading">
+            I.R.A BANK
             </div>
+              
+              <form name="loginForm" id="loginForm" action="login" method='POST' class="well form-inline" >
 
-            <!-- Collect the nav links, forms, and other content for toggling -->	
-             <form id ="customizeform" name="customizeform" target="_self" method="POST" action="" class="form-inline">
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                   <li><a href="<%=request.getContextPath()%>/Welcome">Login</a></li>
+             <br>
+
+             <c:if test="${ userRegistrationStatus != null}">
+                 <div class="btn-primary">
+                       <div id="status" class="label-primary">${userRegistrationStatus}</div>
+                 </div>
+              </c:if>
+             <br>
+
                    <li><a href="/ira_bank/SampTrans">Request Transaction</a></li>
-                   
-                </ul>
-            </div>
-            </form>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+             
+            <%
+                /*Check if Login did not happen*/
+                if(request.getAttribute("loginError") != null)
+                {%>
+                <p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>    
+              <%}%>
 
-    <div class="container">
 
-        <c:if test="${ userName != null}">
-             <div class="btn-primary">
-                   <div id="status" class="label-primary"><h2> Welcome ${userName}<h2></div>
-             </div>
-        </c:if>
+              <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30">
+                  <br>
+                 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15">
+                 
+                <!-- placeholder -->
+                <div> <br><br></div>
 
-        <div class="row mt-20 search-bar">
-            <div class="col-lg-6">
-                <input type="text" class="form-control" id="autocomplete">
-            </div>
-            <div class="col-lg-2">
-                <button id="add_button" type="button" class="btn btn-default add-butt">Search Activity</button>
-            </div>
-        </div>
+                <div class="form-inline">
+                <input name="login" type="submit" value="Login" class = "btn btn-primary"/>
+                <input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
 
-      <!-- Bootstrap css -->
+                <a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration<span></a>
+                <a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password<span></a>
+                </div>
+
+             </form>
+    
+</div>
+
+</div>
+</div>
+
+ <!-- Bootstrap css -->
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
@@ -91,9 +83,6 @@
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-       
 
-
-    </body>
-
-    </html>
+</body>
+</html>

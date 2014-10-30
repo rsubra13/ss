@@ -1,5 +1,7 @@
 package edu.irabank.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,13 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
+
 
 
 // Import the related DTO and services
 // TODO: add DTO and services 
+
 
 
 
@@ -37,17 +42,25 @@ import edu.irabank.service.UserService;
 		private UserService userService;  // Autowire the User Service
 		
 		// GET Method of Register - shows the page.
-		@RequestMapping(value="register", method = RequestMethod.GET)
+		@RequestMapping(value="/register", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
 			// redirect to the registerUser.jsp
 			return "/ExternalUsers/registerUser";
 		}
 		
 		// POST Method of Register - comes back after the submit of User Details Form.
-		@RequestMapping(value="register", method = RequestMethod.POST)
-		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
+		@RequestMapping(value="/register", method = RequestMethod.POST)
+		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
 			// use the Form Elements values from Registration form
 			// Case 1: if the User Already exists
+			
+			if (result.hasErrors()){
+				System.out.println("comes in form errors of register");
+				model.addAttribute("userRegistrationStatus", "Please fill the necessary fields and try again");
+				model.addAttribute("userRegistrationFormBean",userRegistrationFormBean);
+				return new ModelAndView( "/ExternalUsers/registerUser",model);
+			}
+			
 			if (userService.getUserDTOByUsername(userRegistrationFormBean.getUserName()) !=null){
 				System.out.println("User exists ");
 				model.addAttribute("userRegistrationStatus", "This user already exists. Please try again with another username/email");
@@ -58,6 +71,7 @@ import edu.irabank.service.UserService;
 			//Case 2: User doesn't exist.
 			else{
 				// add the user
+				System.out.println("comes in register");
 				Boolean userCreationStatus = userService.addNewUser(userRegistrationFormBean);
 				System.out.println("userCreationStatus is :" + userCreationStatus);
 				if(userCreationStatus){
@@ -65,7 +79,7 @@ import edu.irabank.service.UserService;
 					model.addAttribute("userName", userRegistrationFormBean.getUserName());
 					System.out.println("63 : comes till here");
 					//return new ModelAndView(new RedirectView("Welcome"));
-					return new ModelAndView("/index", model); // Login page
+					return new ModelAndView("/securedLogin/login", model); // Login page
 				}
 				else{
 					model.addAttribute("userRegistrationStatus", "There seems to be some connection issues. Please try again");

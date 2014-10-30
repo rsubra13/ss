@@ -43,8 +43,13 @@
             
             <!-- Bill pay -->
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+<<<<<<< HEAD
             <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchant">Merchant Billpay</a></li>
+            <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Credit/Debit</a></li>
+=======
+            <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
 
+>>>>>>> e04a9d826b3bd377bf4087a0757731901708e69e
             <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">Profile</a></li>
 		    
 		    

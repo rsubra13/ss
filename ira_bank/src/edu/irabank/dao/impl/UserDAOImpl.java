@@ -35,20 +35,22 @@ public class UserDAOImpl implements UserDAO
 		Query query = session.createQuery(queryString);
 		query.setParameter("userName", userName);
 		
-		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		// TODO check if UserDTO is null
 		try{
+			UserDTO userDTO = (UserDTO) query.uniqueResult();
 		System.out.println("query : " + query);
 		System.out.println("Retrieved UserName = " + userDTO.getUserName());
+		return userDTO;
 		}
 		
 		
 		catch(Exception e){
 		System.out.println("41 : the exception is " + e);
 		e.printStackTrace();
+		return null;
 			
 		}
-		
-		return userDTO;
+
 		
 	}
 	
@@ -154,7 +156,7 @@ public class UserDAOImpl implements UserDAO
 		return sessionobj;
 	}
 
-	private SessionFactory getSessionFactory() {
+	private SessionFactory getSessionFactory() { 
 		return sessionFactory;
 	}
 

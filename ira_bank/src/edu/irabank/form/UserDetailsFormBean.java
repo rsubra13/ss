@@ -18,6 +18,7 @@ public class UserDetailsFormBean {
     private String emailId;
     private String address;
     private Date dob;
+    //private String dob;
     private String contactNum;
     private String secQue1;
     private String secAns1;
@@ -67,6 +68,14 @@ public class UserDetailsFormBean {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
+
+	/*public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+*/
 	public String getContactNum() {
 		return contactNum;
 	}
