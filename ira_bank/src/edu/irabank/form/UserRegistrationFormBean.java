@@ -11,19 +11,51 @@ import javax.validation.constraints.Size;
 
 public class UserRegistrationFormBean {
 	
+	
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 30)
     private String userName;
+	
     private String password;
-    private String firstName;
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
+	private String firstName;
+	@Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 60)
     private String lastName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     private String emailId;
+    @Size(max = 560)
     private String address;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dob;
+    @NotNull
+    @Size(min = 1, max = 20)
     private String contactNum;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
     private String secQue1;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
     private String secAns1;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
     private String secQue2;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
     private String secAns2;
     private Integer role;
+    
+    
 	public String getUserName() {
 		return userName;
 	}

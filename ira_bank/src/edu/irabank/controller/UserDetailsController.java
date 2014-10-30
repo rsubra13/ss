@@ -61,7 +61,7 @@ import edu.irabank.service.UserService;
 					public ModelAndView updateUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,
 							BindingResult result,ModelMap model) {
 					 
-					 
+					    
 					    Boolean userUpdateStatus = userService.updateUserDetails(userDetailsFormBean);
 						System.out.println("userCreationStatus is :" + userUpdateStatus);
 						if(userUpdateStatus){
@@ -77,11 +77,22 @@ import edu.irabank.service.UserService;
 						}
 						
 				 }
+
+				 @RequestMapping(value = "/save", method = RequestMethod.GET)
+					public String updateUserGet(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,
+							BindingResult result,ModelMap model) {
+					    // redirect to the listUsers.jsp
+					System.out.println("List All Users : Controller");
+					model.put("userDetailsFormBean", new UserDetailsFormBean());
+					model.put("usersList", userService.listUsers());
+					return "/ExternalUsers/listUsers";
+						
+				 }
 				 
 				 
 
 				  // Delete User.
-				 @RequestMapping(value = "/delete", method = RequestMethod.POST)
+				 @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
 					public ModelAndView deleteUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,BindingResult result, ModelMap model, @RequestParam("userId") Integer userId) {
 						System.out.println("Comes in Delete" + userId);
 						userService.deleteUser(userId);

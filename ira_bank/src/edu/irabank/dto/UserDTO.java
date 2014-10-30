@@ -7,16 +7,18 @@ package edu.irabank.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +26,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,11 +54,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserDTO.findByPkiPath", query = "SELECT u FROM UserDTO u WHERE u.pkiPath = :pkiPath"),
     @NamedQuery(name = "UserDTO.findByPkiCerti", query = "SELECT u FROM UserDTO u WHERE u.pkiCerti = :pkiCerti"),
     @NamedQuery(name = "UserDTO.findByPkiNumber", query = "SELECT u FROM UserDTO u WHERE u.pkiNumber = :pkiNumber"),
-    @NamedQuery(name = "UserDTO.findByRoleId", query = "SELECT u FROM UserDTO u WHERE u.roleId = :roleId"),
     @NamedQuery(name = "UserDTO.findByPublicKey", query = "SELECT u FROM UserDTO u WHERE u.publicKey = :publicKey"),
     @NamedQuery(name = "UserDTO.findByOtp", query = "SELECT u FROM UserDTO u WHERE u.otp = :otp"),
     @NamedQuery(name = "UserDTO.findByLoginAttempts", query = "SELECT u FROM UserDTO u WHERE u.loginAttempts = :loginAttempts"),
-    @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus")})
+    @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus"),
+    @NamedQuery(name = "UserDTO.findByActiveStatus", query = "SELECT u FROM UserDTO u WHERE u.activeStatus = :activeStatus")})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -130,8 +133,6 @@ public class UserDTO implements Serializable {
     @Size(max = 45)
     @Column(name = "PKI_NUMBER")
     private String pkiNumber;
-    @Column(name = "ROLE_ID")
-    private Integer roleId;
     @Size(max = 240)
     @Column(name = "PUBLIC_KEY")
     private String publicKey;
@@ -140,10 +141,20 @@ public class UserDTO implements Serializable {
     @Column(name = "LOGIN_ATTEMPTS")
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
-    private Integer acctLockedStatus;
-    @JoinColumn(name = "ACCT_ID", referencedColumnName = "ACCT_ID")
-    @OneToOne(fetch = FetchType.LAZY)
-    private AccountDetailsDTO acctId;
+    private Boolean acctLockedStatus;
+    @Column(name = "ACTIVE_STATUS")
+    private Boolean activeStatus;
+    @OneToMany(mappedBy = "reqUserId")
+    private List<RequestDetailsDTO> requestDetailsDTOList;
+    @OneToOne(mappedBy = "merchantId")
+    private BillPayDTO billPayDTO;
+    @OneToMany(mappedBy = "uId")
+    private List<AccountDetailsDTO> accountDetailsDTOList;
+    @OneToMany(mappedBy = "notificationUserId")
+    private List<NotificationDetailsDTO> notificationDetailsDTOList;
+    @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")
+    @ManyToOne
+    private RolesDTO roleId;
 
     public UserDTO() {
     }
@@ -303,14 +314,6 @@ public class UserDTO implements Serializable {
         this.pkiNumber = pkiNumber;
     }
 
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
     public String getPublicKey() {
         return publicKey;
     }
@@ -335,20 +338,63 @@ public class UserDTO implements Serializable {
         this.loginAttempts = loginAttempts;
     }
 
-    public Integer getAcctLockedStatus() {
+    public Boolean getAcctLockedStatus() {
         return acctLockedStatus;
     }
 
-    public void setAcctLockedStatus(Integer acctLockedStatus) {
+    public void setAcctLockedStatus(Boolean acctLockedStatus) {
         this.acctLockedStatus = acctLockedStatus;
     }
 
-    public AccountDetailsDTO getAcctId() {
-        return acctId;
+    public Boolean getActiveStatus() {
+        return activeStatus;
     }
 
-    public void setAcctId(AccountDetailsDTO acctId) {
-        this.acctId = acctId;
+    public void setActiveStatus(Boolean activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
+    @XmlTransient
+    public List<RequestDetailsDTO> getRequestDetailsDTOList() {
+        return requestDetailsDTOList;
+    }
+
+    public void setRequestDetailsDTOList(List<RequestDetailsDTO> requestDetailsDTOList) {
+        this.requestDetailsDTOList = requestDetailsDTOList;
+    }
+
+    public BillPayDTO getBillPayDTO() {
+        return billPayDTO;
+    }
+
+    public void setBillPayDTO(BillPayDTO billPayDTO) {
+        this.billPayDTO = billPayDTO;
+    }
+
+    @XmlTransient
+    public List<AccountDetailsDTO> getAccountDetailsDTOList() {
+        return accountDetailsDTOList;
+    }
+
+    public void setAccountDetailsDTOList(List<AccountDetailsDTO> accountDetailsDTOList) {
+        this.accountDetailsDTOList = accountDetailsDTOList;
+    }
+
+    @XmlTransient
+    public List<NotificationDetailsDTO> getNotificationDetailsDTOList() {
+        return notificationDetailsDTOList;
+    }
+
+    public void setNotificationDetailsDTOList(List<NotificationDetailsDTO> notificationDetailsDTOList) {
+        this.notificationDetailsDTOList = notificationDetailsDTOList;
+    }
+
+    public RolesDTO getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(RolesDTO roleId) {
+        this.roleId = roleId;
     }
 
     @Override

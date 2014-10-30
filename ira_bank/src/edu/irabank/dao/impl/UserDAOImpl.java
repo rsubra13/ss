@@ -151,7 +151,7 @@ public class UserDAOImpl implements UserDAO
 		return sessionobj;
 	}
 
-	private SessionFactory getSessionFactory() {
+	private SessionFactory getSessionFactory() { 
 		return sessionFactory;
 	}
 

@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService
 			
 			AccountDetailsDTO newAccount = new AccountDetailsDTO();
 			newAccount.setBalance(500); //set default balance to 500
-			newAccount.setUId(userID); //set userID
+			//newAccount.setUId(userID); //set userID
 		
 			Random rand = new Random();
 			long num = rand.nextInt(900000000) + 100000000;
