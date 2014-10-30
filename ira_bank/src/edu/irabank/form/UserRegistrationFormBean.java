@@ -97,6 +97,7 @@ public class UserRegistrationFormBean {
 		this.secAns2 = secAns2;
 	}
 	public Integer getRole() {
+		
 		return role;
 	}
 	public void setRole(Integer role) {

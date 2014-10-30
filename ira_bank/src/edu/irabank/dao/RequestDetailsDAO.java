@@ -8,4 +8,7 @@ public interface RequestDetailsDAO {
 
 	List<RequestDetailsDTO> listTransactions();
 
+
+	RequestDetailsDTO getRequestByReqID(int reqId);
+
 }

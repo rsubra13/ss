@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.UserDAO;
+import edu.irabank.dao.UserRoleDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
 import edu.irabank.service.impl.AccountServiceImpl;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.RolesDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Autowired
+	private UserRoleDAO userRoleDAO;
 	
 
 /*	@Autowired
@@ -89,7 +93,9 @@ public class UserServiceImpl implements UserService
 		// Check if the User is Regular user , then assign him the ROLE_USER
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
 		// This needs spring security?  check it. 
-		newUser.setRoleId(userRegistrationFormBean.getRole());
+		RolesDTO rolesDTO = new RolesDTO();
+		rolesDTO = userRoleDAO.getUserRoleDTOById(userRegistrationFormBean.getRole());
+		newUser.setRoleId(rolesDTO);
 		
 		
 		// TODO check here if the user is already present	
@@ -135,7 +141,9 @@ public class UserServiceImpl implements UserService
 		newUser.setSecAns2(userDetailsFormBean.getSecAns2());
 		newUser.setSecQue1(userDetailsFormBean.getSecQue1());
 		newUser.setSecQue2(userDetailsFormBean.getSecQue2());
-		newUser.setRoleId(userDetailsFormBean.getRoleId());	
+		RolesDTO rolesDTO = new RolesDTO();
+		rolesDTO = userRoleDAO.getUserRoleDTOById(userDetailsFormBean.getRoleId());
+		newUser.setRoleId(rolesDTO);
 		
 		//TODO - currently these are hidden,so using like these.
 		newUser.setDob(userDetailsFormBean.getDob());

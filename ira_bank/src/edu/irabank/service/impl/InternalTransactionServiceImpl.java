@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.irabank.service.InternalTransactionService;
 import edu.irabank.dao.InternalTransactionDAO;
@@ -49,7 +51,7 @@ RequestDetailsDAO requestDAO;
 
 @Override
 @Transactional
-public boolean createTransactions(InternalTransactionFormBean internalTransactionFormBean, int userId, TransactionDetailsDTO transDTO)
+public boolean createTransactions(InternalTransactionFormBean internalTransactionFormBean, int userId, TransactionDetailsDTO transDTO,boolean isAuthorized)
 {
 	
 	//req_user_id
@@ -71,10 +73,12 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 		
 		accountNoQueryDTO  = DAO.getAccountbyAccountNumber(internalTransactionFormBean.getTo_account());
 		if(accountNoQueryDTO==null){System.out.println("Invalid account number!"); return false;}  //how to print in jsp from here?
-		else{
+		
 			
 			/*-------------------------*/
-			int balance= DTO.getBalance()-internalTransactionFormBean.getAmount();
+			if(isAuthorized == true)
+			{
+			Double balance= DTO.getBalance()-internalTransactionFormBean.getAmount();
 			DTO.setBalance(balance);
 			accountNoQueryDTO.setBalance(accountNoQueryDTO.getBalance()+internalTransactionFormBean.getAmount());
 			
@@ -85,7 +89,8 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 				System.out.println("Some issues in User Registration, Please try again later!");
 				return false;
 			}
-			
+			return true;
+			}
 			
 			/*-------------------------*/
 		
@@ -97,17 +102,18 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 		System.out.println("Entered SetRequestDetails");
 		RequestDetailsDTO RequestDTO= new RequestDetailsDTO();
 		RequestDTO.setReqUserId(userDTO);
-		RequestDTO.setReqDesc("From"+","+(String)DTO.getAccountNumber()+","+"To"+","+(String)internalTransactionFormBean.getTo_account());
+		RequestDTO.setReqDesc((String)DTO.getAccountNumber()+","+(String)internalTransactionFormBean.getTo_account()+","+internalTransactionFormBean.getAmount());
 		RequestDTO.setReqId(userId);
 		RequestDTO.setReqStatus(0);
 		RequestDTO.setReqTransId(transDTO);
+		RequestDTO.setIsApproved(isAuthorized);
 		if(internalTransactionFormBean.getAmount()>5000){
 			RequestDTO.setReqPriority("High");
 			
 		}
 		Date date = new Date();
 		RequestDTO.setReqDate(date);
-		RequestDTO.setIsAuthorized(0);
+		RequestDTO.setIsApproved(false);
 		RequestDTO.setReqType("Transact");
 		//RequestDetailsSave(RequestDetailsDTO request)
 		Boolean isRequestSaved = DAO.RequestDetailsSave(RequestDTO);
@@ -122,7 +128,7 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 		else{System.out.println("Request Details Set");
 		return true;
 		}
-	}
+	
 		
 		}
 	
@@ -135,11 +141,13 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 
 @Override
 @Transactional
-public boolean setTransactionDetails(InternalTransactionFormBean internalTransactionFormBean,int userId)
+public boolean setTransactionDetails(InternalTransactionFormBean internalTransactionFormBean,int userId, boolean isAuthorized,String transId,String[] split,String reqId)
 {
-	
-	//send request id from ReqDEtails to TransactionDAO to set transactions
 	TransactionDetailsDTO transDTO = new TransactionDetailsDTO();
+	//send request id from ReqDEtails to TransactionDAO to set transactions
+	if(isAuthorized == false)
+	{
+	
 	AccountDetailsDTO accountDTO = new AccountDetailsDTO();
 	accountDTO =DAO.getAccountsDTObyUserID(userId);
 	System.out.println("Entered SetRequestDetails");
@@ -148,8 +156,35 @@ public boolean setTransactionDetails(InternalTransactionFormBean internalTransac
 	System.out.println("Account Number Grab"+accountDTO.getAccountNumber());
 	transDTO.setToAcct(internalTransactionFormBean.getTo_account());
 	transDTO.setTransAmt(internalTransactionFormBean.getAmount());
+	transDTO.setIsAuthorized(isAuthorized);//TODO change after updating transaction dto.
 	Date date = new Date();
 	transDTO.setTransDate(date);
+	}
+	else if(isAuthorized == true)
+	{
+	
+		
+		//set isauthorized in the query with the transID
+		//get transID from the controller.
+		 transDTO = transDAO.getTransactionByTransID(Integer.parseInt(transId)); 
+		transDTO.setIsAuthorized(true);
+		
+		RequestDetailsDTO requestnewDTO = requestDAO.getRequestByReqID(Integer.parseInt(reqId));
+		requestnewDTO.setIsApproved(true);
+		
+		//need to set to_account and amount in formbean.
+		internalTransactionFormBean = new InternalTransactionFormBean();
+		internalTransactionFormBean.setTo_account(split[1]);
+		internalTransactionFormBean.setAmount(Integer.parseInt(split[2]));
+		Boolean isRequestSaved = DAO.RequestDetailsSave(requestnewDTO);
+		if(!isRequestSaved) 
+		{
+			System.out.println("Some issues in User Registration, Please try again later!");
+			return false;
+		}
+		
+		
+	}
 	
 	//RequestDetailsSave(RequestDetailsDTO request)
 	Boolean isTransSave = transDAO.TransactionDetailsSave(transDTO);
@@ -162,39 +197,14 @@ public boolean setTransactionDetails(InternalTransactionFormBean internalTransac
 	
 
 	else{
-		createTransactions(internalTransactionFormBean, userId,transDTO);
+		
+		createTransactions(internalTransactionFormBean, userId,transDTO,isAuthorized);
+		
 		System.out.println("Transaction Details Set");
 	return true;
 	}
 	}
-/*@Override
-@Transactional
-public boolean setRequestDetails(InternalTransactionFormBean sampTransFormBean,int uId)
-{
-	try{
-		System.out.println("Entered SetRequestDetails");
-	RequestDetailsDTO RequestDTO= new RequestDetailsDTO();
-	RequestDTO.setReqDesc((String)sampTransFormBean.getTo_account());
-	RequestDTO.setReqId(uId);
-	RequestDTO.setReqStatus(0);
-	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	Date date = new Date();
-	RequestDTO.setReqDate(date);
-	RequestDTO.setIsAuthorized(0);
-	RequestDTO.setReqType("transact");
-	//RequestDetailsSave(RequestDetailsDTO request)
-	Boolean isRequestSaved = DAO.RequestDetailsSave(RequestDTO);
-	if(!isRequestSaved) {
-		System.out.println("Some issues in User Registration, Please try again later!");
-		return false;
-	}
-	
-	System.out.println("Request Details Set");
-	
-	}
-	catch(Exception e){}
-	return true;
-}*/
+
 
 @Override
 public List<RequestDetailsDTO> listTransactions() {

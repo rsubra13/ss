@@ -49,7 +49,7 @@ public class AccountDetailsDTO implements Serializable {
     private String accountNumber;
     @Basic(optional = false)
     @NotNull
-    private int balance;
+    private double balance;
     @Size(max = 45)
     @Column(name = "TEMP_1")
     private String temp1;
@@ -67,7 +67,7 @@ public class AccountDetailsDTO implements Serializable {
         this.acctId = acctId;
     }
 
-    public AccountDetailsDTO(Integer acctId, String accountNumber, int balance) {
+    public AccountDetailsDTO(Integer acctId, String accountNumber, double balance) {
         this.acctId = acctId;
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -89,11 +89,11 @@ public class AccountDetailsDTO implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

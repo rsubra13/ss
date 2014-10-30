@@ -58,7 +58,7 @@ import edu.irabank.service.TransactionService;
 			System.out.println("comes at Transfer post method");
 			String FromAccount = transferFormBean.getFromaccount();
 			String ToAccount = transferFormBean.getToaccount();
-			Integer amount = Integer.parseInt(transferFormBean.getAmount());
+			Double amount = Double.parseDouble(transferFormBean.getAmount());
 			
 			boolean isFromAccountExist = transactionService.getAccountNumber(FromAccount);
 			boolean isToAccountExist = transactionService.getAccountNumber(ToAccount);

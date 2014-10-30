@@ -76,10 +76,12 @@
                 
 
                      <br>
+                     
                      <table class="table table-condensed">
                         <thead>
                            <tr class="success">
                               <th width="4%">S.No</th>
+                              <th width="12%">Request Id</th>
                               <th width="12%">Request User Id</th>
                               <th width="12%">Request Description</th>
                               <th width="12%">Request Status</th>
@@ -91,33 +93,40 @@
                              
                            </tr>
                         </thead>
+                       
                         <tbody>
                            <c:forEach items="${RequestDetailsList}" var="requestDetails" varStatus="loopCounter">
+                           <c:if test="${ requestDetails.getIsApproved() == false}">
                            <tr>
+                            <form method = "POST" id="form1">
                                <td><c:out value="${loopCounter.count}" /></td>
-                             <td><c:out value="${requestDetails.getReqUserId().getUserId()}" /></td>
-                               <td><c:out value="${requestDetails.getReqDesc()}" /></td>
+                               <td><input form="form1" name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
+                               
+                             <td><input name="userId" form= "form1" type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
+                               <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
+                               </td>
                                <td><c:out value="${requestDetails.getReqStatus()}" /></td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
-                               <td><c:out value="${requestDetails.getIsAuthorized()}" /></td>
+                               <td><c:out value="${requestDetails.getIsApproved()}" /></td>
                                
                                <td><c:out value="${requestDetails.getReqPriority()}" /></td>
                                
-                               <td><c:out value="${requestDetails.getReqTransId().getTransId()}" /></td>
-
+                               <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                 <td>
-                     <nobr>
-                        <button onclick="editUser(${user1.userId});"
-                                class="pure-button pure-button-primary">
-                             <i class="fa fa-pencil"></i> Edit
-                        </button>
+                     
+                       
+                             <button form="form1"  name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/Approve">Approve</button>
+      
+						 
 
                         
-                        </a>
-                        </form>
+                       
+                       		 </form>
                             </tr>
+                            </c:if>
                             </c:forEach>
+                            
                         </tbody>
                      </table>
          </div>

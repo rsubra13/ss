@@ -41,10 +41,10 @@ public class TransactionServiceImpl implements TransactionService
 	
 	@Override
 	@Transactional
-	public boolean CreditBalance(String inputAccountNo, Integer inputbalance)
+	public boolean CreditBalance(String inputAccountNo, Double inputbalance)
 	{
-		Integer userBalance = accountdetailsDAO.getBalance(inputAccountNo);
-		Integer newBalance = userBalance + inputbalance;
+		Double userBalance = accountdetailsDAO.getBalance(inputAccountNo);
+		Double newBalance = userBalance + inputbalance;
 				
 			// Set balance to Account table
 			boolean isaccountUpdatesuccess = accountdetailsDAO.updateBalance(inputAccountNo, newBalance);
@@ -64,15 +64,15 @@ public class TransactionServiceImpl implements TransactionService
 			}					
 		return false;
 	}
-	
+	@Override
 	@Transactional
-	public boolean DebitBalance(String inputAccNo, Integer inputbal)
+	public boolean DebitBalance(String inputAccNo, Double inputbal)
 	{
 		
-		Integer userBalance = accountdetailsDAO.getBalance(inputAccNo);
+		Double userBalance = accountdetailsDAO.getBalance(inputAccNo);
 		if(userBalance >= inputbal)
 		{
-			Integer newBalance = userBalance - inputbal;
+			Double newBalance = userBalance - inputbal;
 		
 		
 				// Set balance to Account table
@@ -103,12 +103,12 @@ public class TransactionServiceImpl implements TransactionService
 		return accountnum;
 		
 	}
-	
+	@Override
 	@Transactional
-	public boolean TransferBalance(String toAccount, String fromAccount, Integer inputbal)
+	public boolean TransferBalance(String toAccount, String fromAccount, Double inputbal)
 	{
-		Integer toBalance = accountdetailsDAO.getBalance(toAccount);
-		Integer fromBalance = accountdetailsDAO.getBalance(fromAccount);
+		Double toBalance = accountdetailsDAO.getBalance(toAccount);
+		Double fromBalance = accountdetailsDAO.getBalance(fromAccount);
 		if(fromBalance < inputbal)
 		{
 			return false;
@@ -116,8 +116,8 @@ public class TransactionServiceImpl implements TransactionService
 		}
 		else
 		{
-			Integer newtoBalance = toBalance + inputbal;
-			Integer newfromBalance = fromBalance - inputbal;
+			Double newtoBalance = toBalance + inputbal;
+			Double newfromBalance = fromBalance - inputbal;
 			// Set balance to To Account table
 			boolean istoaccountUpdatesuccess = accountdetailsDAO.updateBalance(toAccount, newtoBalance);
 			boolean isfromaccountUpdatesuccess = accountdetailsDAO.updateBalance(fromAccount, newfromBalance);
@@ -139,5 +139,10 @@ public class TransactionServiceImpl implements TransactionService
 			return false;
 		}	
 	}
-}
+
+	
+	}
+
+
+
 

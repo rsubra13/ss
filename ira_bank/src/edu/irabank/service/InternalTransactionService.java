@@ -9,14 +9,24 @@ import edu.irabank.form.InternalTransactionFormBean;
 public interface InternalTransactionService {
 
 	
-	
-	boolean createTransactions(InternalTransactionFormBean internalTransactionFormBean, int userId,
-			TransactionDetailsDTO transDTO);
 
-	boolean setTransactionDetails(InternalTransactionFormBean internalTransactionFormBean,
-			int userId);
+
+	
 
 	List<RequestDetailsDTO> listTransactions();
+
+	boolean setTransactionDetails(
+			InternalTransactionFormBean internalTransactionFormBean,
+			int userId, boolean isAuthorized, String transId, String[] split,
+			String reqId);
+
+
+
+
+
+	boolean createTransactions(
+			InternalTransactionFormBean internalTransactionFormBean,
+			int userId, TransactionDetailsDTO transDTO, boolean isAuthorized);
 
 
 

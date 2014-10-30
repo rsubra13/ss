@@ -58,20 +58,20 @@ public class AccountDetailsDAOImpl implements AccountDetailsDAO
 	}
 	
 	@Override
-	public int getBalance(String accntno)	
+	public Double getBalance(String accntno)	
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 		System.out.println("AccountNo here: " + accntno);
 		query.setParameter("accountNumber", accntno);
 		System.out.println("query : " + query);
-		Integer Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
+		Double Balance = ((AccountDetailsDTO) query.uniqueResult()).getBalance();
 		return Balance;
 	}
 	
 	@Override
 	//Used in Credit and Debit to Update Balance
-	public boolean updateBalance(String accountno, Integer balance)	
+	public boolean updateBalance(String accountno, Double balance)	
 	{
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery

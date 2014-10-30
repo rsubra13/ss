@@ -69,9 +69,11 @@
 
            <div id=style="width: 95%; margin: 0 auto;">
 
-           <!-- Include the hidden form ( the modal pops up has details of these.) -->
-           
-                
+            <!-- Include the hidden form ( the modal pops up has details of these.) -->
+           <div id="UserDetailsDialog" style="display: none;">
+           <label> comes here </label>
+            <jsp:include page="/pages/InternalUsers/userDetailsForm.jsp"></jsp:include>
+           </div>
                     <h1>List Of Users</h1>
                 
 

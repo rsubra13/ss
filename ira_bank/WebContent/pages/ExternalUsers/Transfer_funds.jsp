@@ -16,6 +16,7 @@ ${userName}<br/>
   <div class="panel-heading">TRANSFER FUNDS</div>
 </div>
 <div ><label for="inputText3"> ${StatusHere}</label>
+<div><label for="inputText3">${transactStatus}</label></div>
  </div>
 <div class="panel panel-default">
   <div class="panel-heading">

@@ -61,7 +61,7 @@ import edu.irabank.service.TransactionService;
 			String Accountno = accountFormBean.getAccountNumber();
 			System.out.println("balance from formbean account" + accountFormBean.getAccountNumber());
 			System.out.println("balance from formbean" + accountFormBean.getAmount());
-			Integer balAnce = Integer.parseInt(accountFormBean.getAmount());
+			Double balAnce = Double.parseDouble(accountFormBean.getAmount());
 			
 			String type = accountFormBean.getCreditDebit();
 			boolean isAccountExist = transactionService.getAccountNumber(Accountnum);

@@ -52,17 +52,23 @@ public class InternalTransactionController
 	{
 		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
 		System.out.println("Account number in controller is:"+Accountnum);
-		String userName = (String)sessionID.getAttribute("userName");
-		System.out.println("userName is:" + userName);
-		int userId = (int)sessionID.getAttribute("userId");
-		System.out.println("userName is:" + userId);
-		boolean isCreateSuccess = internalTransactionService.setTransactionDetails(trans, userId);
+		
+		String tranID = "";
+		int userID = (int)sessionID.getAttribute("userId");
+		
+		
+		System.out.println("userName is:" + userID);
+		boolean isAuthorized0 = false;
+		String[] empty = new String[1];
+		empty[0] = "";
+		String reqId = "";
+		boolean isCreateSuccess = internalTransactionService.setTransactionDetails(trans, userID,isAuthorized0,tranID,empty,reqId);
 		try{//System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
 		if(isCreateSuccess == true)
 		{
 			//internalTransactionService.setRequestDetails(trans, userId);
 			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
-			model.addAttribute("userName", userName);
+			model.addAttribute("userName", sessionID.getAttribute("userName"));
 
 		}
 		
@@ -74,4 +80,40 @@ public class InternalTransactionController
 		return new ModelAndView("/ExternalUsers/Transfer_funds",model);
 	}
 
+	@RequestMapping(value = "Approve" ,method = RequestMethod.POST)
+	public ModelAndView setIsAuthorized(@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("transId") String transId,@RequestParam("reqId") String reqId, @RequestParam("userId") int userId,@RequestParam("reqDesc")String reqDesc,HttpSession sessionID,HttpServletRequest request,ModelMap model)
+	{//to_account and acmount need to be got!
+		//after approve.. account details need to be changed and request and transact need to have isauthorized set.
+		System.out.println("Entering Is_authorized");
+		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
+		System.out.println("Account number in controller is:"+Accountnum);
+		String userName = (String)sessionID.getAttribute("userName");
+		/*String phrase = "the music made   it   hard      to        concentrate";
+		String delims = "[ ]+";
+		String[] tokens = phrase.split(delims);*/
+		
+		String delimeter = "[,]";
+		String[] split = new String[2];
+		 split = reqDesc.split(delimeter);
+		System.out.println("From Splitting TO_ACCT: "+ split[1]);
+		System.out.println("From Splitting Amount: "+ split[2]);
+
+		System.out.println("userName is:" + userName);
+		System.out.println("userName is:" + userId);
+		
+		boolean isAuthorized1 = true;
+		boolean isCreateSuccess = internalTransactionService.setTransactionDetails(trans,userId,isAuthorized1,transId,split,reqId);
+		try{
+		if(isCreateSuccess == true)
+		{
+			//internalTransactionService.setRequestDetails(trans, userId);
+			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
+			model.addAttribute("userName", userName);
+
+		}
+		}
+		catch(Exception e){System.out.println("Exception at APPROVAL"+e);}
+		return new ModelAndView("/ExternalUsers/Transfer_funds",model);
+		
+	}
 }
