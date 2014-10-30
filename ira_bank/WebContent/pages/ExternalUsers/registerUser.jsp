@@ -45,19 +45,19 @@
 
 
 
-         <div class="panel panel-primary">
+<div class="panel panel-primary">
   <div class="panel-heading">REGISTER FORM</div>
 
-
-               <div class="panel-body">
+        <div class="panel-body">
    
-                <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+          <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+                
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
-                      <c:if test="${ userRegistrationStatus != null}">
+                <c:if test="${ userRegistrationStatus != null}">
                            <div class="btn-primary">
                                  <div id="status" class="label-primary">${userRegistrationStatus}</div>
                            </div>
-                      </c:if>
+                </c:if>
                       
                        <c:if test="${ result != null}">
                            <div class="btn-primary">
@@ -221,7 +221,7 @@
       </div>
      
       </div>  
-        </form:form><!-- Registration form End-->
+      </form:form>
     </div>
       
 </div>

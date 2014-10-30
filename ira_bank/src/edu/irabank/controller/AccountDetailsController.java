@@ -32,7 +32,8 @@ import edu.irabank.service.UserService;
 
 		
 		// GET Method of Listing Accounts - shows the page.
-				@RequestMapping(value="/listAccounts", method = RequestMethod.GET)
+		// Shows all the accounts - for admin only
+				@RequestMapping(value="/admin/listAccounts", method = RequestMethod.GET)
 				public String listAllAccounts(ModelMap model) {
 					
 
@@ -40,10 +41,11 @@ import edu.irabank.service.UserService;
 					model.put("accountsList", accountService.listAccounts());
 					System.out.println("in controller GET : ");
 					
-					return "/ExternalUsers/listAccounts";
+					return "/admin/listAccounts";
 				}
 		
-				@RequestMapping(value="/showAccountInfo", method = RequestMethod.GET)
+				// Individual User.	
+				@RequestMapping(value="/user/showAccountInfo", method = RequestMethod.GET)
 				public String Accounts(ModelMap model, SessionStatus status, HttpSession sessionID) {
 					Integer userId = (Integer)sessionID.getAttribute("userId");
 					
@@ -54,22 +56,7 @@ import edu.irabank.service.UserService;
 					return "/ExternalUsers/showAccountInfo";
 				}
 
-				
-				/*// POST Method of Register - comes back after the submit of User Details Form.
-				@RequestMapping(value="/listAccounts", method = RequestMethod.POST)
-				public ModelAndView createNewAccount(Map<String, Object> map, SessionStatus status) {
-					
-					// use the Form Elements values from Registration form
-					// Case 1: if the User Already exists
-					
-					map.put("user", new UserDTO());
-					map.put("usersList", accountService.listAccounts());
-					System.out.println("in controller : ");
-					
-					return null;
-					
-				}
-		*/
+			
 		
 		}
 	

@@ -60,10 +60,7 @@ public class RolesDTO implements Serializable {
     @OneToMany(mappedBy = "roleId")
     private List<UserDTO> userDTOList;
 
-    public RolesDTO() {
-    }
-
-
+ 
     public RolesDTO() {
     }
 
