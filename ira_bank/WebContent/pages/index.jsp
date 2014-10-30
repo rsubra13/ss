@@ -15,13 +15,23 @@
 
 
 <div class="panel panel-primary">
-<div class="panel panel-heading">
-I.R.A BANK
-</div>
-                
-			<form id ="loginform" name="loginForm" target="_self" method="post" action="Welcome" class="well form-inline">
+			<div class="panel panel-heading">
+			I.R.A BANK
+			</div>
+              
+			  <form name="loginForm" id="loginForm" action="<c:url value='/j_spring_security_check' />" method='POST' class="well form-inline" >
 
 			 <br>
+
+			 <c:if test="${not empty error}">
+			    <div class="btn-info">
+	                   <div id="status" class="label-danger">
+
+	                   		Oops ! Login failed -  ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
+	                   </div>
+	             </div>
+			</c:if>
+
 			 <c:if test="${ userRegistrationStatus != null}">
 	             <div class="btn-primary">
 	                   <div id="status" class="label-primary">${userRegistrationStatus}</div>
@@ -37,10 +47,11 @@ I.R.A BANK
 				<p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>	
 			  <%}%>
 
-				<input name="username"  type="text" class="form-control"  placeholder="Username" maxlength="30"/>
 
-				<input name	="password" type="password" class="form-control" placeholder="Password" maxlength="15"/>
-
+			  <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30">
+	      		  <br>
+	       		 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15">
+	       		 
 				<!-- placeholder -->
 				<div> <br><br></div>
 

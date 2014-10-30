@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.Stack;
 import edu.irabank.dao.AccountDAO;
+import edu.irabank.dao.UserDAO;
 import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.UserDTO;
 
@@ -27,12 +28,13 @@ public class AccountDAOImpl implements AccountDAO
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Autowired
+	private UserDAO userDAO;
+	
 	
 		// Save the Account to the DB and return success or failure to service.
 	@Override
 	public Boolean addNewAccount(AccountDetailsDTO accountdetailsDTO) {
-		
-		System.out.println("comes in DAO");
 		
 		try{
 		
@@ -60,6 +62,21 @@ public class AccountDAOImpl implements AccountDAO
 		// TODO Auto-generated method stub
 		return getSession().createCriteria(AccountDetailsDTO.class).list();
 	}
+	
+	@Override
+	public AccountDetailsDTO showAccountInfo(Integer UserId){
+		
+		UserDTO userDTO = new UserDTO();
+		userDTO = userDAO.getUserDTOByUserId(UserId);
+		
+		Query query = getSession().createQuery("SELECT a FROM AccountDetailsDTO a WHERE a.uId = :uId");
+		
+		query.setParameter("uId", userDTO);
+		AccountDetailsDTO accDTO = (AccountDetailsDTO) query.uniqueResult();
+		
+		return  accDTO;		
+	}
+		
 	
 	@Override
 	public void deleteAccount(Integer userID)

@@ -11,23 +11,35 @@ import javax.validation.constraints.Size;
 
 public class AccountFormBean {
 	
-    private int balance;
-    private String accountNumber; 
+    private String amount;
+    private String accountNumber;
+    private String CreditDebit; 
    
     public void setAccountNumber(String accountNumber){
     	this.accountNumber = accountNumber;
     }
 	
-    public String getAccountNumber(String accountNumber) {
+    public String getAccountNumber() {
 		return accountNumber;
 	}
     
-	public void setbalance(int balance) {
-		this.balance = balance;
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
-	public int getbalance() {
-		return balance;
+	
+	public String getAmount() {
+		return amount;
 	}
+	
+	public void setCreditDebit(String CreditDebit) {
+			this.CreditDebit = CreditDebit;
+		}
+	
+    public String getCreditDebit() {
+		return CreditDebit;
+	}
+    
+ 
 		
     
     

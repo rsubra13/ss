@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RequestDetailsDTO.findByReqStatus", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqStatus = :reqStatus"),
     @NamedQuery(name = "RequestDetailsDTO.findByReqDate", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqDate = :reqDate"),
     @NamedQuery(name = "RequestDetailsDTO.findByReqType", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqType = :reqType"),
-    @NamedQuery(name = "RequestDetailsDTO.findByIsAuthorized", query = "SELECT r FROM RequestDetailsDTO r WHERE r.isAuthorized = :isAuthorized"),
+    @NamedQuery(name = "RequestDetailsDTO.findByIsApproved", query = "SELECT r FROM RequestDetailsDTO r WHERE r.isApproved = :isApproved"),
     @NamedQuery(name = "RequestDetailsDTO.findByReqPriority", query = "SELECT r FROM RequestDetailsDTO r WHERE r.reqPriority = :reqPriority")})
 public class RequestDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,14 +58,17 @@ public class RequestDetailsDTO implements Serializable {
     @Size(max = 25)
     @Column(name = "REQ_TYPE")
     private String reqType;
-    @Column(name = "IS_AUTHORIZED")
-    private Integer isAuthorized;
+    @Column(name = "IS_APPROVED")
+    private Boolean isApproved;
     @Size(max = 25)
     @Column(name = "REQ_PRIORITY")
     private String reqPriority;
     @JoinColumn(name = "REQ_USER_ID", referencedColumnName = "USER_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private UserDTO reqUserId;
+    @JoinColumn(name = "REQ_TRANS_ID", referencedColumnName = "TRANS_ID")
+    @OneToOne
+    private TransactionDetailsDTO reqTransId;
 
     public RequestDetailsDTO() {
     }
@@ -114,12 +117,12 @@ public class RequestDetailsDTO implements Serializable {
         this.reqType = reqType;
     }
 
-    public Integer getIsAuthorized() {
-        return isAuthorized;
+    public Boolean getIsApproved() {
+        return isApproved;
     }
 
-    public void setIsAuthorized(Integer isAuthorized) {
-        this.isAuthorized = isAuthorized;
+    public void setIsApproved(Boolean isApproved) {
+        this.isApproved = isApproved;
     }
 
     public String getReqPriority() {
@@ -136,6 +139,14 @@ public class RequestDetailsDTO implements Serializable {
 
     public void setReqUserId(UserDTO reqUserId) {
         this.reqUserId = reqUserId;
+    }
+
+    public TransactionDetailsDTO getReqTransId() {
+        return reqTransId;
+    }
+
+    public void setReqTransId(TransactionDetailsDTO reqTransId) {
+        this.reqTransId = reqTransId;
     }
 
     @Override

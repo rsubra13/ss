@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +49,7 @@ public class AccountDetailsDTO implements Serializable {
     private String accountNumber;
     @Basic(optional = false)
     @NotNull
-    private int balance;
+    private double balance;
     @Size(max = 45)
     @Column(name = "TEMP_1")
     private String temp1;
@@ -58,7 +57,7 @@ public class AccountDetailsDTO implements Serializable {
     @Column(name = "TEMP_2")
     private String temp2;
     @JoinColumn(name = "U_ID", referencedColumnName = "USER_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private UserDTO uId;
 
     public AccountDetailsDTO() {
@@ -68,7 +67,7 @@ public class AccountDetailsDTO implements Serializable {
         this.acctId = acctId;
     }
 
-    public AccountDetailsDTO(Integer acctId, String accountNumber, int balance) {
+    public AccountDetailsDTO(Integer acctId, String accountNumber, double balance) {
         this.acctId = acctId;
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -90,11 +89,11 @@ public class AccountDetailsDTO implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -114,15 +113,6 @@ public class AccountDetailsDTO implements Serializable {
         this.temp2 = temp2;
     }
 
-  /*  public UserDTO getUId() {
-        return uId;
-    }
-
-    public void setUId(UserDTO uId) {
-        this.uId = uId;
-    }
-*/
-    
     public UserDTO getUId() {
         return uId;
     }

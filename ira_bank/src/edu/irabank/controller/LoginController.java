@@ -1,11 +1,12 @@
+
 package edu.irabank.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,13 +24,22 @@ import edu.irabank.service.UserService;
 		@Autowired
 		private UserService userService; 
 
-		
-		// GET Method of Login Form
+		public static final Logger logger = Logger.getLogger(LoginController.class);
+		// GET Method of Login Forms
 		@RequestMapping(value="/Welcome", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
 			// redirect to the Welcome.jsp
 			System.out.println("comes here");
 			return "/Welcome";
+		}
+
+			/*Login Method - GET*/
+		@RequestMapping(value="login", method = RequestMethod.GET)
+		public String userLogin(ModelMap model) {
+			/*redirect to login.jsp*/
+			logger.debug("Comes in Login controller");
+			System.out.println("comes here in Login Controller");
+			return "/securedLogin/login";
 		}
 		
 		// Post Method after submitting user details in Login Form
@@ -50,11 +60,11 @@ import edu.irabank.service.UserService;
 					UserDTO uDTO = userService.getUserDTOByUsername(userName);
 					sessionID.setAttribute("userId", uDTO.getUserId());
 					model.addAttribute("userName", userName);
-					return new ModelAndView("/Home",model);
+					return new ModelAndView("/login",model);
 					
 				}
 			}
-			return new ModelAndView("/index").addObject("loginError", "Invalid UserName or Password!");
+			return new ModelAndView("/login").addObject("loginError", "Invalid UserName or Password!");
 		}
 		
 		// Not a proper validation.
@@ -67,6 +77,43 @@ import edu.irabank.service.UserService;
 			}
 			return true;
 		}
+		
+		/*Logout - GET*/
+		@RequestMapping(value="/logout", method = RequestMethod.GET)
+		public String userLogout(ModelMap model) {
+			return "/securedLogin/login";
+		}
+		
+		/*LoginFailed - wrong password or username*/
+		@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
+		public String userLoginError(ModelMap model) {
+			model.addAttribute("error", "true");
+			return "/securedLogin/login";
+	 
+		}
+
+		@RequestMapping(value="/home", method = RequestMethod.GET)
+		public String redirectToHome(ModelMap model, HttpSession session) {
+			logger.debug("Comes in Common Home");
+			System.out.println("are u coming here : 98");
+		    return "/common/commonHome";
+		}
+		
+		@RequestMapping(value="/home", method = RequestMethod.POST)
+		public String redirectToHomePost(ModelMap model, HttpSession session) {
+			logger.debug("Comes in Common Home - POST");
+			System.out.println("are u coming here : 98");
+		    return "/common/commonHome";
+		}
+	
+		
+		/*Access Denied*/
+		@RequestMapping(value="/accessDenied", method = RequestMethod.GET)
+		public String userAccessDenied(ModelMap model) {
+			/*redirect to accessDenied.jsp*/
+			return "/common/accessDenied";
+		}
+		
 }
 	 
 	 

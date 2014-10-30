@@ -15,34 +15,55 @@ ${userName}<br/>
 <div class="panel panel-primary">
   <div class="panel-heading">TRANSFER FUNDS</div>
 </div>
-
+<div ><label for="inputText3"> ${StatusHere}</label>
+<div><label for="inputText3">${transactStatus}</label></div>
+ </div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form" action="/ira_bank/Transfer" method="post">
+      <c:if test="${transferStatus != null}">
+                <div class="btn-primary">
+                   <div id="status" class="label-primary">${transferStatus}</div>
+                </div>
+  </c:if>
+  
+    <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
+    commandName="transferFormBean"> 
+  
   <div class="form-group">
+ 
     <label for="inputText3" class="col-sm-2 control-label">From</label>
     <div class="col-sm-7">
-      <input name="from_account" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value="${SampTransFormBean.from_account}">
+      <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%>  readonly="true" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${SampTransFormBean.to_account}">
+      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}">
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${SampTransFormBean.amount}">
+      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="pki" class="col-sm-2 control-label">PKI</label>
+    <div class="col-sm-7 col-md-7">
+      <input name="pki" type="Text" class="form-control" id="inputpki" placeholder="PKI" value="${TransferFormBean.pki}">
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-7 col-md-offset-2 col-md-7">
-      <button type="submit" class="btn btn-default">Submit</button>
+	  <!-- Button for Transfer -->
+	  <button type="submit" class="btn btn-default" formaction="ira_bank/ExternalUsers/Transfer_funds">Submit</button>
+	   <!-- Button for Request Transaction -->
+	  <button type="submit" class="btn btn-default" formaction="/ira_bank/Transfer">Request Transaction</button>
+      
     </div>
   </div>
 </form>

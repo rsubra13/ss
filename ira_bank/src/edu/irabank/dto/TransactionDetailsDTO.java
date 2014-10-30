@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TransactionDetailsDTO.findByFromAcct", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.fromAcct = :fromAcct"),
     @NamedQuery(name = "TransactionDetailsDTO.findByToAcct", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.toAcct = :toAcct"),
     @NamedQuery(name = "TransactionDetailsDTO.findByTemp1", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.temp1 = :temp1"),
-    @NamedQuery(name = "TransactionDetailsDTO.findByTemp2", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.temp2 = :temp2")})
+    @NamedQuery(name = "TransactionDetailsDTO.findByTemp2", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.temp2 = :temp2"),
+    @NamedQuery(name = "TransactionDetailsDTO.findByIsAuthorized", query = "SELECT t FROM TransactionDetailsDTO t WHERE t.isAuthorized = :isAuthorized")})
 public class TransactionDetailsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,7 +55,7 @@ public class TransactionDetailsDTO implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "TRANS_AMT")
-    private int transAmt;
+    private double transAmt;
     @Size(max = 45)
     @Column(name = "FROM_ACCT")
     private String fromAcct;
@@ -66,6 +68,10 @@ public class TransactionDetailsDTO implements Serializable {
     @Size(max = 45)
     @Column(name = "TEMP_2")
     private String temp2;
+    @Column(name = "IS_AUTHORIZED")
+    private Boolean isAuthorized;
+    @OneToOne(mappedBy = "reqTransId")
+    private RequestDetailsDTO requestDetailsDTO;
 
     public TransactionDetailsDTO() {
     }
@@ -74,7 +80,7 @@ public class TransactionDetailsDTO implements Serializable {
         this.transId = transId;
     }
 
-    public TransactionDetailsDTO(Integer transId, Date transDate, int transAmt) {
+    public TransactionDetailsDTO(Integer transId, Date transDate, double transAmt) {
         this.transId = transId;
         this.transDate = transDate;
         this.transAmt = transAmt;
@@ -96,11 +102,11 @@ public class TransactionDetailsDTO implements Serializable {
         this.transDate = transDate;
     }
 
-    public int getTransAmt() {
+    public double getTransAmt() {
         return transAmt;
     }
 
-    public void setTransAmt(int transAmt) {
+    public void setTransAmt(double transAmt) {
         this.transAmt = transAmt;
     }
 
@@ -134,6 +140,22 @@ public class TransactionDetailsDTO implements Serializable {
 
     public void setTemp2(String temp2) {
         this.temp2 = temp2;
+    }
+
+    public Boolean getIsAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setIsAuthorized(Boolean isAuthorized) {
+        this.isAuthorized = isAuthorized;
+    }
+
+    public RequestDetailsDTO getRequestDetailsDTO() {
+        return requestDetailsDTO;
+    }
+
+    public void setRequestDetailsDTO(RequestDetailsDTO requestDetailsDTO) {
+        this.requestDetailsDTO = requestDetailsDTO;
     }
 
     @Override

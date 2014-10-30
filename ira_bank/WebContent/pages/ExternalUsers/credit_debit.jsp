@@ -4,15 +4,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<title>I.R.A Bank</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.css" />  
+<title>CREDIT / DEBIT Funds</title>
 </head>
 <body>
-
-<%@include file="../navbar.jsp" %> 
+<%
+String context_path=request.getContextPath();
+String navbar_path=context_path+"/pages/navbar.jsp";
+%>
+<%@include file="../navbar.jsp" %>
 
 <div class="panel panel-primary">
-  <div class="panel-heading"> CREDIT/DEBIT Funds</div>
+  <div class="panel-heading"> CREDIT / DEBIT Funds</div>
 </div>
 
 <div class="panel panel-default">
@@ -20,14 +23,20 @@
     <h3 class="panel-title"></h3>
   </div>
   <div class="panel-body">
-    <form class="form-horizontal" role="form">
+    <c:if test="${ accountStatus != null}">
+                <div class="btn-primary">
+                   <div id="status" class="label-primary">${accountStatus}</div>
+                </div>
+  </c:if>
+    <form class="form-horizontal" role="form" method="POST" id="accountFormBean" 
+                commandName="accountFormBean" action="/ira_bank/ExternalUsers/credit_debit">
   <div class="form-group">
 
   <label class="radio-inline col-sm-4 control-label">
-  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Credit
+  <input type="radio" name="CreditDebit" id="CreditDebit" value="Credit" required> Credit
 </label>
 <label class="radio-inline col-sm-4 control-label">
-  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Debit
+  <input type="radio" name="CreditDebit" id="CreditDebit" value="Debit" required> Debit
 </label>
 
    </div>
@@ -35,13 +44,13 @@
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">From/To</label>
     <div class="col-sm-7 col-md-7">
-      <input type="Text" class="form-control" id="inputPassword3" placeholder="From/To Account Number">
+      <input type="text" name="accountNumber" class="form-control" id="accountNumber" placeholder="From/To Account Number" value = <%=request.getAttribute("TextValue")%> readonly="true" required>
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input type="Text" class="form-control" id="inputamount" placeholder="Amount">
+      <input type="text" name="amount" class="form-control" id="amount" placeholder="Amount" required>
     </div>
   </div>
   <div class="form-group">
@@ -53,6 +62,7 @@
     
   </div>
 </div>
-
+<script src="../../js/jquery-1.10.2.js"></script>
+    <script src="../../js/bootstrap.js"></script>
 </body>
 </html>

@@ -16,8 +16,8 @@ function editUser(id) {
 }
 
 function initializeDatePicker() {
-	$(".datepicker1").datepicker({
-		dateFormat : "yyyy-mm-dd",
+	$(".datepicker").datepicker({
+		dateFormat : "mm-dd-yyyy",
 		changeMonth : true,
 		changeYear : true,
 		showButtonPanel : true

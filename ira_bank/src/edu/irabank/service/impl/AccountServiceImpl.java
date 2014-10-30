@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class AccountServiceImpl implements AccountService
 
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	HttpSession sessionID;
 
 	@Override
 	@Transactional
@@ -45,6 +49,8 @@ public class AccountServiceImpl implements AccountService
 			
 			String accNo = String.valueOf(num);
 			
+			
+			
 			newAccount.setAccountNumber(accNo); //set the accountNumber		
 			
 			Boolean isAdded = accountDAO.addNewAccount(newAccount);
@@ -60,6 +66,13 @@ public class AccountServiceImpl implements AccountService
 		List accountsList = accountDAO.listAccounts();
 		System.out.println("userList in Service" + accountsList);
 		return accountsList;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public AccountDetailsDTO showAccountInfo(Integer UserId){
+		return (accountDAO.showAccountInfo(UserId));
+		
 	}
 	
 	@Override
