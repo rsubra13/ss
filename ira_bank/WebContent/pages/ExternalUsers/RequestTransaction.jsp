@@ -10,7 +10,7 @@
 <body>
 ${userRegistrationStatus}<br/>
 ${userName}<br/>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 
 <div class="panel panel-primary">
   <div class="panel-heading">TRANSFER FUNDS</div>

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 
 <div class="panel panel-primary">
   <div class="panel-heading">Submit An Issue</div>

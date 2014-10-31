@@ -7,7 +7,7 @@
 <title>I.R.A Bank</title>
 </head>
 <body>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 
 			  		<form role="form" method="post" action="dashboard.php">
 			  		

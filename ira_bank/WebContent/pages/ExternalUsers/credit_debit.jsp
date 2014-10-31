@@ -12,7 +12,7 @@
 String context_path=request.getContextPath();
 String navbar_path=context_path+"/pages/navbar.jsp";
 %>
-<%@include file="../navbar.jsp" %>
+<%@include file="../common/navbar.jsp" %>
 
 <div class="panel panel-primary">
   <div class="panel-heading"> CREDIT / DEBIT Funds</div>

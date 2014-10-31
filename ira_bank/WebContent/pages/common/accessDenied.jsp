@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
- <title>Access Denied</title>
+ <title>Access Denied Page</title>
 
 
 
@@ -43,10 +43,10 @@
         <div class="row">
             <div class="col-lg-12">
 
-            <div class="btn-primary">
+            <div class="well container">
             	<h1>Access Denied</h1>
-                   <div id="status" class="label-warning">Authentication Failed. Please Login Again</div>
-					<br><br>
+                   <div id="status"><p>You dont have permission to view this page. Sorry for the inconvenience caused. Please Login Again</p></div>
+					   <br><br>
                    <a href="<%=request.getContextPath()%>/login" ><span class="label label-danger">Login here<span></a>
              </div>
    </div>

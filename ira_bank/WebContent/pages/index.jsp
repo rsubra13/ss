@@ -23,14 +23,6 @@
 
 			 <br>
 
-			 <c:if test="${not empty error}">
-			    <div class="btn-info">
-	                   <div id="status" class="label-danger">
-
-	                   		Oops ! Login failed -  ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
-	                   </div>
-	             </div>
-			</c:if>
 
 			 <c:if test="${ userRegistrationStatus != null}">
 	             <div class="btn-primary">

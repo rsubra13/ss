@@ -52,6 +52,12 @@ public class UserDetailsServiceImpl implements UserDetailsService
 			System.out.println("Comes in loadUserByUsername" + userName);
 			if ( userName != null && !userName.isEmpty()){ 
 				UserDTO retrieveduserDTO = userDAO.getUserDTOByUsername(userName);
+				
+				if (retrieveduserDTO == null)
+				{
+					throw new UsernameNotFoundException("User not found. Please try again");
+				}
+				
 				System.out.println("retrieved the userDTO");
 				user = getUserDTOforSpringSecurity(retrieveduserDTO);
 			}
