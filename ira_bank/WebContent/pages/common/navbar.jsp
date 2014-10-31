@@ -96,9 +96,13 @@
                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
                         <!-- Bill pay -->
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
-                        <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
                     </sec:authorize>  
+                    
+                     <sec:authorize access="hasRole('ROLE_MERCHANT')">
+                     <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
+                     </sec:authorize>
+                     
                     </ul>
                 </div>
 
@@ -157,6 +161,7 @@
             	<!--  Admin view Issues -->		  
             	<!-- Admin view Trans.requests -->
              </div>  <!-- button group div -->   
+             <a href="<c:url value="j_spring_security_logout" />" > Logout</a>
             </div>
         </div>
         <!-- /.container -->

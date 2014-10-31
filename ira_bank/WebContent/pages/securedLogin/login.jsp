@@ -27,9 +27,18 @@
 
 			 <!-- Login Failed Test -->
 			  <c:if test="${not empty LoginStatus}">
-				<div class="btn-primary">
-					<div id="status" class="label-primary">Login failed. Please try again.
+				<div class="label-group">
+					<div id="status" class="label-info">Login failed. Please try again.
 					${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
+					</div>
+					<br /> 
+				</div>
+			</c:if>
+			
+			<!-- Login Failed Test -->
+			  <c:if test="${not empty LogoutStatus}">
+				<div class="label-group">
+					<div id="status" class="label-success">Logged out successfully.
 					</div>
 					<br /> 
 				</div>
@@ -37,8 +46,8 @@
 
 			<!-- Registration Failed Test -->
 			 <c:if test="${ userRegistrationStatus != null}">
-	             <div class="btn-primary">
-	                   <div id="status" class="label-primary">${userRegistrationStatus}</div>
+	             <div class="btn btn-default">
+	                   <div id="status" class="label-info">${userRegistrationStatus}</div>
 	             </div>
               </c:if>
              <br>
