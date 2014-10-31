@@ -24,7 +24,7 @@
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 
-    <script src="<%=request.getContextPath()%>/js/userDetails.js"  type="text/javascript" ></script>
+    <script src="<%=request.getContextPath()%>/js/TransactionDetails.js"  type="text/javascript" ></script>
 
 </head>
 
@@ -70,8 +70,7 @@
            <div id=style="width: 95%; margin: 0 auto;">
 
            <!-- Include the hidden form ( the modal pops up has details of these.) -->
-           
-                
+
                     <h1>List Of Users</h1>
                 
 
@@ -116,7 +115,10 @@
                                
                                <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                 <td>
-                     
+		                      <button onclick="editTrans(${requestDetails.getReqId()});"
+		                                class="pure-button pure-button-primary">
+		                             <i class="fa fa-pencil"></i> Edit
+		                        </button>
                        		 <c:if test="${button== true}" >
                              <button form="form1"  name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
      						 </c:if>

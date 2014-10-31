@@ -1,14 +1,22 @@
 package edu.irabank.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import edu.irabank.dao.RequestDetailsDAO;
 import edu.irabank.dto.RequestDetailsDTO;
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.RequestDetailsPopulateBean;
 import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.service.InternalTransactionService;
@@ -18,6 +26,8 @@ import edu.irabank.service.impl.InternalTransactionServiceImpl;
 public class ViewTransactionsController {
 	@Autowired
 	InternalTransactionService internalService;
+	@Autowired
+	RequestDetailsDAO requestDAO;
 	
 	// List of un-approved transactions
 	
@@ -55,6 +65,5 @@ public class ViewTransactionsController {
 		model.put("RequestDetailsList", internalService.listTransactions());
 		return "/ExternalUsers/listTrans";
 	}
-
 
 }
