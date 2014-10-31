@@ -161,7 +161,7 @@
             	<!--  Admin view Issues -->		  
             	<!-- Admin view Trans.requests -->
              </div>  <!-- button group div -->   
-             <a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+             <a href="<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a>
             </div>
         </div>
         <!-- /.container -->
