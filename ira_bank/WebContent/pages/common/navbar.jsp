@@ -14,6 +14,7 @@
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/keyboard.css">
 <!-- Jquery CSS -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
@@ -23,7 +24,7 @@
 <!-- Jquery JS Files -->  
 <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
-
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 <script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
 <!-- bootstap js -->
@@ -166,6 +167,8 @@
         </div>
         <!-- /.container -->
     </nav>
+   
+    
 </body>
  <!-- JavaScript -->
     <script src="<%=request.getContextPath()%>/js/jquery.js"></script>

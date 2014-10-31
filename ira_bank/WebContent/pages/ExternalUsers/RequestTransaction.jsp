@@ -2,10 +2,16 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/keyboard.css">
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"></script>
+
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title>Transfer Funds</title>
- 
+
 </head>
 <body>
 ${userRegistrationStatus}<br/>
@@ -42,19 +48,19 @@ ${userName}<br/>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="to_account" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}">
+      <input name="to_account" type="text"  id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}" class="keyboardInput">
     </div>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
-      <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}">
+      <input name="amount" type="text" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}" class="keyboardInput">
     </div>
   </div>
     <div class="form-group">
     <label for="pki" class="col-sm-2 control-label">PKI</label>
     <div class="col-sm-7 col-md-7">
-      <input name="pki" type="Text" class="form-control" id="inputpki" placeholder="PKI" value="${TransferFormBean.pki}">
+      <input name="pki" type="text" class="form-control" id="inputpki" placeholder="PKI" value="${TransferFormBean.pki}" class="keyboardInput">
     </div>
   </div>
   <div class="form-group">
@@ -65,6 +71,8 @@ ${userName}<br/>
     </div>
   </div>
 </form>
+
+
     
   </div>
 </div>
