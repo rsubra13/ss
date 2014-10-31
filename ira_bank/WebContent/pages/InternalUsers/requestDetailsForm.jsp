@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -21,30 +22,31 @@
 
 </head>
 <body>
-<form:form id="TransactionDetailsForm" commandName="RequestDetailsPopulateBean" method="post"
+<form:form id="requestDetailsForm" commandName="requestDetailsFormBean" method="post"
 	action="${actionUrl}" class="pure-form pure-form-aligned">
 
 	<fieldset>
-		<legend>Edit Transaction Details</legend>
-
+		<legend>Edit User Details</legend>
+<form>
 		<div class="form-control">
-			<label for="UserName">Request</label>
-			<form:input path="reqDesc"  required="required" placeholder="Request Description" />
+			<label for="Description">Description</label>
+			 <%-- value="${requestDetailsFormBean.getReqDesc()}" --%>
+			<form:input path="reqDesc"  required="required" placeholder="reqDesc" value="${requestDetailsFormBean.reqDesc}"/>
 		</div> 
 
 		<div class="form-control">
-			<label for="First Name">Is Authorized</label>
-			<form:input path="isAuthorized" required="required"  placeholder="Authorization" />
+			<label for="Date">Date</label>
+			<%-- value="${requestDetailsFormBean.getReqDate()}" --%>
+			<form:input type="hidden" path="reqDate" required="required"  placeholder="reqDate" value="${requestDetailsFormBean.reqDate}" />
 		</div>
-
-
-		<div class="form-control">
-			<label for="First Name">User Id</label>
-			<form:input path="reqUsedId"  required="required" placeholder="reqUsedId"  />
-		</div>
+		<input  type="hidden"  name="reqUsedId" value = <%=request.getAttribute("TextValue")%> />
+		<input  type="hidden"  name="reqId" value = <%=request.getAttribute("requestID")%> />
 		
-	
+		
+		<form:input path="reqId" type="hidden" />
+		<input type="submit" formaction="/ira_bank/admin/save" name="save">
 
+</form>
 	</fieldset>
 </form:form>
 

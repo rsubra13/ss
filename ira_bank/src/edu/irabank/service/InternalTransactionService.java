@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.TransactionDetailsDTO;
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.InternalTransactionFormBean;
 
 public interface InternalTransactionService {
@@ -27,6 +28,10 @@ public interface InternalTransactionService {
 	boolean createTransactions(
 			InternalTransactionFormBean internalTransactionFormBean,
 			int userId, TransactionDetailsDTO transDTO, boolean isAuthorized);
+
+	RequestDetailsDTO getRequestByReqID(Integer reqId);
+
+	void deleteTransaction(Integer reqId);
 
 
 

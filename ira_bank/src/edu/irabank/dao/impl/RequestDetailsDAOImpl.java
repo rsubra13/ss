@@ -35,8 +35,7 @@ public class RequestDetailsDAOImpl implements RequestDetailsDAO {
 		System.out.println("Entered Try Loop for Get Request By reqId");
 				
 			
-		
-		Query query = getSession().createQuery("SELECT r FROM RequestDetailsDTO r WHERE r.reqId = :reqId");
+		Query query = getSession().getNamedQuery("RequestDetailsDTO.findByReqId");
 		System.out.println("TransId here: " + reqId);
 		
 		query.setParameter("reqId", reqId);
@@ -69,6 +68,20 @@ public class RequestDetailsDAOImpl implements RequestDetailsDAO {
 	private SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+	@Override
+	public void deleteRequest(Integer reqId) {
+		
+//		/UserDTO delUser = new UserDTO();
+		RequestDetailsDTO delUser = getRequestByReqID(reqId); 
+		try{
+			getSession().delete(delUser); 
+		}
+		
+		catch(Exception e){
+			System.out.println("the exception is" + e);
+		}
+	}
+		
 	
 	
 }
