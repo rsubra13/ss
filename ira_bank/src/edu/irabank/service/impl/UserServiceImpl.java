@@ -128,12 +128,15 @@ public class UserServiceImpl implements UserService
 			// through acctnumber service or 2. send a notification to admin
 			// to accept and assign an acct number for this user.
  			System.out.println("User registered successfully");
- 	
- 			
- 			//Now Adding an account for the user
+ 			String role = newUser.getRoleId().toString();
+ 			System.out.println("Role id :" + role.toString());
+			rolesDTO = newUser.getRoleId();	
+			System.out.println("retrieveduserDTO.getRoleName() :" + rolesDTO.getRoleName());
+ 			if ((rolesDTO.getRoleName().equals("ROLE_USER")) || (rolesDTO.getRoleName().equals("ROLE_MERCHANT"))){
+ 			//Now Adding an account for only user and merchant
+ 			System.out.println("comes for user and merchant account creation");	
  			acctService.addNewAccount(newUser);
- 		
- 			
+ 			}
  			return true;
 		}
 		

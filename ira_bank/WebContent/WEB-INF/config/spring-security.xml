@@ -41,7 +41,7 @@
     <security:intercept-url pattern="/**" access="isAuthenticated()" /> 
     	<security:form-login login-processing-url="/j_spring_security_check" login-page="/login" default-target-url="/home" authentication-failure-url="/loginfailed"></security:form-login>
         <security:logout logout-success-url="/logout" logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID" invalidate-session="true"></security:logout>
-    
+     
     </security:http>
    
    <!-- custom bean which has the spring security methods -->

@@ -88,8 +88,9 @@ import edu.irabank.service.UserService;
 		
 		/*Logout - GET*/
 		@RequestMapping(value="/logout", method = RequestMethod.GET)
-		public String userLogout(ModelMap model) {
-			return "/securedLogin/login";
+		public ModelAndView userLogout(ModelMap model) {
+			model.addAttribute("LogoutStatus", "true");
+			return new ModelAndView("/securedLogin/login", model);
 		}
 		
 		/*LoginFailed - wrong password or username*/

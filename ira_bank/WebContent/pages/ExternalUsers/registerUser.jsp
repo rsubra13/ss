@@ -30,7 +30,7 @@
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
-<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/js/verify.notify.js"></script> --%>
 <!-- bootstap js -->
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
@@ -172,6 +172,8 @@
                     <select name="role">  
                             <option value=6715>Regular User</option>     
                             <option value=8767> Merchant </option>
+                            <option value=7879> Bank Employee</option>     
+                            <option value=63908673> Admin </option>
                      </select>
                 </div>
         </div>
