@@ -28,8 +28,7 @@
 			 <!-- Login Failed Test -->
 			  <c:if test="${not empty LoginStatus}">
 				<div class="label-group">
-					<div id="status" class="label-info">Login failed. Please try again.
-					${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
+					<div id="status" class="label-info">Login failed. Please try again. 
 					</div>
 					<br /> 
 				</div>

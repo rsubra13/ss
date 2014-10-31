@@ -3,6 +3,7 @@
  <display-name>I.R.A bank</display-name>
   
 <welcome-file-list>
+   <welcome-file>/pages/usercheck.jsp</welcome-file>
     <welcome-file>/pages/common/commonhome.jsp</welcome-file>
 </welcome-file-list>
 
