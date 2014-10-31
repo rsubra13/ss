@@ -1,14 +1,14 @@
 function editTrans(id) {
 	console.log("comes here")
-	$.get("get/" + id, function(result) {
+	$.get("edit/" + id, function(result) {
 		console.log("comes out");
 		console.log(result);
 		
-		$("#TransactionDetailsDialog").html(result);
+		$("#requestDetailsDialog").html(result);
 
-		$('#TransactionDetailsDialog').dialog("option", "title", 'Edit User Details');
+		$('#requestDetailsDialog').dialog("option", "title", 'Edit User Details');
 
-		$("#TransactionDetailsDialog").dialog('open');
+		$("#requestDetailsDialog").dialog('open');
 
 		initializeDatePicker();
 	
@@ -31,7 +31,7 @@ function resetDialog(form) {
 
 $(document).ready(function() {
 
-	$('#UserDetailsDialog').dialog({
+	$('#requestDetailsDialog').dialog({
 
 		autoOpen : false,
 		position : 'center',
@@ -40,7 +40,7 @@ $(document).ready(function() {
 		width : 800,
 		buttons : {
 			"Save" : function() {
-				$('#TransactionDetailsForm').submit();
+				$('#requestDetailsForm').submit();
 			},
 			"Cancel" : function() {
 				$(this).dialog('close');
@@ -48,7 +48,7 @@ $(document).ready(function() {
 		},
 		close : function() {
 
-			resetDialog($('#TransactionDetailsForm'));
+			resetDialog($('#requestDetailsForm'));
 
 			$(this).dialog('close');
 		}
