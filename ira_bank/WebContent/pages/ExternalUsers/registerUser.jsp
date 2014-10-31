@@ -65,7 +65,7 @@
                            </div>
                       </c:if>
 
-            <span class="glyphicon glyphicon-asterisk"></span> Fields</strong>
+            
                 <div class="container-fluid">
                 <div class="row">
                 <div class="col-md-offset-1 col-md-5">

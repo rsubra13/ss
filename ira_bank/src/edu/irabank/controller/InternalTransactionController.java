@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.InternalTransactionFormBean;
+import edu.irabank.form.RequestDetailsFormBean;
 import edu.irabank.service.InternalTransactionService;
 import edu.irabank.service.TransactionService;
 import edu.irabank.service.UserService;
@@ -120,4 +121,58 @@ public class InternalTransactionController
 		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
 		
 	}
+	@RequestMapping(value="/admin/save")
+	public ModelAndView saveTrans(@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("reqId") Integer reqId,@RequestParam("reqUsedId") Integer reqUsedId,@RequestParam("reqDesc") String reqDesc, HttpSession sessionID,ModelMap model)
+	{
+		//delete first
+		System.out.println("Comes in Delete" + reqId);
+		internalTransactionService.deleteTransaction(reqId);
+		model.addAttribute("userdeleteStatus", "User Deleted successfully");
+		//model.put("userDetailsFormBean", new UserDetailsFormBean());
+		System.out.println("63 : comes in Delete conroller");
+		
+		
+		
+		
+		
+		
+		//
+		
+		
+		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
+		System.out.println("Account number in controller is:"+Accountnum);
+		
+		String tranID = "";
+		
+		String delimeter = "[,]";
+		String[] split = new String[2];
+		 split = reqDesc.split(delimeter);
+		 trans.setFrom_account(split[0]);
+		 trans.setTo_account(split[1]);
+		 trans.setAmount(Double.parseDouble(split[2]));
+		System.out.println("userName is:" + reqUsedId);
+		boolean isAuthorized0 = false;
+		
+	
+		boolean isCreateSuccess = internalTransactionService.setTransactionDetails(trans, reqUsedId,isAuthorized0,tranID,split,reqId.toString());
+		try{System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
+		
+		
+		
+		}
+		catch(Exception e){
+			System.out.println("Exception: "+e);
+	
+		}
+		
+		//list transactions
+		boolean val= true;
+		model.addAttribute("button",true);
+		model.addAttribute("requestDetailsFormBean", new RequestDetailsFormBean());
+		model.addAttribute("useThis", val);
+		System.out.println("List All Transactions");
+		//model.put("RequestDTO", new RequestDetailsDTO());
+		model.put("RequestDetailsList", internalTransactionService.listTransactions());
+		return new ModelAndView("/ExternalUsers/listTrans",model);
+		}
 }

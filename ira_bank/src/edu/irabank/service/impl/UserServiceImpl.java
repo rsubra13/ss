@@ -250,9 +250,9 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
-	public UserDTO getUserDTOByUserId(Integer userId) {
+	public UserDTO getUserDTOByUserId(Integer reqId) {
 		// TODO Auto-generated method stub
-		return userDAO.getUserDTOByUserId(userId);
+		return userDAO.getUserDTOByUserId(reqId);
 	}
 
 
