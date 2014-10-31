@@ -34,7 +34,7 @@ import edu.irabank.service.UserService;
 		private UserService userService;
 		
 		// GET Method of Listing Users - shows the page.
-				@RequestMapping(value="/ExternalUsers/ListIssues", method = RequestMethod.GET)				
+				@RequestMapping(value="/admin/ListIssues", method = RequestMethod.GET)				
 				public String listAllIssues(ModelMap model) {
 					// redirect to the ListIssues.jsp
 					System.out.println("List All Issues : Controller");
@@ -44,7 +44,7 @@ import edu.irabank.service.UserService;
 					model.put("issuesList", requestService.listIssues());
 					//model.put("usersList", userService.listUsers());
 					//System.out.println("listUsers in controller" + issuesList );
-					return "/ExternalUsers/ListIssues";
+					return "/admin/ListIssues";
 				}
 }
 	 
