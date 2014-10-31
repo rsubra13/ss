@@ -16,11 +16,8 @@ public interface AccountService {
 	public List<AccountDetailsDTO> listAccounts();
 	
 	public AccountDetailsDTO showAccountInfo(Integer UserId);
-	/*createAccountInfo(); - to create account details for a newly registered user. ( default bal , randowmm acct number)
-	delAcct()
-	modifyAcct()
-	viewAccountDetails();
-	checkBalance(); 
+	/*
+	delAcct() 
 	accessPII();
 	
 	//TODO Functionalities:

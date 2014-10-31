@@ -20,6 +20,7 @@ import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.AccountService;
 import edu.irabank.service.UserService;
+import edu.irabank.service.Userpki;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,9 @@ public class UserServiceImpl implements UserService
 
 	@Autowired
 	private AccountService acctService;
+	
+	@Autowired
+	public Userpki userpki;
 	
 	@Transactional
 	public boolean validateUser(String inputUserName, String inputPassword)
@@ -109,6 +113,13 @@ public class UserServiceImpl implements UserService
 		RolesDTO rolesDTO = new RolesDTO();
 		rolesDTO = userRoleDAO.getUserRoleDTOById(userRegistrationFormBean.getRole());
 		newUser.setRoleId(rolesDTO);
+
+		//*************************PKI DO NOT TOUCH*********************************
+		//Adding Public key to db
+		String publicKey = userpki.getPublicKey();
+		newUser.setPublicKey(publicKey);
+		//*************************PKI DO NOT TOUCH*********************************
+		
 		
 		
 		// TODO check here if the user is already present	
