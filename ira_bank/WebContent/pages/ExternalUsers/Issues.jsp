@@ -24,11 +24,9 @@
     <label for="inputissues" class="col-sm-2 control-label">Issues</label>
     <div class="col-sm-7">
       <select class="form-control" id="inputissues" name="issue">
-  <option value="First Issue">First Issue</option>
-  <option value="Second Issue">Second Issue</option>
-  <option value="Third Issue">Third Issue</option>
-  <option value="Fourth Issue">Fourth Issue</option>
-  <option value="Fifth Issue">Fifth Issue</option>
+  <option value="Edit Profile">Edit Profile</option>
+  <option value="Account Locked">Account Locked</option>
+  <option value="Other">Other</option>
 </select>
     </div>
   </div>
@@ -55,6 +53,7 @@
     </div>
   </div>
 </form>
+
   
 </body>
 </html>

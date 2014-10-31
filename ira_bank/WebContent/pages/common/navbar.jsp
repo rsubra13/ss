@@ -126,7 +126,7 @@
 
                         <!-- Admin -->
                       <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li><a href="<%=request.getContextPath()%>/ExternalUsers/ListIssues">View Pending Issues</a></li>
+                        <li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Pending Issues</a></li>
                      </sec:authorize> 
 
                     </ul>
