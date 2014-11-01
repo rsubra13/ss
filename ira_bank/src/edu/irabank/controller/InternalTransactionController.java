@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,6 +122,8 @@ public class InternalTransactionController
 		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
 		
 	}
+	
+	//@PathVariable("fromAccount") String fromAccount,@PathVariable("toAccount") String toAccount,@PathVariable("amount") Double amount,
 	@RequestMapping(value="/admin/save")
 	public ModelAndView saveTrans(@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("reqId") Integer reqId,@RequestParam("reqUsedId") Integer reqUsedId,@RequestParam("reqDesc") String reqDesc, HttpSession sessionID,ModelMap model)
 	{
@@ -148,7 +151,10 @@ public class InternalTransactionController
 		String[] split = new String[2];
 		 split = reqDesc.split(delimeter);
 		 trans.setFrom_account(split[0]);
+		 System.out.println("to:"+split[0]);
+
 		 trans.setTo_account(split[1]);
+		 System.out.println("to:"+split[1]);
 		 trans.setAmount(Double.parseDouble(split[2]));
 		System.out.println("userName is:" + reqUsedId);
 		boolean isAuthorized0 = false;
