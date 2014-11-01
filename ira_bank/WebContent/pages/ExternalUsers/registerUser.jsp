@@ -51,21 +51,30 @@
         <div class="panel-body">
    
           <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
-                
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
+                
+               
                 <c:if test="${ userRegistrationStatus != null}">
-                           <div class="btn-primary">
-                                 <div id="status" class="label-primary">${userRegistrationStatus}</div>
-                           </div>
+              	         
+              	<div class="container">
+       					 <div class="row">
+          					  <div class="col-lg-12">
+            					<div class="well well-sm container">
+						            	<h2>Errors:</h2>
+						                   <div id="status">
+						                   <p> ${userRegistrationStatus} </p>
+                        <%-- <c:forEach var="entry" items="${userRegistrationStatus}">
+ 							Value: <c:out value="${entry.value}"/> </nbsp>
+						</c:forEach>  --%>
+						                   </div>
+				     </div>
+  		 </div>
+   	</div>
+   </div>
+                  
                 </c:if>
                       
-                       <c:if test="${ result != null}">
-                           <div class="btn-primary">
-                                 <div id="status" class="label-primary">${result}</div>
-                           </div>
-                      </c:if>
-
-            
+                   
                 <div class="container-fluid">
                 <div class="row">
                 <div class="col-md-offset-1 col-md-5">
@@ -75,7 +84,7 @@
                     <div class="col-md-12 input-group">
                             <input type="text" id="userName" name="userName" placeholder="Username" class="form-control"  data-validate="required,alphanumeric"  value="${userRegistrationFormBean.userName}">
                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    		 <form:errors path="userName" cssclass="error"></form:errors>
+                    		 <form:errors path="userName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
 
@@ -85,7 +94,7 @@
                     <div class="col-md-12 input-group">
                         <input type="password" class="form-control " id="password" name="password"  placeholder="password"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.password}" >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                       
+                        <form:errors path="password" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>     
         
@@ -100,8 +109,8 @@
             </div>
 
             <!-- Last Name -->
-             <div class="form-group">
-              <label class=" control-label" for="LastName">Last Name</label>
+              <div class="form-group">
+              <label class=" control-label" for="FirstName">First Name</label>
                     <div class="col-md-12 input-group">
                         <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.lastName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
@@ -109,12 +118,14 @@
                     </div>
             </div>
 
+
          <!-- Email -->
             <div class="form-group">
               <label class=" control-label" for="InputEmail">Email</label>
                     <div class="col-md-12 input-group">
                         <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" data-validate="required,email" value="${userRegistrationFormBean.emailId}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                         <form:errors path="emailId" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             </div>
 
@@ -124,6 +135,7 @@
                     <div class="col-md-12 input-group">
                         <textarea class="form-control " id="address"  rows="2"  name="address"  placeholder="Address" data-validate="required,alphanumeric" value="${userRegistrationFormBean.address}" > </textarea>
                          <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                         <form:errors path="address" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             </div>
 
@@ -132,6 +144,7 @@
                     <div class="input-group col-md-12">
                         <input type="phone" class="form-control" id="contactNum" name="contactNum"   placeholder="Phone Number" data-validate="required,phone" value="${userRegistrationFormBean.contactNum}" >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                         <form:errors path="contactNum" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             </div>
        
@@ -140,8 +153,6 @@
 
   <!--   Start the second split -->   
    <div class="col-md-offset-1 col-md-5" >
-      
-            
             <div class="form-group">
               <label for="dob">DOB</label>
 
@@ -161,7 +172,7 @@
                              dateformat: 'mm/dd/yyyy',
                              defaultDate: $("#dob").val()});
                       </script>
-
+				 <form:errors path="dob" class="label label-primary" cssclass="error"></form:errors>
                   </div>
             </div>
 
@@ -175,6 +186,7 @@
                             <option value=7879> Bank Employee</option>     
                             <option value=63908673> Admin </option>
                      </select>
+                  <form:errors path="role" class="label label-primary" cssclass="error"></form:errors>    
                 </div>
         </div>
 
@@ -185,14 +197,17 @@
                         <textarea class="form-control" id="secQue1" rows="2"  name="secQue1" data-validate="required,alphanumeric"  placeholder="Security Que 1" value="${userRegistrationFormBean.secQue1}" > </textarea>
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         </div>
+                       <form:errors class="label label-primary" path="secQue1" cssclass="error"></form:errors>
 					</div>
+					
+					
          <!-- Sec Ans 1 -->
             <div class="form-group ">
               <label  class="control-label" for="secAns1">Security Answer 1</label>
                     <div class="input-group col-md-12">
                         <textarea class="form-control" id="secAns1" rows="2"  name="secAns1" data-validate="required,alphanumeric"  placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" > </textarea>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                       
+                        <form:errors class="label label-primary" path="secAns1" cssclass="error"></form:errors>
                         </div>
             </div> 
 
@@ -202,7 +217,7 @@
                     <div class="input-group  col-md-12">
                         <textarea class="form-control" id="secQue2" rows="2"  name="secQue2"   placeholder="Security Que 2" data-validate="required,alphanumeric"  value="${userRegistrationFormBean.secQue2}" > </textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                        
+                      <form:errors class="label label-primary" path="secQue2" cssclass="error"></form:errors>
                         </div>
             </div>
          <!-- Sec Ans 2 -->
@@ -211,6 +226,7 @@
                     <div class="input-group col-md-12 ">
                         <textarea class="form-control" id="secAns2" rows="2"  name="secAns2"   placeholder="security Ans 2"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.secAns2}" ></textarea>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        <form:errors path="secAns2" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             
             </div> 

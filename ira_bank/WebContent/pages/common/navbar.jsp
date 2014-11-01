@@ -23,9 +23,9 @@
 <!-- Jquery JS Files -->  
 <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 <script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
+<script src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"></script>
 <!-- bootstap js -->
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>

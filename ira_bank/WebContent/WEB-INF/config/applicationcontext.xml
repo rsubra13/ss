@@ -17,15 +17,41 @@
 	
 	<import resource="hibernate.cfg.xml"/>
 	
+   <!-- Moved it above -->	
 	<mvc:annotation-driven />
-	<tx:annotation-driven />
-	<context:annotation-config />
+	
+	<!-- Setting the cache control, back, refresh for all pages -->
+	<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+                <property name="cacheSeconds" value="0"/>
+                <property name="useExpiresHeader" value="true"/>
+                <property name="useCacheControlHeader" value="true"/>
+                <property name="useCacheControlNoStore" value="true"/>
+            </bean>
+        </mvc:interceptor>
+   </mvc:interceptors>
+	
+  <tx:annotation-driven />
+	
+ <context:annotation-config /> 
 	
 	<!--  To scan the components -->
     <context:component-scan base-package="edu.irabank"/>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="cacheSeconds" value="0" />
+	</bean>
+	
 
+	
+	<bean id="iraBankExceptionController" class="edu.irabank.controller.IraBankExceptionController"></bean>
+	
 	<bean id = "transactionManager" class = "org.springframework.orm.hibernate4.HibernateTransactionManager">
     	<property name = "sessionFactory" ref = "sessionFactory" />
 	</bean>	
+	
+	
 	
 </beans>    
