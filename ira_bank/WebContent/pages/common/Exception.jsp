@@ -48,7 +48,7 @@
                    <div id="status">
                    <p>Sorry for the inconvenience caused</p>
                    <p>Please and catch up from where you left by logging in again.</p>
-                   <a href="<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a>
+                   <a href= "<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a>
                    </div>
 					   <br><br>
                    
