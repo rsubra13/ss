@@ -1,3 +1,8 @@
+<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaImpl" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaResponse" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -40,6 +45,7 @@
 
 <body>
 
+ 
 <!-- Registration -->
 <!--first split-->
 
@@ -232,6 +238,13 @@
             </div> 
 
     </div>
+    <div>
+   
+        <%
+          ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Les_PwSAAAAAALJRSaUDbCDMqpvE6Ao68CdcsxS", "6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD", false);
+          out.print(c.createRecaptchaHtml(null, null));
+        %>
+     </div>
     <div class="col-md-12">
     <div class="form-group">
                 <input type="submit" name="submit" id="submit" value="Submit" class="submit btn btn-danger centered ">

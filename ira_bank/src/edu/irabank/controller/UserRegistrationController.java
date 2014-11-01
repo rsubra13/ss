@@ -1,4 +1,6 @@
 package edu.irabank.controller;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +45,8 @@ import javax.validation.Valid;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean; 
 import edu.irabank.service.UserService;
-
-
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 	@Controller
 	@SessionAttributes
 //	@RequestMapping("newuser")
@@ -60,10 +63,11 @@ import edu.irabank.service.UserService;
 			return "/ExternalUsers/registerUser";
 		}
 		
+		
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/register", method = RequestMethod.POST)
-		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
-			
+		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpServletRequest request) {
+			 
 			// Trying arraylist option for displaying errors.
 			
 			ArrayList<String> errorCode = new ArrayList<String>();
@@ -96,7 +100,26 @@ import edu.irabank.service.UserService;
 				model.addAttribute("userRegistrationStatus",errorCode);
 				serverValidationError = true;
 			}
-			
+			ReCaptchaImpl captcha = new ReCaptchaImpl();
+	        captcha.setPrivateKey("6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD");
+	        
+	        String challenge = request.getParameter("recaptcha_challenge_field");
+	        String uresponse = request.getParameter("recaptcha_response_field");
+	        ReCaptchaResponse reCaptchaResponse =
+	                captcha.checkAnswer(request.getRemoteAddr(),
+	                challenge, uresponse
+	            );
+	 
+	        if (reCaptchaResponse.isValid()) {
+	            model.addAttribute("userRegistrationStatus", "Captcha Validated");
+	            System.out.println("*****Captcha validated****");
+	            
+	        } else {
+	            model.addAttribute("userRegistrationStatus", "Captcha failed.");
+	            System.out.println("******Captcha failed******");
+	            
+				serverValidationError = true;
+	        }
 			if(userRegistrationFormBean.getLastName()==null || !userRegistrationFormBean.getLastName().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
 				errorCode.add("Please check the Last Name. It is not in expected format.");

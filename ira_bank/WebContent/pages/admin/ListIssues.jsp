@@ -58,7 +58,10 @@
                            <tr>
                            	  <th width="12%">Sr. No</th>
                            	 
+                             <th width="12%">User ID</th>
+                             <th width="12%">User Name</th>
                               <th width="12%">Issue Type</th>
+                              
                               <th width="12%">Description</th>
                               <th width="12%">Status</th>
                               <th width="12%">Priority</th>
@@ -71,6 +74,8 @@
                            <tr>
                            		<c:if test="${issues.reqType!='Transact'}">
                                <td><c:out value="${loopCounter.count}" /></td>
+                                <td><c:out value="${issues.reqUserId.userId}" /></td>
+                                <td><c:out value="${issues.reqUserId.userName}" /></td>
                                 <td><c:out value="${issues.reqType}" /></td>
                                 <td><c:out value="${issues.reqDesc}" /></td>
                                 <td><c:out value="${issues.reqStatus}" /></td>

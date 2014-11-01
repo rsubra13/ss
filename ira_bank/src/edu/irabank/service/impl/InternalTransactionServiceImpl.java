@@ -111,6 +111,7 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 			RequestDTO.setReqPriority("High");
 			
 		}
+		RequestDTO.setReqPriority("Medium");
 		Date date = new Date();
 		RequestDTO.setReqDate(date);
 		RequestDTO.setIsApproved(false);

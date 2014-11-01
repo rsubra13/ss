@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +60,11 @@
                               <th width="4%">S.No</th>
                               <th width="12%">Request Id</th>
                               <th width="4%">Request User Id</th>
-                              <th width="28%">Request Description</th>
+                              
+                             
+                              <th width="10%">From Account</th>
+                               <th width="10%">To Account</th>
+                                <th width="8%"> Amount</th>
                               <th width="5%">Request Status</th>
                               <th width="12%">Request Date</th>
                               <th width="12%">Request Type</th>
@@ -77,9 +84,13 @@
                                <td><c:out value="${loopCounter.count}" /></td>
                                <td><input  name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
                                
-                             <td><input name="userId"   type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
-                               <td><input name="reqDesc"style="height: 150%;"" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
-                               </td>
+                               <td><input name="userId"   type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
+                               
+                               <c:set var="stringDesc" value="${fn:split(requestDetails.getReqDesc(), ',')}" />
+                              <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[0]}"  />"  readonly="readonly"/></td>
+                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[1]}"  />"  readonly="readonly"/></td>
+                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[2]}"  />"  readonly="readonly"/></td>
+                               
                                <td><c:out value="${requestDetails.getReqStatus()}" /></td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
@@ -90,7 +101,7 @@
                                <td><input  name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                 <td>
                            
-		                        <button   name ="save" type="submit" class="btn btn-default" formaction="/ira_bank/admin/edit/${requestDetails.getReqId()}">Edit</button>
+		                        <button   name ="save" type="submit" class="btn btn-default"  formaction="/ira_bank/admin/edit">Edit</button>
 		                        
                        		 <c:if test="${button== true}" >
                              <button   name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
