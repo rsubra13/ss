@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,9 +55,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserDTO.findByPkiNumber", query = "SELECT u FROM UserDTO u WHERE u.pkiNumber = :pkiNumber"),
     @NamedQuery(name = "UserDTO.findByPublicKey", query = "SELECT u FROM UserDTO u WHERE u.publicKey = :publicKey"),
     @NamedQuery(name = "UserDTO.findByOtp", query = "SELECT u FROM UserDTO u WHERE u.otp = :otp"),
+    @NamedQuery(name = "UserDTO.findBySsn", query = "SELECT u FROM UserDTO u WHERE u.ssn = :ssn"),
     @NamedQuery(name = "UserDTO.findByLoginAttempts", query = "SELECT u FROM UserDTO u WHERE u.loginAttempts = :loginAttempts"),
     @NamedQuery(name = "UserDTO.findByAcctLockedStatus", query = "SELECT u FROM UserDTO u WHERE u.acctLockedStatus = :acctLockedStatus"),
-    @NamedQuery(name = "UserDTO.findByActiveStatus", query = "SELECT u FROM UserDTO u WHERE u.activeStatus = :activeStatus")})
+    @NamedQuery(name = "UserDTO.findByActiveStatus", query = "SELECT u FROM UserDTO u WHERE u.activeStatus = :activeStatus"),
+    @NamedQuery(name = "UserDTO.findBySitekey", query = "SELECT u FROM UserDTO u WHERE u.sitekey = :sitekey")})
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -138,16 +139,19 @@ public class UserDTO implements Serializable {
     private String publicKey;
     @Size(max = 45)
     private String otp;
+    private Integer ssn;
     @Column(name = "LOGIN_ATTEMPTS")
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
     private Boolean acctLockedStatus;
     @Column(name = "ACTIVE_STATUS")
     private Boolean activeStatus;
+    @Size(max = 45)
+    private String sitekey;
     @OneToMany(mappedBy = "reqUserId")
     private List<RequestDetailsDTO> requestDetailsDTOList;
-    @OneToOne(mappedBy = "merchantId")
-    private BillPayDTO billPayDTO;
+    @OneToMany(mappedBy = "merchantId")
+    private List<BillPayDTO> billPayDTOList;
     @OneToMany(mappedBy = "uId")
     private List<AccountDetailsDTO> accountDetailsDTOList;
     @OneToMany(mappedBy = "notificationUserId")
@@ -330,6 +334,14 @@ public class UserDTO implements Serializable {
         this.otp = otp;
     }
 
+    public Integer getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(Integer ssn) {
+        this.ssn = ssn;
+    }
+
     public Integer getLoginAttempts() {
         return loginAttempts;
     }
@@ -354,6 +366,14 @@ public class UserDTO implements Serializable {
         this.activeStatus = activeStatus;
     }
 
+    public String getSitekey() {
+        return sitekey;
+    }
+
+    public void setSitekey(String sitekey) {
+        this.sitekey = sitekey;
+    }
+
     @XmlTransient
     public List<RequestDetailsDTO> getRequestDetailsDTOList() {
         return requestDetailsDTOList;
@@ -363,12 +383,13 @@ public class UserDTO implements Serializable {
         this.requestDetailsDTOList = requestDetailsDTOList;
     }
 
-    public BillPayDTO getBillPayDTO() {
-        return billPayDTO;
+    @XmlTransient
+    public List<BillPayDTO> getBillPayDTOList() {
+        return billPayDTOList;
     }
 
-    public void setBillPayDTO(BillPayDTO billPayDTO) {
-        this.billPayDTO = billPayDTO;
+    public void setBillPayDTOList(List<BillPayDTO> billPayDTOList) {
+        this.billPayDTOList = billPayDTOList;
     }
 
     @XmlTransient
