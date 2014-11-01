@@ -1,7 +1,10 @@
 package edu.irabank.controller;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +30,12 @@ import javax.validation.Valid;
 
 
 
+
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean; 
 import edu.irabank.service.UserService;
-
-
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 	@Controller
 	@SessionAttributes
 //	@RequestMapping("newuser")
@@ -48,10 +52,11 @@ import edu.irabank.service.UserService;
 			return "/ExternalUsers/registerUser";
 		}
 		
+		
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/register", method = RequestMethod.POST)
-		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
-			
+		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpServletRequest request) {
+			 
 			// use the Form Elements values from Registration form and check for the validations
 			
 			// Case 1: JSR303 validation. Checks for Hibernate related form issues.
@@ -79,7 +84,26 @@ import edu.irabank.service.UserService;
 				model.addAttribute("userRegistrationStatus", "First Name not as expected, Please check.");
 				serverValidationError = true;
 			}
-			
+			ReCaptchaImpl captcha = new ReCaptchaImpl();
+	        captcha.setPrivateKey("6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD");
+	        
+	        String challenge = request.getParameter("recaptcha_challenge_field");
+	        String uresponse = request.getParameter("recaptcha_response_field");
+	        ReCaptchaResponse reCaptchaResponse =
+	                captcha.checkAnswer(request.getRemoteAddr(),
+	                challenge, uresponse
+	            );
+	 
+	        if (reCaptchaResponse.isValid()) {
+	            model.addAttribute("userRegistrationStatus", "Captcha Validated");
+	            System.out.println("*****Captcha validated****");
+	            
+	        } else {
+	            model.addAttribute("userRegistrationStatus", "Captcha failed.");
+	            System.out.println("******Captcha failed******");
+	            
+				serverValidationError = true;
+	        }
 			if(userRegistrationFormBean.getLastName()==null || !userRegistrationFormBean.getLastName().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
 				model.addAttribute("userRegistrationStatus", "Problem with Last Name field!");
