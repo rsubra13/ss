@@ -36,6 +36,7 @@
 			<td>Merchant ID</td>
 			 <td>Account number </td>
 			 <td>Amount</td>
+			 <td>Private Key</td>
 			 <td>Action</td>
 			 </tr>
     </thead>
@@ -56,7 +57,7 @@
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
 			   <td><input type="password" name="privatekey" id="privatekey" required></td>
-			   <td><button  type="action" name="action" id="accept" value="Accept">Approve</button>  <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
+			   <td><button  type="action" name="action" id="accept" value="Accept">Approve</button> <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
 			   </form>			                      
 			   </tr>
 			   </c:if>

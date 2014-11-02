@@ -102,8 +102,6 @@ import edu.irabank.service.TransactionService;
 		@RequestMapping(value="/InternalUsers/BillpayRequests", method = RequestMethod.GET)
 		public String Billpayrequests(ModelMap model) {
 			
-			List<BillPayDTO> list1 = transactionService.showBillpayInfo();
-			System.out.println("list1:" + list1);
 			model.put("BillPayDTO", new BillPayDTO());
 			model.put("BillpayInfo",transactionService.showBillpayInfo());
 			System.out.println(transactionService.showBillpayInfo());
@@ -142,7 +140,9 @@ import edu.irabank.service.TransactionService;
 								System.out.println("Bill pay Approved!");
 								model.addAttribute("accountStatus", "Bill pay Approved!");
 								model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
-								return new ModelAndView("/ExternalUsers/BillpayUser", model);
+								model.put("BillPayDTO", new BillPayDTO());
+								model.put("BillpayInfo",transactionService.showBillpayInfo());
+								return new ModelAndView("/InternalUsers/BillpayRequests", model);
 							}
 						}
 						else
@@ -153,7 +153,9 @@ import edu.irabank.service.TransactionService;
 							System.out.println("Insufficient Balance!");
 							model.addAttribute("accountStatus", "Insufficient Balance!");
 							model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
-							return new ModelAndView("/ExternalUsers/BillpayUser", model);
+							model.put("BillPayDTO", new BillPayDTO());
+							model.put("BillpayInfo",transactionService.showBillpayInfo());
+							return new ModelAndView("/InternalUsers/BillpayRequests", model);
 							
 						}
 					}
@@ -168,14 +170,16 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Bill pay Rejected!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
 						model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
-						return new ModelAndView("/ExternalUsers/BillpayUser", model);
+						model.put("BillPayDTO", new BillPayDTO());
+						model.put("BillpayInfo",transactionService.showBillpayInfo());
+						return new ModelAndView("/InternalUsers/BillpayRequests", model);
 					
 					}
 			}
 
 			model.addAttribute("accountStatus", action);
 			model.addAttribute("billpayrequestFormBean",action);
-			return new ModelAndView("/ExternalUsers/BillpayUser", model);
+			return new ModelAndView("/InternalUsers/BillpayRequests", model);
 		}
 		
 		
@@ -184,9 +188,7 @@ import edu.irabank.service.TransactionService;
 		// Get Method for Bill Pay user request page	
 		@RequestMapping(value="/ExternalUsers/BillpayUser", method = RequestMethod.GET)
 		public String Billpayuserrequests(ModelMap model) {
-			List<BillPayDTO> list1 = transactionService.showBillpayInfo();
 			
-			System.out.println("list1:" + list1);
 			model.put("BillPayDTO", new BillPayDTO());
 			model.put("BillpayInfo",transactionService.showBillpayInfo());
 			System.out.println(transactionService.showBillpayInfo());
@@ -222,6 +224,13 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Bill pay Accepted!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
 						model.addAttribute("billpayuserFormBean",billpayuserFormBean);
+						model.put("BillPayDTO", new BillPayDTO());
+						model.put("BillpayInfo",transactionService.showBillpayInfo());
+						System.out.println(transactionService.showBillpayInfo());
+						Integer userId = (Integer)sessionID.getAttribute("userId");
+						String Accountno = transactionService.getAccountNumberbyUserID(userId);
+						System.out.println("User Account Number" + Accountno );
+						model.put("Useracount", Accountno);
 						return new ModelAndView("/ExternalUsers/BillpayUser", model);
 					
 					}
@@ -237,6 +246,13 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Bill pay Rejected!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
 						model.addAttribute("billpayuserFormBean",billpayuserFormBean);
+						model.put("BillPayDTO", new BillPayDTO());
+						model.put("BillpayInfo",transactionService.showBillpayInfo());
+						System.out.println(transactionService.showBillpayInfo());
+						Integer userId = (Integer)sessionID.getAttribute("userId");
+						String Accountno = transactionService.getAccountNumberbyUserID(userId);
+						System.out.println("User Account Number" + Accountno );
+						model.put("Useracount", Accountno);
 						return new ModelAndView("/ExternalUsers/BillpayUser", model);
 					
 					}
@@ -288,6 +304,11 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Bill pay Accepted!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
 						model.addAttribute("billpaymerchantapproveFormBean",billpaymerchantapproveFormBean);
+						model.put("BillPayDTO", new BillPayDTO());
+						model.put("BillpayInfo",transactionService.showBillpayInfo());
+						System.out.println(transactionService.showBillpayInfo());
+						Integer userId = (Integer)sessionID.getAttribute("userId");
+						model.put("UserID", userId);
 						return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 					
 					}
@@ -303,6 +324,11 @@ import edu.irabank.service.TransactionService;
 						System.out.println("Bill pay Rejected!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
 						model.addAttribute("billpaymerchantapproveFormBean",billpaymerchantapproveFormBean);
+						model.put("BillPayDTO", new BillPayDTO());
+						model.put("BillpayInfo",transactionService.showBillpayInfo());
+						System.out.println(transactionService.showBillpayInfo());
+						Integer userId = (Integer)sessionID.getAttribute("userId");
+						model.put("UserID", userId);
 						return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 					
 					}
