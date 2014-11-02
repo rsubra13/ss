@@ -66,9 +66,9 @@ import edu.irabank.service.RequestService;
 				return new ModelAndView( "/ExternalUsers/Issues",model);
 			}
 			Boolean serverValidationError = false;
-			if(issueFormBean.getDescription()=="" )
+			if(issueFormBean.getDescription()==""|| !issueFormBean.getDescription().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
-				errorCode.add("Please enter description");
+				errorCode.add("Please check the description. It is not in expected format.");
 				model.addAttribute("issueStatus",errorCode);
 				serverValidationError = true;
 			}
