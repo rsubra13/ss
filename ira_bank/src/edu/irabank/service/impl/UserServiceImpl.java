@@ -262,7 +262,34 @@ public class UserServiceImpl implements UserService
 	}
 
 
-	
+	@Override
+	@Transactional
+	public UserDTO getUserDTOByEmailId(String emailId) {
+		
+		System.out.println("comes in Service" + emailId);
+		return userDAO.getUserDTOByEmailId(emailId);
+	}
+
+	@Override
+	@Transactional
+	public boolean storeotp(UserDTO userdto) {
+		 boolean status=userDAO.storeOtp(userdto);
+		 return true;
+		
+	}
+
+	@Override
+	@Transactional
+	public boolean updatepassword(UserDTO retrievedDTO) {
+		// TODO Auto-generated method stub
+		BCryptPasswordEncoder bcrypt = new  BCryptPasswordEncoder();
+		String encryptedPassword = bcrypt.encode(retrievedDTO.getPassword());
+		retrievedDTO.setPassword(encryptedPassword);
+		 boolean status=userDAO.updatepassword(retrievedDTO);
+		 return true;
+	}
+
+
 		
 
 }

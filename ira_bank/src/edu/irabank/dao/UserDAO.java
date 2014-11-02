@@ -19,7 +19,10 @@ public interface UserDAO {
 	public Boolean updateUserDetails(UserDTO userDTO);
 	
 	public Integer retrieveUserID(String userName);
-	
+	public UserDTO getUserDTOByEmailId(String EmailId);
+
+	public Boolean storeOtp(UserDTO userDTO);
+	public Boolean updatepassword(UserDTO userDTO);
 	//For disabling Multiple UserAttempts
 	/*void updateFailAttempts(String username);
 	void resetFailAttempts(String username);

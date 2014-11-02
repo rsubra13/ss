@@ -222,7 +222,55 @@ public class UserDAOImpl implements UserDAO
 		
 	}
    
+	@Override
+	public Boolean storeOtp(UserDTO userDTO) {
+		
+		// TODO check if the user is already present in service Layer
+		try{
+			sessionFactory.getCurrentSession().merge(userDTO);
+			return true;
+		}
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+		
+	} // End of store
+	@Override
+	public Boolean updatepassword(UserDTO userDTO) {
+		
+		// TODO check if the user is already present in service Layer
+		try{
+			sessionFactory.getCurrentSession().merge(userDTO);
+			return true;
+		}
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+		
+	} // End of update
+
+	@Override
 	
+	public UserDTO getUserDTOByEmailId(String emailId) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("comes in getuserDTO");
+		//Session session = sessionFactory.getCurrentSession();
+		
+		Query query = getSession().getNamedQuery("UserDTO.findByEmailId");
+		System.out.println("query set");
+		//Query query = session.getNamedQuery("UserDTO.findByEmailId"); //using NamedQuery
+		
+		query.setParameter("emailId", emailId );
+		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		
+		return userDTO;
+		
+	}
 }
 
 
