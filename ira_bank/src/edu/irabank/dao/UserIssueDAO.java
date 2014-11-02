@@ -12,6 +12,6 @@ public interface UserIssueDAO {
 	public Boolean addNewIssue(RequestDetailsDTO requestdetailsdto, UserDTO userDTO); // Pass user object as an argument
 	
 	public List<RequestDetailsDTO> listIssues();
-
+	public List <RequestDetailsDTO> listMyIssues(Integer userId);
 
 }

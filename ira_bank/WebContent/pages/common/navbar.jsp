@@ -123,7 +123,7 @@
 
                         <!-- User -->
                         <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">My Issues</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/MyIssues">My Issues</a></li>
                         </sec:authorize>  
 
                         <!-- Admin -->

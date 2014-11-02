@@ -13,11 +13,16 @@
   <div class="panel-heading">Submit An Issue</div>
 </div>
 
-<form class="form-horizontal" role="form" method="POST" id="issueFormBean" 
+<form:form class="form-horizontal" role="form" method="POST" id="issueFormBean" 
                 commandName="issueFormBean" action="Issues">
                  <c:if test="${ issueCreationStatus != null}">
                            <div class="btn-primary">
                                  <div id="status" class="label-primary">${issueCreationStatus}</div>
+                           </div>
+                      </c:if>
+                      <c:if test="${ issueStatus != null}">
+                           <div class="btn-primary">
+                                 <div id="status" class="label-primary">${issueStatus}</div>
                            </div>
                       </c:if>
   <div class="form-group">
@@ -33,7 +38,8 @@
   <div class="form-group">
     <label for="inputDesc" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-7">
-      <textarea class="form-control" rows="3" id="inputDesc" name="description"></textarea>
+      <textarea class="form-control" rows="3" id="inputDesc" name="description" value="${issueFormBean.description}"></textarea>
+      <form:errors path="description" cssclass="error"></form:errors>
     </div>
   </div>
   <div class="form-group">
@@ -52,7 +58,7 @@
       <button type="submit" class="btn btn-default">Submit</button>
     </div>
   </div>
-</form>
+</form:form>
 
   
 </body>

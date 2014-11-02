@@ -18,4 +18,5 @@ public interface RequestService {
 	// Add new issue
 	public boolean addNewIssue(IssueFormBean issueFormBean, UserDTO userDTO);
 	public List <RequestDetailsDTO> listIssues();
+	public List <RequestDetailsDTO> listMyIssues(Integer userId);
 }
