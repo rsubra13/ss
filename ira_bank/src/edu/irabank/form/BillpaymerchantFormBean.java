@@ -2,17 +2,24 @@ package edu.irabank.form;
 
 import java.util.Date;
 
+import javax.annotation.Nonnegative;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class BillpaymerchantFormBean {
 	
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     private String account;
-    private double amount;
+	@Basic(optional = false)
+	@NotNull @Nonnegative @Min(value = 0)
+    private String amount;
 
    
     public void setAccount(String account){
@@ -23,11 +30,11 @@ public class BillpaymerchantFormBean {
 		return account;
 	}
     
-	public void setAmount(double amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 	
-	public double getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 			

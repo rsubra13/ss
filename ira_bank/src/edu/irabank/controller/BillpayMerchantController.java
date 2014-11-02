@@ -1,10 +1,12 @@
 package edu.irabank.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,13 +51,51 @@ import edu.irabank.service.TransactionService;
 		
 		// Post Method after submitting Account detail and amount in Billpay Merchant Form
 		@RequestMapping(value="/ExternalUsers/Billpaymerchant", method=RequestMethod.POST)
-	    public ModelAndView accountTransfer(@ModelAttribute("billpaymerchantFormBean") BillpaymerchantFormBean billpaymerchantFormBean,  BindingResult result, ModelMap model)
+	    public ModelAndView accountTransfer(@ModelAttribute("billpaymerchantFormBean")@Valid BillpaymerchantFormBean billpaymerchantFormBean,  BindingResult result, ModelMap model)
 	    {
+			// Arraylist option for displaying errors.
 			
+			ArrayList<String> errorCode = new ArrayList<String>();
+			
+			// Case 1: JSR303 validation. Checks for Hibernate related form issues.
+			
+			if (result.hasErrors()){
+				System.out.println("comes in form errors of merchant billpay");
+				model.addAttribute("accountStatus", "Please fill the necessary fields and try again");
+				model.addAttribute("billpaymerchantFormBean",billpaymerchantFormBean);
+				return new ModelAndView( "/ExternalUsers/Billpaymerchant",model);
+			}
+			
+			// Case 2 : Server-side validation : Start the validation before pressing the submit button.
+	
+			Boolean serverValidationError = false;
+			
+			// Check for all the billpaymerchantFormBean values.
+			if(billpaymerchantFormBean.getAccount()==null || !billpaymerchantFormBean.getAccount().matches("^[0-9 -]+$"))
+			{
+				errorCode.add("Please check the Account Number. It is not in expected format.");
+				model.addAttribute("accountStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(Double.valueOf(billpaymerchantFormBean.getAmount())==null || !Double.valueOf(billpaymerchantFormBean.getAmount()).toString().matches("[0-9]{1,13}(\\.[0-9]*)?"))
+			{
+				errorCode.add("Please check the Amount. It is not in expected format.");
+				model.addAttribute("accountStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			// Go back to register page with these validation errors.
+			if(serverValidationError){
+				return new ModelAndView("/ExternalUsers/Billpaymerchant", model); // return back to register
+			}
+			
+			if(!serverValidationError)
+			{
 			System.out.println("comes at Billpay Merchant post method");
 			String status = "MerchantPending";
 			String Account = billpaymerchantFormBean.getAccount();
-			Double amount = billpaymerchantFormBean.getAmount();
+			Double amount = Double.parseDouble(billpaymerchantFormBean.getAmount());
 			
 			boolean isAccountExist = transactionService.getAccountNumber(Account);
 			
@@ -92,9 +132,11 @@ import edu.irabank.service.TransactionService;
 					}
 
 			}
+			}
 			model.addAttribute("accountStatus", "Please enter valid details");
 			model.addAttribute("billpaymerchantFormBean",billpaymerchantFormBean);
 			return new ModelAndView("/ExternalUsers/Billpaymerchant", model);
+
 		}
 
 		
@@ -111,7 +153,7 @@ import edu.irabank.service.TransactionService;
 		
 		// Post Method after clicking the Accept or Reject Button in Billpay employee Request Form
 		@RequestMapping(value="/InternalUsers/BillpayRequests", method=RequestMethod.POST)
-	    public ModelAndView accountTransfer(@ModelAttribute("billpayrequestFormBean") BillpayrequestFormBean billpayrequestFormBean,  BindingResult result, ModelMap model)
+	    public ModelAndView accountTransfer(@ModelAttribute("billpayrequestFormBean") @Valid BillpayrequestFormBean billpayrequestFormBean,  BindingResult result, ModelMap model)
 	    {
 			
 			System.out.println("comes at Billpay Request post method");
@@ -202,7 +244,7 @@ import edu.irabank.service.TransactionService;
 		
 		// Post Method after clicking the Accept or Reject Button in Billpay user Request Form
 		@RequestMapping(value="/ExternalUsers/BillpayUser", method=RequestMethod.POST)
-	    public ModelAndView Billpayuserrequest(@ModelAttribute("billpayuserFormBean") BillpayuserFormBean billpayuserFormBean,  BindingResult result, ModelMap model)
+	    public ModelAndView Billpayuserrequest(@ModelAttribute("billpayuserFormBean")@Valid BillpayuserFormBean billpayuserFormBean,  BindingResult result, ModelMap model)
 	    {
 			
 			System.out.println("comes at Billpay Request post method");
@@ -210,6 +252,8 @@ import edu.irabank.service.TransactionService;
 			String Account = billpayuserFormBean.getAccountno();
 			Double amount = billpayuserFormBean.getAmount();
 			String action = billpayuserFormBean.getAction();
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			String Accountno = transactionService.getAccountNumberbyUserID(userId);
 			System.out.println(billid);
 			System.out.println(action);
 			
@@ -226,10 +270,6 @@ import edu.irabank.service.TransactionService;
 						model.addAttribute("billpayuserFormBean",billpayuserFormBean);
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
-						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
-						String Accountno = transactionService.getAccountNumberbyUserID(userId);
-						System.out.println("User Account Number" + Accountno );
 						model.put("Useracount", Accountno);
 						return new ModelAndView("/ExternalUsers/BillpayUser", model);
 					
@@ -248,10 +288,6 @@ import edu.irabank.service.TransactionService;
 						model.addAttribute("billpayuserFormBean",billpayuserFormBean);
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
-						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
-						String Accountno = transactionService.getAccountNumberbyUserID(userId);
-						System.out.println("User Account Number" + Accountno );
 						model.put("Useracount", Accountno);
 						return new ModelAndView("/ExternalUsers/BillpayUser", model);
 					
@@ -282,7 +318,7 @@ import edu.irabank.service.TransactionService;
 		
 		// Post Method after clicking the Accept or Reject Button in Billpay user Request Form
 		@RequestMapping(value="/ExternalUsers/BillpaymerchantApprove", method=RequestMethod.POST)
-	    public ModelAndView Billpaymerchant(@ModelAttribute("billpaymerchantapproveFormBean") BillpaymerchantapproveFormBean billpaymerchantapproveFormBean,  BindingResult result, ModelMap model)
+	    public ModelAndView Billpaymerchant(@ModelAttribute("billpaymerchantapproveFormBean")@Valid BillpaymerchantapproveFormBean billpaymerchantapproveFormBean,  BindingResult result, ModelMap model)
 	    {
 			
 			System.out.println("comes at Billpay Request post method");
@@ -290,6 +326,7 @@ import edu.irabank.service.TransactionService;
 			String Account = billpaymerchantapproveFormBean.getAccountno();
 			Double amount = billpaymerchantapproveFormBean.getAmount();
 			String action = billpaymerchantapproveFormBean.getAction();
+			Integer userId = (Integer)sessionID.getAttribute("userId");
 			System.out.println(billid);
 			System.out.println(action);
 			
@@ -307,7 +344,6 @@ import edu.irabank.service.TransactionService;
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
 						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
 						model.put("UserID", userId);
 						return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 					
@@ -327,7 +363,6 @@ import edu.irabank.service.TransactionService;
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
 						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
 						model.put("UserID", userId);
 						return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 					

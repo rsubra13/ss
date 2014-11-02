@@ -8,16 +8,21 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css" />  
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css.map " />  
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>I.R.A Bank</title>
+<title>Approved Bill Pay</title>
 </head>
 <body>
+<%
+String context_path=request.getContextPath();
+String navbar_path=context_path+"/pages/navbar.jsp";
+%>
+<%@include file="../common/navbar.jsp" %>
 
   <div class="container-fluid">
 <div class="row ">
 <div class="col-md-offset-1 col-md-10">
   <div class="panel panel-primary">
   
-  <div class="panel-heading">Pending Requests</div>
+  <div class="panel-heading">Approved Requests</div>
   <div class="panel-body">
   </div>
   
