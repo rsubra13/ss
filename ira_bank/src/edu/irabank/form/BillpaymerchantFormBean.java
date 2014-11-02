@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 public class BillpaymerchantFormBean {
 	
     private String account;
-    private String amount;
+    private double amount;
 
    
     public void setAccount(String account){
@@ -23,11 +23,11 @@ public class BillpaymerchantFormBean {
 		return account;
 	}
     
-	public void setAmount(String amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 	
-	public String getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 			

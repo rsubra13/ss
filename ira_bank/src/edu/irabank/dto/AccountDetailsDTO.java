@@ -6,7 +6,9 @@
 package edu.irabank.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -59,6 +63,8 @@ public class AccountDetailsDTO implements Serializable {
     @JoinColumn(name = "U_ID", referencedColumnName = "USER_ID")
     @ManyToOne
     private UserDTO uId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountNumber")
+    private List<UserBillpayDTO> userBillpayDTOList;
 
     public AccountDetailsDTO() {
     }
@@ -119,6 +125,15 @@ public class AccountDetailsDTO implements Serializable {
 
     public void setUId(UserDTO uId) {
         this.uId = uId;
+    }
+
+    @XmlTransient
+    public List<UserBillpayDTO> getUserBillpayDTOList() {
+        return userBillpayDTOList;
+    }
+
+    public void setUserBillpayDTOList(List<UserBillpayDTO> userBillpayDTOList) {
+        this.userBillpayDTOList = userBillpayDTOList;
     }
 
     @Override

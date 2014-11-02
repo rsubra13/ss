@@ -28,7 +28,7 @@
   </c:if>
   
     <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
-    commandName="transferFormBean action="ira_bank/ExternalUsers/Transfer_funds"> 
+    commandName="transferFormBean" action="ira_bank/ExternalUsers/Transfer_funds"> 
   
   <div class="form-group">
  

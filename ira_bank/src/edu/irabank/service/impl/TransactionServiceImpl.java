@@ -16,7 +16,9 @@ import edu.irabank.dao.TransactionDetailsDAO;
 import edu.irabank.dto.TransactionDetailsDTO;
 import edu.irabank.dao.AccountDetailsDAO;
 import edu.irabank.dao.BillpayDAO;
-import edu.irabank.dao.impl.UserDAOImpl;
+import edu.irabank.dao.UserDAO;
+import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.dto.BillPayDTO;
 import edu.irabank.service.TransactionService;
@@ -35,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService
 	private BillpayDAO billpayDAO;
 	
 	@Autowired
-	private UserDAOImpl userDAOImpl;
+	private UserDAO userDAO;
 	
 	@Autowired
 	HttpSession sessionID;
@@ -155,14 +157,15 @@ public class TransactionServiceImpl implements TransactionService
 	public boolean BillPay(String AccountNo, Double balance, String status)
 	{
 		Integer userId = (Integer)sessionID.getAttribute("userId");
-		System.out.println("userID is:" + userId);
-		UserDTO merchantid = userDAOImpl.getUserDTOByUserId(userId);
+		System.out.println("userID in  service is:" + userId);
+		UserDTO merchantdto = userDAO.getUserDTOByUserId(userId);
 		// Add row to BillPay table
 		BillPayDTO newBillPay = new BillPayDTO();
+		newBillPay.setMerchantId(merchantdto);
 		newBillPay.setAcctNumber(AccountNo);
 		newBillPay.setAmount(balance);
 		newBillPay.setStatus(status);
-		newBillPay.setMerchantId(merchantid);
+		
 		
 		// Add this newly created TransactionDetailsDTO Object into the DB.			
 		boolean Billpaysave = billpayDAO.BillpaySave(newBillPay);
@@ -171,7 +174,31 @@ public class TransactionServiceImpl implements TransactionService
 	}
 
 	
+	@Override
+	@Transactional(readOnly = true)
+	public List<BillPayDTO> showBillpayInfo() {
+		// TODO Auto-generated method stub
+		List billpayList = billpayDAO.showbillpayInfo();
+		System.out.println("Bill pay List" + billpayList);
+		return billpayList;
 	}
+
+	@Transactional
+	public boolean BillPayUpdate(Integer billid, String Status)
+	{
+	    boolean isbillpaystatus = billpayDAO.Billpayupdatestatus(billid, Status);
+	    if(isbillpaystatus)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
+		
+	}
+	
 
 
 

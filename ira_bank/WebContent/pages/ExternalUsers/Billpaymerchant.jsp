@@ -29,7 +29,7 @@
                 commandName="billpaymerchantFormBean">
     
   <div class="form-group">
-    <label for="accountnumber" class="col-sm-2 control-label">Amount</label>
+    <label for="accountnumber" class="col-sm-2 control-label">Account Number</label>
     <div class="col-sm-7 col-md-7">
       <input name="account" type="Text" class="form-control" id="inputaccount" placeholder="Account Number" value="" required>
     </div>

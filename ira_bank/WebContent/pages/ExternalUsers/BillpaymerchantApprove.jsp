@@ -21,22 +21,21 @@
   <div class="panel-body">
   </div>
   
-        <c:if test="${ accountStatus != null}">
+        <c:if test="${accountStatus != null}">
                 <div class="btn-primary">
                    <div id="status" class="label-primary">${accountStatus}</div>
                 </div>
-  	</c:if>
+  		</c:if>
      
   <!-- Table -->
   
   <table class="table table-condensed">
   	<thead>
 			 <tr>
+			 <td>Request Id</td>
 			<td>Merchant ID</td>
 			 <td>Account number </td>
-			 <td>Request Id</td>
 			 <td>Amount</td>
-			 <td>Status</td>
 			 <td>Action</td>
 			 </tr>
     </thead>
@@ -44,23 +43,22 @@
 			 <tbody>
 			 
 			   <c:forEach items="${BillpayInfo}" var="Billpaylist" varStatus="loopCounter">
-			   <c:if test="${Billpaylist.status == 'MerchantApproved'}">
+			   <c:if test="${Billpaylist.status == 'UserApproved'}">
+			   <c:if test="${Billpaylist.merchantId.userId == UserID}">
 			   <tr>
-			   <form class="form-horizontal" action="/ira_bank/InternalUsers/BillpayRequests" method="POST" id="billpayrequestFormBean">
+			   <form class="form-horizontal" action="/ira_bank/ExternalUsers/BillpaymerchantApprove" method="POST" id="billpaymerchantapproveFormBean">
+			   <input type = "hidden" name = "billid" value = "${Billpaylist.billId}">
 			   <input type = "hidden" name = "merchantid" value = "${Billpaylist.merchantId.userId}">
 			   <input type = "hidden" name = "accountno" value = "${Billpaylist.acctNumber}">
-			   <input type = "hidden" name = "billid" value = "${Billpaylist.billId}">
-			   <input type = "hidden" name = "amount" value = "${Billpaylist.amount}">
-			   <input type = "hidden" name = "status" value = "${Billpaylist.status}">              
+			   <input type = "hidden" name = "amount" value = "${Billpaylist.amount}"> 
+			   <td><c:out value="${Billpaylist.billId}" /></td>            
 			   <td><c:out value="${Billpaylist.merchantId.userId}" /></td>
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
-			   <td><c:out value="${Billpaylist.billId}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
-			   <td><c:out value="${Billpaylist.status}" /></td>
-			   <td><button  type="action" name="action" id="accept" value="Accept">Accept</button></td>
-			   <td><button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
+			   <td><button  type="action" name="action" id="accept" value="Accept">Forward to Bank</button>  <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
 			   </form>			                      
 			   </tr>
+			   </c:if>
 			   </c:if>
 			   </c:forEach>
 			   

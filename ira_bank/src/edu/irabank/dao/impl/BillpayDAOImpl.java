@@ -13,7 +13,10 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.Stack;
 import edu.irabank.dao.BillpayDAO;
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.BillPayDTO;
+import edu.irabank.dto.RequestDetailsDTO;
+import edu.irabank.dto.UserDTO;
 
 /**
  * @author Abha Upadhyay
@@ -34,7 +37,8 @@ HttpSession sessionID;
 	public Boolean BillpaySave(BillPayDTO billpayDTO) {
 	System.out.println("Entered Save Hibernate");
 	try{
-		sessionFactory.getCurrentSession().save(billpayDTO);
+		System.out.println("Billpay DTO" + billpayDTO.getAcctNumber() + billpayDTO.getMerchantId());
+		sessionFactory.getCurrentSession().merge(billpayDTO);
 		return true;
 	}
 	catch (Exception e){
@@ -43,6 +47,38 @@ HttpSession sessionID;
 	 return false;
 	}
 }
+	
+	private Session getSession() {
+		Session sessionobj = getSessionFactory().getCurrentSession();
+		if (sessionobj == null) {
+			sessionobj = getSessionFactory().openSession();
+		}
+		return sessionobj;
+	}
+
+	private SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<BillPayDTO> showbillpayInfo() {
+		System.out.println("Listing Bill Pay issues");
+		Query query =  getSession().createQuery("SELECT b FROM BillPayDTO b");
+		return query.list();
+		//return getSession().createCriteria(BillPayDTO.class).list();
+	}
+	
+	@Override
+	public boolean Billpayupdatestatus(Integer billid, String Status)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+		query.setParameter("billId", billid);
+		System.out.println("query : " + query);
+		((BillPayDTO) query.uniqueResult()).setStatus(Status);
+		return true;
+	}
 	
 	
 }

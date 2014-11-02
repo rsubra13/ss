@@ -95,12 +95,21 @@
                           <!-- transfer funds -->
                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
                         <!-- Bill pay -->
-                        <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+               
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
                     </sec:authorize>  
                     
+                     <sec:authorize access="hasRole('ROLE_USER')">
+                     <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpayUser">User Billpay</a></li>
+                     </sec:authorize>
                      <sec:authorize access="hasRole('ROLE_MERCHANT')">
-                     <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
+                     <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchant">Merchant Billpay</a></li>
+                     </sec:authorize>
+                     <sec:authorize access="hasRole('ROLE_MERCHANT')">
+                     <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpaymerchantApprove">Approve Billpay</a></li>
+                     </sec:authorize>
+                     <sec:authorize access="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')">
+                     <li><a href="<%=request.getContextPath()%>/InternalUsers/BillpayRequests">Approve Billpay Transactions</a></li>
                      </sec:authorize>
                      
                     </ul>

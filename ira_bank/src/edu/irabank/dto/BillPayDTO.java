@@ -13,9 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BillPayDTO.findByBillId", query = "SELECT b FROM BillPayDTO b WHERE b.billId = :billId"),
     @NamedQuery(name = "BillPayDTO.findByAcctNumber", query = "SELECT b FROM BillPayDTO b WHERE b.acctNumber = :acctNumber"),
     @NamedQuery(name = "BillPayDTO.findByAmount", query = "SELECT b FROM BillPayDTO b WHERE b.amount = :amount"),
-    @NamedQuery(name = "BillPayDTO.findByStatus", query = "SELECT b FROM BillPayDTO b WHERE b.status = :status")})
+    @NamedQuery(name = "BillPayDTO.findByStatus", query = "SELECT b FROM BillPayDTO b WHERE b.status = :status"),
+    /*@NamedQuery(name = "BillPayDTO.findByKey", query = "SELECT b FROM BillPayDTO b WHERE b.key = :key")*/})
 public class BillPayDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,8 +48,11 @@ public class BillPayDTO implements Serializable {
     private Double amount;
     @Size(max = 45)
     private String status;
+    @Size(max = 2048)
+    @Column(name = "HASHEDKEY")
+    private String hashedkey;
     @JoinColumn(name = "MERCHANT_ID", referencedColumnName = "USER_ID")
-    @OneToOne
+    @ManyToOne
     private UserDTO merchantId;
 
     public BillPayDTO() {
@@ -88,6 +92,14 @@ public class BillPayDTO implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getKey() {
+        return hashedkey;
+    }
+
+    public void setKey(String hashedkey) {
+        this.hashedkey = hashedkey;
     }
 
     public UserDTO getMerchantId() {
