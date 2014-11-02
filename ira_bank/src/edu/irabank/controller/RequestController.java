@@ -1,6 +1,9 @@
 package edu.irabank.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,10 @@ import org.springframework.validation.BindingResult;
 
 
 
+
+
+
+
 //DTO to be done??
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.IssueFormBean; 
@@ -39,7 +46,7 @@ import edu.irabank.service.RequestService;
 		
 		
 		// GET Method of Register - shows the page.
-		//Commenting next part, where to keep issues link
+		
 		@RequestMapping(value="/ExternalUsers/Issues", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
 			// redirect to the Issues.jsp
@@ -50,7 +57,21 @@ import edu.irabank.service.RequestService;
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/ExternalUsers/Issues", method = RequestMethod.POST)
 		
-		public ModelAndView createNewRequest(@ModelAttribute("issueFormBean") IssueFormBean issueFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID) {
+		public ModelAndView createNewRequest(@ModelAttribute("issueFormBean") @Valid IssueFormBean issueFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID) {
+			ArrayList<String> errorCode = new ArrayList<String>();
+			if (result.hasErrors()){
+				System.out.println("comes in form errors of issues");
+				//model.addAttribute("issueStatus", "Please fill the necessary fields and try again");
+				model.addAttribute("issueFormBean",issueFormBean);
+				return new ModelAndView( "/ExternalUsers/Issues",model);
+			}
+			Boolean serverValidationError = false;
+			if(issueFormBean.getDescription()=="" )
+			{
+				errorCode.add("Please enter description");
+				model.addAttribute("issueStatus",errorCode);
+				serverValidationError = true;
+			}
 			// use the Form Elements values from Issue form
 			//Calling add new issue method of issueFormBean
 			
@@ -58,7 +79,12 @@ import edu.irabank.service.RequestService;
 			Integer userId = (Integer) sessionID.getAttribute("userId");
 			UserDTO userDTO = new UserDTO();
 			userDTO.setUserId(userId);
-			
+			if(serverValidationError){
+				
+				return new ModelAndView("/ExternalUsers/Issues", model); // return back to register
+			}
+			if(!serverValidationError)
+			{
 			Boolean issueCreationStatus = requestService.addNewIssue(issueFormBean, userDTO);
 			System.out.println("issueCreationStatus is :" + issueCreationStatus);
 				if(issueCreationStatus){
@@ -72,14 +98,10 @@ import edu.irabank.service.RequestService;
 				model.addAttribute("issueCreationStatus", "There seems to be some connection issues. Please try again");
 				return new ModelAndView("/ExternalUsers/Issues", model); // return back to issues page				
 				}
-//				
-//				
-//			}
-//		}
-//		
-//	
-//}
+
 	 
 		}
+			return new ModelAndView("/ExternalUsers/Issues", model);
+	}
 	}
 	

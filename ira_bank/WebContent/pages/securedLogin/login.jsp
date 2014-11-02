@@ -28,8 +28,7 @@
 			 <!-- Login Failed Test -->
 			  <c:if test="${not empty LoginStatus}">
 				<div class="label-group">
-					<div id="status" class="label-info">Login failed. Please try again.
-					${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} 
+					<div id="status" class="label-info">Login failed. Please try again. 
 					</div>
 					<br /> 
 				</div>
@@ -51,7 +50,13 @@
 	             </div>
               </c:if>
              <br>
-
+<!-- Password updated -->
+			 <c:if test="${ Status != null}">
+	             <div class="btn btn-default">
+	                   <div id="status" class="label-info">${Status}</div>
+	             </div>
+              </c:if>
+             <br>
              
 			<%
 				/*Check if Login did not happen*/
@@ -73,7 +78,7 @@
 				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
 
 				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration</span></a>
-				<a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password</span></a>
+				<a href="<%=request.getContextPath()%>/Forgot" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password</span></a>
 				</div>
 
 			 </form>

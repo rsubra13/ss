@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 
 <!-- For Back button and Refresh -->
 <%        
@@ -13,7 +15,7 @@
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
-
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/keyboard.css">
 <!-- Jquery CSS -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
@@ -23,7 +25,7 @@
 <!-- Jquery JS Files -->  
 <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
-
+<script src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 <script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
 <!-- bootstap js -->
@@ -130,12 +132,12 @@
 
                         <!-- User -->
                         <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">My Issues</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/MyIssues">My Issues</a></li>
                         </sec:authorize>  
 
                         <!-- Admin -->
                       <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li><a href="<%=request.getContextPath()%>/admin/listAccounts">View Pending Issues</a></li>
+                        <li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Pending Issues</a></li>
                      </sec:authorize> 
 
                     </ul>
@@ -170,14 +172,15 @@
             	<!--  Admin view Issues -->		  
             	<!-- Admin view Trans.requests -->
              </div>  <!-- button group div -->   
-             <a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+             <a href="<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a>
             </div>
         </div>
         <!-- /.container -->
     </nav>
+   
+    
 </body>
  <!-- JavaScript -->
     <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 </html>
-

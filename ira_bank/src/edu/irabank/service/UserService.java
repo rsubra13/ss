@@ -28,6 +28,11 @@ public interface UserService {
 
     //Delete User
 	public void deleteUser(Integer userId);
+	public UserDTO getUserDTOByEmailId(String emailId);
+
+	public boolean storeotp(UserDTO retrievedDTO);
+	public boolean updatepassword(UserDTO retrievedDTO);
+	
 
 	
 	

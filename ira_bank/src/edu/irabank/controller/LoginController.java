@@ -48,6 +48,7 @@ import edu.irabank.service.UserService;
 			System.out.println("comes here in Login Controller");
 //			/model.addAttribute("LoginStatus", "true");
 			return new ModelAndView("/securedLogin/login", model);
+			//return new ModelAndView("/usercheck", model);
 		}
 		
 		// Post Method after submitting user details in Login Form

@@ -1,7 +1,15 @@
 package edu.irabank.controller;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +35,18 @@ import javax.validation.Valid;
 
 
 
+
+
+
+
+
+
+
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserRegistrationFormBean; 
 import edu.irabank.service.UserService;
-
-
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 	@Controller
 	@SessionAttributes
 //	@RequestMapping("newuser")
@@ -48,11 +63,18 @@ import edu.irabank.service.UserService;
 			return "/ExternalUsers/registerUser";
 		}
 		
+		
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/register", method = RequestMethod.POST)
-		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status) {
-			// use the Form Elements values from Registration form
-			// Case 1: if the User Already exists
+		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpServletRequest request) {
+			 
+			// Trying arraylist option for displaying errors.
+			
+			ArrayList<String> errorCode = new ArrayList<String>();
+	
+			// use the Form Elements values from Registration form and check for the validations
+			
+			// Case 1: JSR303 validation. Checks for Hibernate related form issues.
 			
 			if (result.hasErrors()){
 				System.out.println("comes in form errors of register");
@@ -61,33 +83,151 @@ import edu.irabank.service.UserService;
 				return new ModelAndView( "/ExternalUsers/registerUser",model);
 			}
 			
+			// Case 2 : Server-side validation : Start the validation before calling the Add User service.
+	
+			Boolean serverValidationError = false;
+			
+			// Check for all the UserRegistrationFormBean values.
+			if(userRegistrationFormBean.getUserName()==null || !userRegistrationFormBean.getUserName().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the username. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			if(userRegistrationFormBean.getFirstName()==null || !userRegistrationFormBean.getFirstName().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the First Name. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			ReCaptchaImpl captcha = new ReCaptchaImpl();
+	        captcha.setPrivateKey("6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD");
+	        
+	        String challenge = request.getParameter("recaptcha_challenge_field");
+	        String uresponse = request.getParameter("recaptcha_response_field");
+	        ReCaptchaResponse reCaptchaResponse =
+	                captcha.checkAnswer(request.getRemoteAddr(),
+	                challenge, uresponse
+	            );
+	 
+	        if (reCaptchaResponse.isValid()) {
+	            model.addAttribute("userRegistrationStatus", "Captcha Validated");
+	            System.out.println("*****Captcha validated****");
+	            
+	        } else {
+	            model.addAttribute("userRegistrationStatus", "Captcha failed.");
+	            System.out.println("******Captcha failed******");
+	            
+				serverValidationError = true;
+	        }
+			if(userRegistrationFormBean.getLastName()==null || !userRegistrationFormBean.getLastName().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Last Name. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getEmailId()==null || !userRegistrationFormBean.getEmailId().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"))
+			{
+				errorCode.add("Please check the Email ID. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			if(userRegistrationFormBean.getPassword()==null || !userRegistrationFormBean.getPassword().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Password. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getContactNum()==null || !userRegistrationFormBean.getContactNum().matches("^[0-9 -]+$"))
+			{
+				errorCode.add("Please check the Phone. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getDob()==null) // write proper regex here
+			{
+				errorCode.add("Please check the Date of Birth. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getSecQue1()==null || !userRegistrationFormBean.getSecQue1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Security Que 1. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getSecAns1()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Security Ans 1. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			if(userRegistrationFormBean.getSecQue2()==null || !userRegistrationFormBean.getSecQue2().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Security Que 2. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+
+			if(userRegistrationFormBean.getSecAns2()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Security Ans 2. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getAddress()==null || !userRegistrationFormBean.getAddress().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Please check the Address Field. It is not in expected format.");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			// Go back to register page with these validation errors.
+			if(serverValidationError){
+				return new ModelAndView("/ExternalUsers/registerUser", model); // return back to register
+			}
+			
+
+			// Special Error Message : User Already Exists.	
 			if (userService.getUserDTOByUsername(userRegistrationFormBean.getUserName()) !=null){
 				System.out.println("User exists ");
 				model.addAttribute("userRegistrationStatus", "This user already exists. Please try again with another username/email");
 				model.addAttribute("userRegistrationFormBean",userRegistrationFormBean);
-				return new ModelAndView("/ExternalUsers/registerUser", model);
-				
+				return new ModelAndView("/ExternalUsers/registerUser", model);	
 			}
-			//Case 2: User doesn't exist.
-			else{
-				// add the user
-				System.out.println("comes in register");
-				Boolean userCreationStatus = userService.addNewUser(userRegistrationFormBean);
-				System.out.println("userCreationStatus is :" + userCreationStatus);
-				if(userCreationStatus){
-					model.addAttribute("userRegistrationStatus", "User Registered successfully. Please login");
-					model.addAttribute("userName", userRegistrationFormBean.getUserName());
-					System.out.println("63 : comes till here");
-					//return new ModelAndView(new RedirectView("Welcome"));
-					return new ModelAndView("/securedLogin/login", model); // Login page
-				}
-				else{
-					model.addAttribute("userRegistrationStatus", "There seems to be some connection issues. Please try again");
-					return new ModelAndView("/ExternalUsers/registerUser", model); // return back to register
-				}
+			
+			
+			
+		
 				
-				
-			}
+				if(!serverValidationError)
+				{
+					// Call the User Registration service.
+					Boolean userCreationStatus = userService.addNewUser(userRegistrationFormBean);
+					
+					if(userCreationStatus == false)
+					{
+						model.addAttribute("userRegistrationStatus","There seems to be some issues. Please try again later.");
+						return new ModelAndView("/ExternalUsers/registerUser", model); // return back to register
+					
+					}
+					else
+					{
+						model.addAttribute("userRegistrationStatus", "User Registered successfully. Please login");
+						model.addAttribute("userName", userRegistrationFormBean.getUserName());
+						return new ModelAndView("/securedLogin/login", model);
+					}
+			   }
+		
+				return new ModelAndView("/securedLogin/login", model);
+	
+			
 		}
 		
 	

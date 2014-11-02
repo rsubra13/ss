@@ -111,6 +111,7 @@ public boolean createTransactions(InternalTransactionFormBean internalTransactio
 			RequestDTO.setReqPriority("High");
 			
 		}
+		RequestDTO.setReqPriority("Medium");
 		Date date = new Date();
 		RequestDTO.setReqDate(date);
 		RequestDTO.setIsApproved(false);
@@ -175,7 +176,7 @@ public boolean setTransactionDetails(InternalTransactionFormBean internalTransac
 		//need to set to_account and amount in formbean.
 		internalTransactionFormBean = new InternalTransactionFormBean();
 		internalTransactionFormBean.setTo_account(split[1]);
-		internalTransactionFormBean.setAmount(Integer.parseInt(split[2]));
+		internalTransactionFormBean.setAmount(Double.parseDouble(split[2]));
 		Boolean isRequestSaved = DAO.RequestDetailsSave(requestnewDTO);
 		if(!isRequestSaved) 
 		{
@@ -213,6 +214,20 @@ public List<RequestDetailsDTO> listTransactions() {
 	return transactionList;
 	
 	
+	// TODO Auto-generated method stub
+	
+}
+@Override
+@Transactional
+public RequestDetailsDTO getRequestByReqID(Integer reqId) {
+	// TODO Auto-generated method stub
+	return requestDAO.getRequestByReqID(reqId);
+}
+
+@Override
+@Transactional
+public void deleteTransaction(Integer reqId) {
+	requestDAO.deleteRequest(reqId);
 	// TODO Auto-generated method stub
 	
 }

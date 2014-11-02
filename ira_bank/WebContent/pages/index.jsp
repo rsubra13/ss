@@ -2,8 +2,13 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="<%=request.getContextPath()%>/js/keyboard.js" charset="UTF-8"  type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/keyboard.css" media="screen"/>
+
 <title>I.R.A Bank</title>
 
     
@@ -40,9 +45,9 @@
 			  <%}%>
 
 
-			  <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30">
+			  <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30" class="keyboardInput">
 	      		  <br>
-	       		 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15">
+	       		 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15" class="keyboardInput">
 	       		 
 				<!-- placeholder -->
 				<div> <br><br></div>
@@ -52,7 +57,7 @@
 				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
 
 				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration<span></a>
-				<a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password<span></a>
+				<a href="<%=request.getContextPath()%>/Forgot" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password<span></a>
 				</div>
 
 			 </form>

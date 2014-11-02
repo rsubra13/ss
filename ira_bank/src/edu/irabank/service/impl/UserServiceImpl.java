@@ -19,7 +19,10 @@ import edu.irabank.dto.UserDTO;
 import edu.irabank.form.UserDetailsFormBean;
 import edu.irabank.form.UserRegistrationFormBean;
 import edu.irabank.service.AccountService;
+import edu.irabank.service.PkiService;
 import edu.irabank.service.UserService;
+
+
 
 import java.util.ArrayList;
 
@@ -48,6 +51,11 @@ public class UserServiceImpl implements UserService
 
 	@Autowired
 	private AccountService acctService;
+	
+	@Autowired
+	public PkiService pkiService;
+	
+
 	
 	@Transactional
 	public boolean validateUser(String inputUserName, String inputPassword)
@@ -106,9 +114,18 @@ public class UserServiceImpl implements UserService
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
 		// This needs spring security?  check it. 
 		
+		
+		
 		RolesDTO rolesDTO = new RolesDTO();
 		rolesDTO = userRoleDAO.getUserRoleDTOById(userRegistrationFormBean.getRole());
 		newUser.setRoleId(rolesDTO);
+
+		//*************************PKI DO NOT TOUCH*********************************
+		//Adding Public key to db
+		String publicKey = pkiService.KeyPairGenerator();
+		newUser.setPublicKey(publicKey);
+		//*************************PKI DO NOT TOUCH*********************************
+		
 		
 		
 		// TODO check here if the user is already present	
@@ -239,13 +256,40 @@ public class UserServiceImpl implements UserService
 
 	@Override
 	@Transactional
-	public UserDTO getUserDTOByUserId(Integer userId) {
+	public UserDTO getUserDTOByUserId(Integer reqId) {
 		// TODO Auto-generated method stub
-		return userDAO.getUserDTOByUserId(userId);
+		return userDAO.getUserDTOByUserId(reqId);
 	}
 
 
-	
+	@Override
+	@Transactional
+	public UserDTO getUserDTOByEmailId(String emailId) {
+		
+		System.out.println("comes in Service" + emailId);
+		return userDAO.getUserDTOByEmailId(emailId);
+	}
+
+	@Override
+	@Transactional
+	public boolean storeotp(UserDTO userdto) {
+		 boolean status=userDAO.storeOtp(userdto);
+		 return true;
+		
+	}
+
+	@Override
+	@Transactional
+	public boolean updatepassword(UserDTO retrievedDTO) {
+		// TODO Auto-generated method stub
+		BCryptPasswordEncoder bcrypt = new  BCryptPasswordEncoder();
+		String encryptedPassword = bcrypt.encode(retrievedDTO.getPassword());
+		retrievedDTO.setPassword(encryptedPassword);
+		 boolean status=userDAO.updatepassword(retrievedDTO);
+		 return true;
+	}
+
+
 		
 
 }

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +27,7 @@
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 
-    <script src="<%=request.getContextPath()%>/js/userDetails.js"  type="text/javascript" ></script>
+    <script src="<%=request.getContextPath()%>/js/requestDetails.js"  type="text/javascript" ></script>
 
 </head>
 
@@ -43,9 +46,8 @@
            <div id=style="width: 95%; margin: 0 auto;">
 
            <!-- Include the hidden form ( the modal pops up has details of these.) -->
-           
-                
-                    <h1>List Of Users</h1>
+          
+                    <h1>List Of Transactions</h1>
                 
 
                      <br>
@@ -57,9 +59,13 @@
                            <tr class="success">
                               <th width="4%">S.No</th>
                               <th width="12%">Request Id</th>
-                              <th width="12%">Request User Id</th>
-                              <th width="12%">Request Description</th>
-                              <th width="12%">Request Status</th>
+                              <th width="4%">Request User Id</th>
+                              
+                             
+                              <th width="10%">From Account</th>
+                               <th width="10%">To Account</th>
+                                <th width="8%"> Amount</th>
+                              <th width="5%">Request Status</th>
                               <th width="12%">Request Date</th>
                               <th width="12%">Request Type</th>
                               <th width="12%">Is_Authorized</th>
@@ -73,13 +79,18 @@
                            <c:forEach items="${RequestDetailsList}" var="requestDetails" varStatus="loopCounter">
                            <c:if test="${ requestDetails.getIsApproved() == false}">
                            <tr>
-                            <form method = "POST" id="form1">
+                           
+                           <form method = "POST" >
                                <td><c:out value="${loopCounter.count}" /></td>
-                               <td><input form="form1" name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
+                               <td><input  name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
                                
-                             <td><input name="userId" form= "form1" type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
-                               <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
-                               </td>
+                               <td><input name="userId"   type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
+                               
+                               <c:set var="stringDesc" value="${fn:split(requestDetails.getReqDesc(), ',')}" />
+                              <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[0]}"  />"  readonly="readonly"/></td>
+                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[1]}"  />"  readonly="readonly"/></td>
+                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[2]}"  />"  readonly="readonly"/></td>
+                               
                                <td><c:out value="${requestDetails.getReqStatus()}" /></td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
@@ -87,13 +98,15 @@
                                
                                <td><c:out value="${requestDetails.getReqPriority()}" /></td>
                                
-                               <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
+                               <td><input  name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                 <td>
-                     
+                           
+		                        <button   name ="save" type="submit" class="btn btn-default"  formaction="/ira_bank/admin/edit">Edit</button>
+		                        
                        		 <c:if test="${button== true}" >
-                             <button form="form1"  name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
+                             <button   name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
      						 </c:if>
-						 
+						
 
                         
                        
@@ -103,6 +116,7 @@
                             </c:forEach>
                             
                         </tbody>
+                        	
                      </table>
                      </c:if>
          </div>

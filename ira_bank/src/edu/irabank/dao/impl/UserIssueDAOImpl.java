@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import antlr.collections.Stack;
 import edu.irabank.dao.UserIssueDAO;
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
+import edu.irabank.dao.UserDAO;
 
 /**
  * @author Ramki Subramanian
@@ -25,6 +27,8 @@ public class UserIssueDAOImpl implements UserIssueDAO
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private UserDAO userDAO;
 
 	/**
 	 * @param userName
@@ -62,6 +66,21 @@ public class UserIssueDAOImpl implements UserIssueDAO
 		// TODO Auto-generated method stub
 		System.out.println("listing issues");
 		return getSession().createCriteria(RequestDetailsDTO.class).list();
+	}
+	
+	@Override
+     public List<RequestDetailsDTO> listMyIssues(Integer UserId){
+		
+		UserDTO userDTO = new UserDTO();
+		
+		userDTO = userDAO.getUserDTOByUserId(UserId);
+		
+		Query query = getSession().createQuery("SELECT a FROM RequestDetailsDTO a WHERE a.reqUserId = :reqUserId");
+		
+		query.setParameter("reqUserId", userDTO);
+		List <RequestDetailsDTO> reqDTO = (List<RequestDetailsDTO>) query.list();
+		
+		return  reqDTO;		
 	}
 }
 

@@ -7,7 +7,7 @@ package edu.irabank.form;
 public class InternalTransactionFormBean {
 	private String to_account;
 	private String from_account;
-	private int amount;
+	private Double amount;
 
 	public String getFrom_account() {
 		return from_account;
@@ -17,11 +17,11 @@ public class InternalTransactionFormBean {
 		this.from_account = from_account;
 	}
 
-	public int getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 

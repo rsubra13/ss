@@ -1,0 +1,10 @@
+body {
+background-image: url(http://localhost:8080/ira_bank/images/login.jpg); 
+
+-moz-background-size: cover;
+-webkit-background-size: cover;
+background-size: cover;
+background-position: top center !important;
+background-repeat: no-repeat !important;
+background-attachment: fixed;
+}
