@@ -5,29 +5,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>I R A Home Page</title>
-
-    <link href="<%=request.getContextPath()%>/css/bootstrap.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/css/recommendation.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/custom.js"></script>
-    <!-- Add custom CSS here -->
-
-    <style>
-        body {
-            margin-top: 60px;
-        }
-    </style>
- 
-
+   
 </head>
 
 <body>

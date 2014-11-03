@@ -332,20 +332,6 @@ public class UserDAOImpl implements UserDAO
 				
 			}
 
-	
-		
-		// TODO check if the user is already present in service Layer
-		try{
-			sessionFactory.getCurrentSession().merge(userDTO);
-			return true;
-		}
-		catch (ConstraintViolationException e){
-		 System.out.println("The error is "+ e);
-		 //e.printStackTrace();
-		 return false;	 
-		}
-		
-	} // End of update
 
 	@Override
 	
@@ -364,6 +350,18 @@ public class UserDAOImpl implements UserDAO
 		
 		return userDTO;
 		
+	}
+
+	@Override
+	public Boolean storeOtp(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean updatepassword(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

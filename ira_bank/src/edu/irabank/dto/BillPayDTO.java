@@ -50,7 +50,7 @@ public class BillPayDTO implements Serializable {
     private String status;
     @Size(max = 2048)
     private String hashedkey;
-    private String hashedkey;
+   
     @JoinColumn(name = "MERCHANT_ID", referencedColumnName = "USER_ID")
     @ManyToOne
     private UserDTO merchantId;

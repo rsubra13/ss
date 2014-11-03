@@ -29,10 +29,7 @@ public interface UserDAO {
 
 	public Boolean storeOtp(UserDTO userDTO);
 	public Boolean updatepassword(UserDTO userDTO);
-	//For disabling Multiple UserAttempts
-	/*void updateFailAttempts(String username);
-	void resetFailAttempts(String username);
-	Integer getLoginAttempts(String username);*/
+	
 	
 
 }
