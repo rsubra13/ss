@@ -62,7 +62,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
 
-			   <td><input type="password"  name="privateKey"  value ="tesst" id="privateKey" /></td>
+			   <td><input type="password"  name="privateKey" type="required" id="privateKey" /></td>
 
 			   <form:errors path="privateKey" class="label label-primary" cssclass="error"></form:errors>
 
