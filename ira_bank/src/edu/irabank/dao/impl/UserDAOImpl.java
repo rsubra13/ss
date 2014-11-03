@@ -334,7 +334,10 @@ public class UserDAOImpl implements UserDAO
 
 	
 		
-		// TODO check if the user is already present in service Layer
+	@Override
+	public Boolean storeOtp(UserDTO userDTO) {
+		
+		
 		try{
 			sessionFactory.getCurrentSession().merge(userDTO);
 			return true;
