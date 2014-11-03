@@ -92,6 +92,20 @@ HttpSession sessionID;
 		return true;
 	}
 	
+	//Used in BillpayMerchant controller
+	public String gethashedKey(Integer billId)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("BillPayDTO.findBybillId"); //using NamedQuery
+		//System.out.println("userName here: " + userName);
+		query.setParameter("billId", billId);
+		//System.out.println("query : " + query);
+		String hashedKey = ((BillPayDTO) query.uniqueResult()).getHashedkey();
+		return hashedKey;
+		
+		
+	}
+	
 	
 	
 	

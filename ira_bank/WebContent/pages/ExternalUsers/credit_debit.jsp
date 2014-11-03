@@ -28,7 +28,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
                    <div id="status" class="label-primary">${accountStatus}</div>
                 </div>
   </c:if>
-    <form class="form-horizontal" role="form" method="POST" id="accountFormBean" 
+    <form:form class="form-horizontal" role="form" method="POST" id="accountFormBean" 
                 commandName="accountFormBean" action="/ira_bank/ExternalUsers/credit_debit">
   <div class="form-group">
 
@@ -52,13 +52,14 @@ String navbar_path=context_path+"/pages/navbar.jsp";
     <div class="col-sm-7 col-md-7">
       <input type="text" name="amount" class="form-control" id="amount" placeholder="Amount" required>
     </div>
+    <form:errors path="amount" class="label label-primary" cssclass="error"></form:errors>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-7 col-md-offset-2 col-md-7">
       <button type="submit" class="btn btn-default">Submit</button>
     </div>
   </div>
-</form>
+</form:form>
     
   </div>
 </div>

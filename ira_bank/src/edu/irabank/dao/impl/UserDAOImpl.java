@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
 		return password;
 	}
-
+/*
 	// Used in PkiServiceImpl
 		public String getPassword(Integer userId)	
 		{
@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO
 			String password = ((UserDTO) query.uniqueResult()).getPassword();
 			return password;
 		}
-		
+		*/
 	
 		// Used in PkiServiceImpl
 				public String getuserName(Integer userId)	

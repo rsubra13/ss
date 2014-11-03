@@ -8,16 +8,21 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css" />  
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css.map " />  
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>I.R.A Bank</title>
+<title>User BillPay</title>
 </head>
 <body>
+<%
+String context_path=request.getContextPath();
+String navbar_path=context_path+"/pages/navbar.jsp";
+%>
+<%@include file="../common/navbar.jsp" %>
 
   <div class="container-fluid">
 <div class="row ">
 <div class="col-md-offset-1 col-md-10">
   <div class="panel panel-primary">
   
-  <div class="panel-heading">Approved Requests</div>
+  <div class="panel-heading">Pending Requests</div>
   <div class="panel-body">
   </div>
   
@@ -47,7 +52,7 @@
 			   <c:if test="${Billpaylist.status == 'MerchantPending'}">
 			   <c:if test="${Billpaylist.acctNumber == Useracount}">
 			   <tr>
-			   <form class="form-horizontal" action="/ira_bank/ExternalUsers/BillpayUser" method="POST" id="billpayuserFormBean">
+			   <form:form class="form-horizontal" action="/ira_bank/ExternalUsers/BillpayUser" method="POST" id="billpayuserFormBean">
 			   <input type = "hidden" name = "billid" value = "${Billpaylist.billId}">
 			   <input type = "hidden" name = "merchantid" value = "${Billpaylist.merchantId.userId}">
 			   <input type = "hidden" name = "accountno" value = "${Billpaylist.acctNumber}">
@@ -56,10 +61,13 @@
 			   <td><c:out value="${Billpaylist.merchantId.userId}" /></td>
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
+
 			   <td><input type="password"  name="privateKey"  value ="tesst" id="privateKey" /></td>
-<!-- 				<td><textarea name="privatekey" rows = "50" id="privatekey" required></textarea></td> -->
+
+			   <form:errors path="privateKey" class="label label-primary" cssclass="error"></form:errors>
+
 			   <td><button  type="action" name="action" id="accept" value="Accept">Approve</button> <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
-			   </form>			                      
+			   </form:form>			                      
 			   </tr>
 			   </c:if>
 			   </c:if>

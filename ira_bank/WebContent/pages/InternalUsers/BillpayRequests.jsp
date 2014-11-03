@@ -8,9 +8,10 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css" />  
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css.map " />  
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>I.R.A Bank</title>
+<title>Employee BillPay</title>
 </head>
 <body>
+<%@include file="../common/navbar.jsp" %>
 
   <div class="container-fluid">
 <div class="row ">

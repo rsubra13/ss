@@ -152,9 +152,6 @@ private JavaMailSender mailSender;
 			
 			
 			
-			
-			
-			
 			//Send an email to the user
 			SimpleMailMessage email = new SimpleMailMessage();
 	        email.setTo("ishaan_0990@yahoo.com");
@@ -179,44 +176,38 @@ private JavaMailSender mailSender;
 	public String sendEncryptedPaymentInfo(Integer userId, String alias_privateKey) 
 	{
 		
-		//get corresponding password of userID
+		//get corresponding userName of userID
 		String userName = userDAO.getuserName(userId);
 		
 		try
 		{
 		byte[] _byte = Base64.decode(alias_privateKey);
-		System.out.println("**************BYTE VALUE************"+_byte);
+	
 		
 		PKCS8EncodedKeySpec privateKeyInfo = new PKCS8EncodedKeySpec(_byte);
-		
-//		X509EncodedKeySpec privateKeyInfo = new X509EncodedKeySpec(_byte);
-		System.out.println(("**************privateKEYInfo VALUE************"+privateKeyInfo));
+	
 		KeyFactory factory = KeyFactory.getInstance("RSA");
-		System.out.println(("**************factory VALUE************"+factory));
-		
 		
 		PrivateKey privateKey = factory.generatePrivate(privateKeyInfo);
-		System.out.println(("**************privateKEY VALUE************"+privateKey));
+	//	System.out.println(("**************privateKEY VALUE************"+privateKey));
 		
 		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-		cipher.init(Cipher.ENCRYPT_MODE, privateKey); // Encrypting the hashed password with private key
+		cipher.init(Cipher.ENCRYPT_MODE, privateKey); // Encrypting the userName with private key
 		
-		byte[] test =  cipher.doFinal(userName.getBytes("ISO-8859-1"));
+		byte[] test =  cipher.doFinal(Base64.decode(userName));
 		
 		BASE64Encoder b64 = new BASE64Encoder();
-		String en= b64.encode(test);
+		String encryptedPayment= b64.encode(test);
 		
-		boolean test2 = DecryptPaymentInfo(userId, en);
+		//boolean test2 = DecryptPaymentInfo(userId, en); //test both services.
 		
-		
-		return en;
+		return encryptedPayment;
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			return e.toString();
+			 e.printStackTrace();
 		}
-		
+		return null;
 	}
 	
 	@Override
@@ -226,46 +217,42 @@ private JavaMailSender mailSender;
 		//get corresponding public Key of userID
 		String alias_publicKey = userDAO.getPublicKey(userId);
 		
-		byte[] en = null;
+		byte[] decryptedPayment = null;
 			try {
-				en= Base64.decode(paymentReceipt);
+				decryptedPayment= Base64.decode(paymentReceipt);
 			} catch (Base64DecodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		
-		
-		String userName = userDAO.getuserName(userId);
+		String userName = userDAO.getuserName(userId); //get corresponding userName from the DTO
 		
 		try
 		{
-	//	BASE64Decoder base64 = new BASE64Decoder();
+	
 		byte[] _byte = Base64.decode(alias_publicKey);
 		X509EncodedKeySpec publicKeyInfo = new X509EncodedKeySpec(_byte);
 		KeyFactory factory = KeyFactory.getInstance("RSA");
 		PublicKey publicKey = factory.generatePublic(publicKeyInfo);
 		
 		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-		cipher.init(Cipher.ENCRYPT_MODE, publicKey); // Decrypting paymentReceipt with public Key
+		cipher.init(Cipher.DECRYPT_MODE, publicKey); // Decrypting paymentReceipt with public Key
 		
-		String decryptedUserName = cipher.doFinal(en).toString();
+		byte[] decryptedUserName = cipher.doFinal(decryptedPayment);
 		
-		if(decryptedUserName == userName) //Check authenticity of the user
+		String decryptedUsername= Base64.encode(decryptedUserName);
+		
+		
+		if(decryptedUsername.equals(userName)) //Check authenticity of the user
 		{
 			return true; //Approve the payment
 		}
-		else
-		{
-			return false;
-		}
-		
 		
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
-			return false;
+			e.printStackTrace();
 		}	
-
+		return false;
 	}
 }
