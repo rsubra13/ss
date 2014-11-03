@@ -158,7 +158,34 @@
      
 
   <!--   Start the second split -->   
+  
+ <!--  SSN -->
+ 
+ 
    <div class="col-md-offset-1 col-md-5" >
+   
+   		<!-- SSN -->
+        <div class="form-group">
+              <label class=" control-label" for="contactNum">Social Security Number</label>
+                    <div class="input-group col-md-12">
+                        <input type="ssn" class="form-control" id="ssn" name="ssn"   placeholder="Social Security Number" data-validate="required,phone" value="${userRegistrationFormBean.ssn}" >
+                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                         <form:errors path="ssn" class="label label-primary" cssclass="error"></form:errors>
+                        </div>
+            </div>
+            
+             <!-- Site Key -->
+              <div class="form-group">
+              <label class=" control-label" for="FirstName">Site Key</label>
+                    <div class="col-md-12 input-group">
+                        <input type="text" class="form-control" id="sitekey" name="sitekey"  placeholder="Enter your site key" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.sitekey}" >
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    	 <form:errors path="sitekey" class="label label-primary" cssclass="error"></form:errors>
+                    </div>
+            </div>
+       
+   
+   
             <div class="form-group">
               <label for="dob">DOB</label>
 
@@ -178,7 +205,6 @@
                              dateformat: 'mm/dd/yyyy',
                              defaultDate: $("#dob").val()});
                       </script>
-				 <form:errors path="dob" class="label label-primary" cssclass="error"></form:errors>
                   </div>
             </div>
 

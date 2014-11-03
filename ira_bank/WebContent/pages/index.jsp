@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -16,55 +18,64 @@
 <body>
 
 <div class="row">
-<div class="well-lg col-md-6">
-
-
-<div class="panel panel-primary">
+	<div class="well-lg col-md-6">
+		<div class="panel panel-primary">
 			<div class="panel panel-heading">
-			I.R.A BANK
+					Login
 			</div>
-              
-			  <form name="loginForm" id="loginForm" action="<c:url value='/j_spring_security_check' />" method='POST' class="well form-inline" >
+			<form name="usernameForm" id="usernameForm" action="/ira_bank/userNameCheck" method='POST' class="well form-inline" >
+			  <br>
+				 <c:if test="${ userstatus != null}">
+		             <div class="btn-primary">
+		                   <div id="status" class="label-primary">${userstatus}</div>
+		             </div>
+	              </c:if>
+	          <br>
+	          
+	          
+			 <!-- Login Failed Test -->
+			  <c:if test="${not empty LoginStatus}">
+				<div class="label-group">
+					<div id="status" class="label-info">Login failed. Please try again. 
+					</div>
+					<br /> 
+				</div>
+			</c:if>
+			
+			<!-- Login Failed Test -->
+			  <c:if test="${not empty LogoutStatus}">
+				<div class="label-group">
+					<div id="status" class="label-success">Logged out successfully.
+					</div>
+					<br /> 
+				</div>
+			</c:if>
 
-			 <br>
-
-
+			<!-- Registration Failed Test -->
 			 <c:if test="${ userRegistrationStatus != null}">
-	             <div class="btn-primary">
-	                   <div id="status" class="label-primary">${userRegistrationStatus}</div>
+	             <div class="label-group">
+	                   <div id="status" class="label label-info">${userRegistrationStatus}</div>
 	             </div>
               </c:if>
              <br>
 
-             
-			<%
-				/*Check if Login did not happen*/
-				if(request.getAttribute("loginError") != null)
-				{%>
-				<p ><span class="label label-warning" style="float:right;font-weight:bold;">${loginError}</span></p>	
-			  <%}%>
-
-
-			  <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30" class="keyboardInput">
-	      		  <br>
-	       		 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15" class="keyboardInput">
-	       		 
-				<!-- placeholder -->
-				<div> <br><br></div>
-
-				<div class="form-inline">
-				<input name="login" type="submit" value="Login" class = "btn btn-primary"/>
-				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
-
-				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration<span></a>
-				<a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password<span></a>
-				</div>
-
-			 </form>
-	
-</div>
-
-</div>
+				   <input type="text" class="form-control" id="userName" name='userName' placeholder="Username" maxlength="30" class="">
+		      	   <br>	<br><br>       	
+		      	   
+		      	   <div class="row">		
+					<div class="col-md-12 col-md-8">
+							<input name="login" type="submit" value="submit" class = "col-md-2 btn btn-success"/>
+					</div>
+					<div class="col-xs-6 col-md-4">
+					<a href="<%=request.getContextPath()%>/register" class="btn btn-danger" role="button">New User Register</a> 
+					</div>
+					</div>
+				</form>	
+				
+			
+			
+		</div>	
+	</div>
 </div>
 
  <!-- Bootstrap css -->
@@ -85,7 +96,6 @@
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
 
 <!-- bootstap js -->
-
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 

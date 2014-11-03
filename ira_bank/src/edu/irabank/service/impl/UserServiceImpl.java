@@ -100,7 +100,8 @@ public class UserServiceImpl implements UserService
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
 		newUser.setSecQue2(userRegistrationFormBean.getSecQue2());
-				
+		newUser.setSsn(userRegistrationFormBean.getSsn());
+		newUser.setSitekey(userRegistrationFormBean.getSitekey());
 		// TODO : this is not the way to go ahead with Roles.
 		// Check if the User is Regular user , then assign him the ROLE_USER
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT
@@ -160,10 +161,10 @@ public class UserServiceImpl implements UserService
 		
 		//newUser.setRoleId(userDetailsFormBean.getRoleId());	
 		
-		RolesDTO rolesDTO = new RolesDTO();
+		/*RolesDTO rolesDTO = new RolesDTO();
 		rolesDTO = userRoleDAO.getUserRoleDTOById(userDetailsFormBean.getRoleId());
 		newUser.setRoleId(rolesDTO);
-		
+		*/
 		
 		
 		//TODO - currently these are hidden,so using like these.
@@ -194,6 +195,9 @@ public class UserServiceImpl implements UserService
 		newUser.setDob(tempUserDTO.getDob());
 		newUser.setPassword(tempUserDTO.getPassword());
 		newUser.setUserId(tempUserDTO.getUserId());
+		RolesDTO rolesDTO = new RolesDTO();
+		rolesDTO = userRoleDAO.getUserRoleDTOById(userDetailsFormBean.getRoleId());
+		newUser.setRoleId(rolesDTO);
 	     
 		System.out.println("Comes till here : 156 of UserServiceUpdateDetails" + newUser.getDob());
 		Boolean isUserUpdated = userDAO.updateUserDetails(newUser);
@@ -244,7 +248,8 @@ public class UserServiceImpl implements UserService
 		return userDAO.getUserDTOByUserId(reqId);
 	}
 
-
+	
+	
 	
 		
 

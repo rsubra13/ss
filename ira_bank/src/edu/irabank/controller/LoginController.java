@@ -3,6 +3,7 @@ package edu.irabank.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -32,13 +33,13 @@ import edu.irabank.service.UserService;
 		private UserService userService; 
 
 		public static final Logger logger = Logger.getLogger(LoginController.class);
-		// GET Method of Login Forms
+		/*// GET Method of Login Forms
 		@RequestMapping(value="/Welcome", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
 			// redirect to the Welcome.jsp
 			System.out.println("comes here");
 			return "/Welcome";
-		}
+		}*/
 
 			/*Login Method - GET*/
 		@RequestMapping(value="login", method = RequestMethod.GET)
@@ -47,7 +48,7 @@ import edu.irabank.service.UserService;
 			logger.debug("Comes in Login controller");
 			System.out.println("comes here in Login Controller");
 //			/model.addAttribute("LoginStatus", "true");
-			return new ModelAndView("/securedLogin/login", model);
+			return new ModelAndView("/index", model);
 			//return new ModelAndView("/usercheck", model);
 		}
 		
@@ -91,36 +92,37 @@ import edu.irabank.service.UserService;
 		@RequestMapping(value="/logout", method = RequestMethod.GET)
 		public ModelAndView userLogout(ModelMap model) {
 			model.addAttribute("LogoutStatus", "true");
-			return new ModelAndView("/securedLogin/login", model);
+			return new ModelAndView("/index", model);
 		}
 		
 		/*LoginFailed - wrong password or username*/
 		@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 		public ModelAndView userLoginError(ModelMap model) {
 			model.addAttribute("LoginStatus", "true");
-			return new ModelAndView("/securedLogin/login", model);
+			return new ModelAndView("/index", model);
 		
 	 
 		}
         // New Home page
 		@RequestMapping(value="/home", method = RequestMethod.GET)
-		public ModelAndView redirectToHome(ModelMap model, HttpSession sessionID) {
+		public ModelAndView redirectToHome(ModelMap model, HttpSession sessionID,HttpServletRequest request) {
 			logger.debug("Comes in Common Home");
 			System.out.println("are u coming here : 98");
 			
-			// Set session variables.
+			/*// Set session variables.
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (!(auth instanceof AnonymousAuthenticationToken)) {
 				UserDetails userDetails =
 						 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			
-				String userName =	userDetails.getUsername();
+				String userName =	userDetails.getUsername(); */
 				// Setting session variables
+			    String userName = (String) request.getSession().getAttribute("userName");
 				sessionID.setAttribute("userName", userName);
 				UserDTO uDTO = userService.getUserDTOByUsername(userName);
 				sessionID.setAttribute("userId", uDTO.getUserId());
 				model.addAttribute("userName", userName);
-			}
+			
 			return new ModelAndView("/common/commonHome",model);
 		    
   	}
@@ -140,6 +142,70 @@ import edu.irabank.service.UserService;
 			return "/common/accessDenied";
 		}
 		
+		//UserName Check - GET Method
+		@RequestMapping(value="/userNameCheck", method=RequestMethod.GET)
+		public String validateUserNameGET(ModelMap model)
+		{
+			return "/index";
+		}
+		
+		// Second check.
+		@RequestMapping(value="/userNameCheck", method=RequestMethod.POST)
+		public ModelAndView validateUserName(@RequestParam("userName") String userName, ModelMap model, HttpSession sessionID)
+
+		{
+			System.out.println("Username ::" +userName);
+			//boolean serverValidationError = false;
+			boolean isUserPresent =  false;
+			
+			// Validate the userName here
+			if (userName ==null || !userName.matches("^[a-zA-Z0-9 ,.]+$")){
+				// Set the error.
+				model.addAttribute("userstatus", "Please enter proper username value.");
+				return new ModelAndView("/index",model);
+			}
+			
+			UserDTO uDTO = new UserDTO();
+			uDTO = userService.getUserDTOByUsername(userName);
+			
+			// There was some Null Pointer exception if user is not present. 
+			// So instead of checking UserDTO as null, checking its sitekey
+			// Check SiteKey
+			
+			if(uDTO!= null)
+			{
+				isUserPresent = true;
+			}
+			
+			/*if((uDTO.getSitekey()!= null) && !uDTO.getSitekey().isEmpty())
+			{
+				isUserPresent = true;
+			}
+			*/
+			// Actually this is not even needed as isUserPresent is already false.
+			/*else {
+				System.out.println("comes in udto null");
+				isUserPresent = false;
+			}*/
+			
+			if(isUserPresent)
+			{
+				System.out.println("comes here");
+				sessionID.setAttribute("userName", userName);
+				sessionID.setAttribute("userId", uDTO.getUserId());
+				model.addAttribute("userName", userName);
+				model.addAttribute("sitekey", uDTO.getSitekey());
+				return new ModelAndView("/securedLogin/login",model);
+			}
+			
+			else
+			{
+				
+				model.addAttribute("userstatus", "User Not available, Please register");
+				return new ModelAndView("/index",model);
+				
+			}
+		}
 }
 	 
 	 

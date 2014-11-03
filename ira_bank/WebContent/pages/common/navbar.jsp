@@ -46,129 +46,187 @@
 <body>
 
 <nav class="navbar navbar-default " role="navigation">
-<div class="container">
-  
-            <div class="navbar-header">
+<div class="container-fluid">
+      <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                </button>
+               			 </button>
                 <a class="navbar-brand" href="#">I.R.A Bank</a>
-            </div>
+      </div>
 		
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse  navbar-collapse navbar-ex1-collapse">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse  navbar-collapse navbar-ex1-collapse">
             
-            <div class="btn-group"> <!-- main button group -->
+            <ul class="nav navbar-nav"><!-- main button group -->
 
-               <!-- Accounts -->
-                   
-               <!-- first button group -->
-                   
-                <div class="btn-group">
-                
-                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Accounts <span class="caret"></span>
-                    </button>
-                    
-                     <!--  Admin -->   
-                    <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li><a href="<%=request.getContextPath()%>/admin/listAccounts">User Accounts Management</a></li>
-                         </sec:authorize>    
-                        <!-- User -->
-                        <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                            <li><a href="<%=request.getContextPath()%>/user/showAccountInfo">My Account Details</a></li>
-                        </sec:authorize>  
-                      </ul>
-                </div>
-
-                     
-                     <!-- Functionalities -->
-                     <!-- credit debit -->
-
-                <div class="btn-group">
-                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    External Transactions <span class="caret"></span>
-                    </button>
-                    
-                     <!--  Admin -->   
-                    <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu2">
-                    <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
+               <!--1.  Accounts -->
+               <!-- Admin -->
+               <sec:authorize access="hasRole('ROLE_ADMIN')">
+    				      <li class="dropdown">
+    				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <span class="caret"></span></a>
+                       	  <!--  Admin -->   
+                       		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                            
+                        	 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">View All Users</a></li>
+                             <li><a href="<%=request.getContextPath()%>/admin/listAccounts">PII Change Requests</a></li>
+                       		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Technical Account Access</a></li>	
+                       		  <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Transactional Account Access</a></li>
+                      	</ul>
+                      </li>	
+               </sec:authorize>    
+      				<!-- User Account Details -->
+      				 <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
+      				 <li class="dropdown">
+      				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts<span class="caret"></span></a>
+                         	  <!--  Admin -->   
+                         		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+           					  <li><a href="<%=request.getContextPath()%>/user/showAccountInfo">My Account Details</a></li>
+                        		 </ul>
+                      </li>	
+                     </sec:authorize>    
+      				<!-- EMPLOYEE -->
+               <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+          				 <li class="dropdown">
+          				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <span class="caret"></span></a>
+                             	  <!--  Admin -->   
+                             		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                                  
+                      
+                                   <li><a href="<%=request.getContextPath()%>/admin/listAccounts">PII Change Requests</a></li>
+                             		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Technical Account Access</a></li>
+                             		 		
+                            	
+                            	</ul>
+                            </li>	
+               </sec:authorize>    
+               
+               
+              <!--  2. Functionalities. -->
+              
+        
+               <!-- User -->
+               <sec:authorize access="hasRole('ROLE_USER')">
+          				 <li class="dropdown">
+          				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers <span class="caret"></span></a>
+                             	  <!--  Admin -->   
+                             		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                                   <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Credit/Debit Transactions</a></li>
+                                    <!-- transfer funds -->
+                                  <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
+                                  <!-- Bill pay -->
+                                  <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+                                  <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
+                            	   </ul>
+                      </li>	
+               </sec:authorize>    
+               
+               	<!-- Merchant Transactions -->
+                 <sec:authorize access="hasRole('ROLE_MERCHANT')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers<span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                          <li><a href="<%=request.getContextPath()%>/ExternalUsers/credit_debit">Credit/Debit Transactions</a></li>
                           <!-- transfer funds -->
                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
                         <!-- Bill pay -->
-                        <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+                       <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
                         <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
-                    </sec:authorize>  
-                    
-                     <sec:authorize access="hasRole('ROLE_MERCHANT')">
-                     <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
-                     </sec:authorize>
-                     
-                    </ul>
-                </div>
+                  	</ul>
+                  </li>	
+               </sec:authorize>    
+               
+				<!-- EMPLOYEE TRANSACTION-->
+               <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers<span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                      
+                         <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Transactional Account Access</a></li>
+                   		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Approve Bill Pay</a></li>		
+                  	
+                  	</ul>
+                  </li>	
+               </sec:authorize>   
+               
+              
+              <!--  3. Issues -->
+              
+            <!--  Merchant and user --> 
+             <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Requests / Issues <span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">New Issue</a></li>
+                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">My Issues</a></li>
+                  	</ul>
+                  </li>	
+             </sec:authorize>  
+             
+             <!-- Admin -->
+              <sec:authorize access="hasRole('ROLE_ADMIN')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Requests / Issues <span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+ 								<li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Pending Issues</a></li>
+                  	</ul>
+                  </li>	
+             </sec:authorize>  
+               
+             <!--  4. Transactions. -->
+              
+        
+               <!-- User -->
+                <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Internal Transactions <span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                         <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/Request">Request Transactions</a></li>
+                        <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/listTransactions">My Transactions</a></li>
+                  	</ul>
+                  </li>	
+               </sec:authorize>  
+               
+               <!-- Employee -->
+               <sec:authorize access="hasAnyRole('ROLE_EMPLOYEE','ROLE_ADMIN')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Internal Transactions <span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="<%=request.getContextPath()%>/admin/listTransactions">Transactions Requests</a></li>
+                        <li><a href="<%=request.getContextPath()%>/admin/listTransactions">View All Transactions</a></li>
+                  	</ul>
+                  </li>	
+               </sec:authorize>  
+             
+             
+             <!-- 5. System Log -->  
+             <sec:authorize access="hasRole('ROLE_ADMIN')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Log <span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+ 							<li><a href="<%=request.getContextPath()%>/admin/ListIssues">View System Log</a></li>
+ 							<li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Critical Transactions Log</a></li>
+                  		 </ul>
+                  </li>	
+             </sec:authorize>  
+                 
+        	 </ul>
+        	 
+        	 
+        	 <!--  second ul tag --> 
+        	 <ul class="nav navbar-nav navbar-right">
+       			 <li><a href="<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a></li>	 
+        	 
+        	 </ul>
 
-                    
-                <!-- Issues -->
-                <div class="btn-group">
-                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Issues <span class="caret"></span>
-                    </button>
-                     
-                    <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                        <!-- User -->
-                        <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">New Issue</a></li>
-                        </sec:authorize>  
-
-                        <!-- User -->
-                        <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">My Issues</a></li>
-                        </sec:authorize>  
-
-                        <!-- Admin -->
-                      <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Pending Issues</a></li>
-                     </sec:authorize> 
-
-                    </ul>
-                </div>       
-                        
-                        
-                <!--  Transactions -->
-
-                  <div class="btn-group">
-                    <button class="btn btn-lg btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    Internal Transactions <span class="caret"></span>
-                    </button>
-                    
-                     <!--  Admin -->   
-                    <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu2">
-                    <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_MERCHANT')">
-                          <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/Request">Request Transactions</a></li>
-                             <li><a href="<%=request.getContextPath()%>/user/ExternalUsers/listTransactions">My Transactions</a></li>
-                    </sec:authorize>  
-
-                      <!-- Admin -->
-                      <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <li><a href="<%=request.getContextPath()%>/admin/listTransactions">View All Transactions</a></li>
-                     </sec:authorize> 
-
-
-                      </ul>
-                </div>
-            	<!--  TODO Rakesh to add : 
-                 View all pending/non-pending transactions - admin
-                --> 		
-            	<!--  Admin view Issues -->		  
-            	<!-- Admin view Trans.requests -->
-             </div>  <!-- button group div -->   
-             <a href="<c:url value="/j_spring_security_logout" />"><span class="label label-danger">Logout</span></a>
-            </div>
-        </div>
-        <!-- /.container -->
-    </nav>
-   
+       </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
     
 </body>
  <!-- JavaScript -->

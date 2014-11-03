@@ -12,6 +12,10 @@
 </head>
 <body>
 
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+
+
 <div class="row">
 <div class="well-lg col-md-6">
 
@@ -45,8 +49,8 @@
 
 			<!-- Registration Failed Test -->
 			 <c:if test="${ userRegistrationStatus != null}">
-	             <div class="btn btn-default">
-	                   <div id="status" class="label-info">${userRegistrationStatus}</div>
+	             <div class="label-group">
+	                   <div id="status" class="label label-info">${userRegistrationStatus}</div>
 	             </div>
               </c:if>
              <br>
@@ -60,20 +64,27 @@
 			  <%}%>
 
 
-			  <input type="text" class="form-control" id="j_username" name='j_username' placeholder="Username" maxlength="30">
+		<h4 style="position:absolute;left:400px; top:180px; color:#FFFF">Your SiteKey is: <strong class="label label-primary" style="font-size:14px">${sitekey}</strong></h4>
+	
+			  <input type="hidden" class="form-control" id="j_username" name='j_username' value="${userName}" maxlength="30" >
+			
 	      		  <br>
 	       		 <input type="password" class="form-control" placeholder="Password"  id="j_password" name='j_password' maxlength="15">
 	       		 
 				<!-- placeholder -->
 				<div> <br><br></div>
 
-				<div class="form-inline">
-				<input name="login" type="submit" value="Login" class = "btn btn-primary"/>
-				<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
+				  <div class="row">		
+					<div class="col-md-12 col-md-8">
+						<input name="login" type="submit" value="Login" class = "btn btn-primary"/>
+						<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
+					</div>
+					<div class="col-xs-6 col-md-4">
+						<a href="<%=request.getContextPath()%>/register" class="btn btn-danger" role="button">New User Register</a> 
+					</div>
+					</div>
 
-				<a href="<%=request.getContextPath()%>/register" style="float:right;font-weight: bold;"><span class="label label-warning">New User Registration</span></a>
-				<a href="<%=request.getContextPath()%>/register" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password</span></a>
-				</div>
+	
 
 			 </form>
 	
@@ -81,6 +92,7 @@
 
 </div>
 </div>
+</nav>
 
  <!-- Bootstrap css -->
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />

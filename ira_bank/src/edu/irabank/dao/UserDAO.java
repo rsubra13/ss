@@ -15,6 +15,11 @@ public interface UserDAO {
 	public List<UserDTO> listUsers();
 	public void deleteUser(Integer userId);
 	public Boolean updateUserDetails(UserDTO userDTO);
+	public boolean resetFailAttempts(String userName);
+	public void updateFailAttempts(String userName);
+	public Integer getLoginAttempts(String name);
+	public void updateUserDetailsSaveorUpdate(UserDTO userDTO);
+
 	
 	
 

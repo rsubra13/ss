@@ -32,13 +32,12 @@ public class UserDAOImpl implements UserDAO
 		
 		System.out.println("28 : getUserDTOByUsername " + userName);
 		Session session = sessionFactory.getCurrentSession();
-		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
-		Query query = session.createQuery(queryString);
+		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
 		query.setParameter("userName", userName);
 		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		//System.out.println("retrieved Username" + userDTO.getUserName());
 		return userDTO;
-		
-
+	
 		
 	}
 	
@@ -165,7 +164,105 @@ public class UserDAOImpl implements UserDAO
 		
 		
 	}
+	
+	@Override
+	// Save method of user edit
+	public void updateUserDetailsSaveorUpdate(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		System.out.println("152:DAOImpl:");
+		getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
+		
+		
+	}
    
+	//used for Multiple Login Attempts
+			//On the lines of mykong.com
+			@Override
+			public void updateFailAttempts(String userName)
+			{
+				System.out.println("*************comes in updateFail*************");
+				UserDTO userDTO = getUserDTOByUsername(userName);
+				Integer loginAttemptsCount = 1; //defining
+		 
+			  Integer loginAttempts = userDTO.getLoginAttempts(); // get current loginAttempts for the user
+			  
+			  
+			  //User tries to login for the first time
+			  if (loginAttempts == null) 
+			  {
+				  System.out.println("***************comes in login attempet = null**************");
+				if (userDTO != null)
+				{ //If User exists
+					
+					//UserDTO newUserDTO = new UserDTO();
+					System.out.println("*******comes in if user is present*************");
+					//set LoginAttempt count to 1
+					userDTO.setLoginAttempts(loginAttemptsCount); 
+					userDTO.setLastName("Ramki"); // checking
+				
+				/*	sessionFactory.getCurrentSession().save(userDTO);
+					getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
+				*/	
+					updateUserDetailsSaveorUpdate(userDTO);
+
+				}
+			  } 
+			  else 
+			  { //User trys to login for the another time
+		 
+				if (userDTO != null) 
+				{
+					userDTO.setLoginAttempts(loginAttemptsCount++);
+					// update attempts count ++
+					updateUserDetailsSaveorUpdate(userDTO);
+				}
+		 
+				if (userDTO.getLoginAttempts() + 1 >= 4) 
+				{
+					// lock his account
+					userDTO.setAcctLockedStatus(true);
+					updateUserDetailsSaveorUpdate(userDTO);
+				}
+		 
+			  }
+		 
+			}
+			
+			
+			//Used in Multiple Login Attempts
+			@Override
+			public boolean resetFailAttempts(String userName)
+			{
+				
+				UserDTO userDTO = getUserDTOByUsername(userName);
+				
+				if(userDTO != null)
+				{
+					userDTO.setLoginAttempts(0); // better to make it 0
+					userDTO.setAcctLockedStatus(true);
+					userDTO.setLoginAttempts(null); //Reset the Login attempts to null(default)
+					updateUserDetailsSaveorUpdate(userDTO);
+					return true;
+				}
+				return false;
+				
+			
+				
+				
+			}
+
+			public Integer getLoginAttempts(String userName)
+			{
+				Session session = sessionFactory.getCurrentSession();
+				Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
+				query.setParameter("userName", userName);
+				Integer loginAttempts = ((UserDTO) query.uniqueResult()).getLoginAttempts();
+				return loginAttempts; 
+				
+				
+			}
+
+	
 	
 }
 
