@@ -4,7 +4,7 @@ import java.security.spec.InvalidKeySpecException;
 
 public interface PkiService {
 
-	public String KeyPairGenerator();
+	public String KeyPairGenerator(String registeredEmail);
 	
 	public String sendEncryptedPaymentInfo(Integer userId, String privateKey) ;
 	

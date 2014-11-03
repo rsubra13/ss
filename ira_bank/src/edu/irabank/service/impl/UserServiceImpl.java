@@ -104,6 +104,12 @@ public class UserServiceImpl implements UserService
 		newUser.setPassword(encryptedPassword);
 		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setEmailId(userRegistrationFormBean.getEmailId());
+		
+		//*************************PKI DO NOT TOUCH*********************************
+		 
+		
+		//*************************PKI DO NOT TOUCH*********************************
+		
 		newUser.setSecAns1(userRegistrationFormBean.getSecAns1());
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
@@ -121,8 +127,11 @@ public class UserServiceImpl implements UserService
 		newUser.setRoleId(rolesDTO);
 
 		//*************************PKI DO NOT TOUCH*********************************
-		//Adding Public key to db
-		String publicKey = pkiService.KeyPairGenerator();
+		//Private key to be sent to this email
+		String registeredEmail = userRegistrationFormBean.getEmailId();
+		String publicKey = pkiService.KeyPairGenerator(registeredEmail);
+		
+		// Adding Public key to DB
 		newUser.setPublicKey(publicKey);
 		//*************************PKI DO NOT TOUCH*********************************
 		

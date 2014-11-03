@@ -1,25 +1,14 @@
 package edu.irabank.service.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
+
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.RSAPublicKeySpec;
+
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
 
@@ -29,31 +18,18 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.BadPaddingException;
+
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpSession;
 
-import sun.misc.BASE64Decoder;
+
 import sun.misc.BASE64Encoder;
-import sun.security.x509.AlgorithmId;
-import sun.security.x509.CertificateAlgorithmId;
-import sun.security.x509.CertificateIssuerName;
-import sun.security.x509.CertificateSerialNumber;
-import sun.security.x509.CertificateSubjectName;
-import sun.security.x509.CertificateValidity;
-import sun.security.x509.CertificateVersion;
-import sun.security.x509.CertificateX509Key;
-import sun.security.x509.X500Name;
-import sun.security.x509.X509CertImpl;
-import sun.security.x509.X509CertInfo;
 
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import edu.irabank.dao.UserDAO;
-import edu.irabank.dto.UserDTO;
+
 import edu.irabank.service.PkiService;
 
 /**
@@ -74,9 +50,8 @@ private JavaMailSender mailSender;
 	
 	@Override
 	@Transactional
-	public String KeyPairGenerator(){
+	public String KeyPairGenerator(String registeredEmail){
 		
-		//System.out.println("comes in keypair gen service");
 		KeyPairGenerator generateKeys = null;
 		
 		try{
@@ -137,7 +112,7 @@ private JavaMailSender mailSender;
 				try {
 					
 					OTPMailAPI.sendMailWithAttachment(UserManager.emailidreturn(userId),
-							"Digital Certificate for HappyTT Bank",
+							"Digital Certificate for IRA BANK
 							"Please save this Certificate at a secure location",
 							filePath, file.getName());
 				} catch (Exception e) {
@@ -154,7 +129,7 @@ private JavaMailSender mailSender;
 			
 			//Send an email to the user
 			SimpleMailMessage email = new SimpleMailMessage();
-	        email.setTo("ishaan_0990@yahoo.com");
+	        email.setTo(registeredEmail);
 	        email.setSubject("Your private Key");
 	        email.setText("******Your private key for IRA BANK is******** "+"\n"+prKey+"\n"+""+"Please store at a secure location");
 	        
