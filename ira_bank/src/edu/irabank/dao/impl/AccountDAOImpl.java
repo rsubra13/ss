@@ -93,6 +93,20 @@ public class AccountDAOImpl implements AccountDAO
 	}
 
 		
+	//Used in BillpayMerchant controller
+			public Integer getuserId(String accountNumber)
+			{
+				Session session = sessionFactory.getCurrentSession();
+				Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+				//System.out.println("userName here: " + userName);
+				query.setParameter("accountNumber", accountNumber);
+				//System.out.println("query : " + query);
+				Integer userId = ((UserDTO) query.uniqueResult()).getUserId();
+				return userId;
+				
+				
+			}
+	
 	// To create/open a new session.
 	private Session getSession() {
 		Session sessionobj = getSessionFactory().getCurrentSession();

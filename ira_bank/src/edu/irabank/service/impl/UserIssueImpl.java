@@ -15,6 +15,7 @@ import com.sun.jmx.snmp.Timestamp;
 
 import edu.irabank.dao.UserIssueDAO;
 import edu.irabank.dao.impl.UserDAOImpl;
+import edu.irabank.dto.AccountDetailsDTO;
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.IssueFormBean;
@@ -69,4 +70,13 @@ public class UserIssueImpl implements RequestService
 		System.out.println("IssuesList in Service" + issueList);
 		return issueList;
 	}
+	@Override
+	@Transactional(readOnly = true)
+	public List<RequestDetailsDTO> listMyIssues(Integer UserId){
+		List myissuelist= userissueDAO.listMyIssues(UserId);
+		return myissuelist;
+		
+	}
+	
+	
 }

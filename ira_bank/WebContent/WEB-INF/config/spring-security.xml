@@ -26,7 +26,10 @@
         <security:intercept-url pattern="/common*" access="permitAll"></security:intercept-url>
          <security:intercept-url pattern="/loginfailed" access="permitAll"></security:intercept-url>
           <security:intercept-url pattern="test*" access="permitAll"></security:intercept-url>
-         
+          <security:intercept-url pattern="/Forgot*" access="permitAll"></security:intercept-url>
+           <security:intercept-url pattern="/OTP*" access="permitAll"></security:intercept-url>
+          <security:intercept-url pattern="/resetpassword*" access="permitAll"></security:intercept-url>
+         		 
         <!-- TODO -->
         <security:intercept-url pattern="/listUsers" access="permitAll"></security:intercept-url>
        

@@ -114,7 +114,7 @@ import edu.irabank.service.UserService;
 			if (!(auth instanceof AnonymousAuthenticationToken)) {
 				UserDetails userDetails =
 						 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			
+				
 				String userName =	userDetails.getUsername(); */
 				// Setting session variables
 			    String userName = (String) request.getSession().getAttribute("userName");

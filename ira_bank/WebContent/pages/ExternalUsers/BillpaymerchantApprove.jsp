@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css" />  
 <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/css/bootstrap.css.map " />  
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>User BillPay</title>
+<title>Approved Bill Pay</title>
 </head>
 <body>
 <%
@@ -22,7 +22,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 <div class="col-md-offset-1 col-md-10">
   <div class="panel panel-primary">
   
-  <div class="panel-heading">Pending Requests</div>
+  <div class="panel-heading">Approved Requests</div>
   <div class="panel-body">
   </div>
   
@@ -41,7 +41,6 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			<td>Merchant ID</td>
 			 <td>Account number </td>
 			 <td>Amount</td>
-			 <td>Private Key</td>
 			 <td>Action</td>
 			 </tr>
     </thead>
@@ -49,10 +48,10 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			 <tbody>
 			 
 			   <c:forEach items="${BillpayInfo}" var="Billpaylist" varStatus="loopCounter">
-			   <c:if test="${Billpaylist.status == 'MerchantPending'}">
-			   <c:if test="${Billpaylist.acctNumber == Useracount}">
+			   <c:if test="${Billpaylist.status == 'UserApproved'}">
+			   <c:if test="${Billpaylist.merchantId.userId == UserID}">
 			   <tr>
-			   <form:form class="form-horizontal" action="/ira_bank/ExternalUsers/BillpayUser" method="POST" id="billpayuserFormBean">
+			   <form class="form-horizontal" action="/ira_bank/ExternalUsers/BillpaymerchantApprove" method="POST" id="billpaymerchantapproveFormBean">
 			   <input type = "hidden" name = "billid" value = "${Billpaylist.billId}">
 			   <input type = "hidden" name = "merchantid" value = "${Billpaylist.merchantId.userId}">
 			   <input type = "hidden" name = "accountno" value = "${Billpaylist.acctNumber}">
@@ -61,13 +60,8 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			   <td><c:out value="${Billpaylist.merchantId.userId}" /></td>
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
-
-			   <td><input type="password"  name="privateKey" type="required" id="privateKey" /></td>
-
-			   <form:errors path="privateKey" class="label label-primary" cssclass="error"></form:errors>
-
-			   <td><button  type="action" name="action" id="accept" value="Accept">Approve</button> <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
-			   </form:form>			                      
+			   <td><button  type="action" name="action" id="accept" value="Accept">Forward to Bank</button>  <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
+			   </form>			                      
 			   </tr>
 			   </c:if>
 			   </c:if>

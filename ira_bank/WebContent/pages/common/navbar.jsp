@@ -113,13 +113,16 @@
                                     <!-- transfer funds -->
                                   <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
                                   <!-- Bill pay -->
-                                  <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/BillpayUser.jsp">User Billpay</a></li>
+                              
+				  <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpayUser">User Billpay</a></li>
                                   <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
                             	   </ul>
                       </li>	
                </sec:authorize>    
                
                	<!-- Merchant Transactions -->
+                     <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpayUser">User Billpay</a></li>
+                     </sec:authorize>
                  <sec:authorize access="hasRole('ROLE_MERCHANT')">
 				 <li class="dropdown">
 				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers<span class="caret"></span></a>
@@ -159,7 +162,7 @@
                    	  <!--  Admin -->   
                    		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                          <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">New Issue</a></li>
-                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Issues">My Issues</a></li>
+                            <li><a href="<%=request.getContextPath()%>/ExternalUsers/MyIssues">My Issues</a></li>
                   	</ul>
                   </li>	
              </sec:authorize>  

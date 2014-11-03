@@ -52,8 +52,78 @@ public class UserDAOImpl implements UserDAO
 		String password = ((UserDTO) query.uniqueResult()).getPassword();
 		return password;
 	}
-
+/*
+	// Used in PkiServiceImpl
+		public String getPassword(Integer userId)	
+		{
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+			//System.out.println("userName here: " + userName);
+			query.setParameter("userId", userId);
+			//System.out.println("query : " + query);
+			String password = ((UserDTO) query.uniqueResult()).getPassword();
+			return password;
+		}
+		*/
 	
+		// Used in PkiServiceImpl
+				public String getuserName(Integer userId)	
+				{
+					Session session = sessionFactory.getCurrentSession();
+					Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+					//System.out.println("userName here: " + userName);
+					query.setParameter("userId", userId);
+					//System.out.println("query : " + query);
+					String userName = ((UserDTO) query.uniqueResult()).getUserName();
+					return userName;
+				}
+			
+		
+		//Used in PkiServiceImpl
+		public String getPublicKey(Integer userId)
+		{
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+			//System.out.println("userName here: " + userName);
+			query.setParameter("userId", userId);
+			//System.out.println("query : " + query);
+			String publicKey = ((UserDTO) query.uniqueResult()).getPublicKey();
+			return publicKey;
+			
+			
+		}
+
+		//used for Multiple Login Attempts
+		//On the lines of references from mykong.com
+		@Override
+		/*public void updateFailAttempts(String userName) {
+	 
+		  Integer loginAttempts = getLoginAttempts(userName);
+		  if (loginAttempts == null) {
+			  
+			  UserDTO userDTO = getUserDTOByUsername(userName);
+			if (userDTO != null) { //If User exists
+				
+				Object status = getSession().merge(userDTO); // merge is used here rather than 'save'
+				
+			}
+		  } else {
+	 
+			if (isUserExists(username)) {
+				// update attempts count, +1
+				getJdbcTemplate().update(SQL_USER_ATTEMPTS_UPDATE_ATTEMPTS, new Object[] { new Date(), username});
+			}
+	 
+			if (user.getAttempts() + 1 >= MAX_ATTEMPTS) {
+				// locked user
+				getJdbcTemplate().update(SQL_USERS_UPDATE_LOCKED, new Object[] { false, username });
+				// throw exception
+				throw new LockedException("User Account is locked!");
+			}
+	 
+		  }
+	 
+		}*/
 
 	/**
 	 * @param userName
@@ -263,7 +333,38 @@ public class UserDAOImpl implements UserDAO
 			}
 
 	
+		
+		// TODO check if the user is already present in service Layer
+		try{
+			sessionFactory.getCurrentSession().merge(userDTO);
+			return true;
+		}
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+		
+	} // End of update
+
+	@Override
 	
+	public UserDTO getUserDTOByEmailId(String emailId) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("comes in getuserDTO");
+		//Session session = sessionFactory.getCurrentSession();
+		
+		Query query = getSession().getNamedQuery("UserDTO.findByEmailId");
+		System.out.println("query set");
+		//Query query = session.getNamedQuery("UserDTO.findByEmailId"); //using NamedQuery
+		
+		query.setParameter("emailId", emailId );
+		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		
+		return userDTO;
+		
+	}
 }
 
 

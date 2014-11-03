@@ -54,7 +54,13 @@
 	             </div>
               </c:if>
              <br>
-
+<!-- Password updated -->
+			 <c:if test="${ Status != null}">
+	             <div class="btn btn-default">
+	                   <div id="status" class="label-info">${Status}</div>
+	             </div>
+              </c:if>
+             <br>
              
 			<%
 				/*Check if Login did not happen*/
@@ -80,7 +86,7 @@
 						<input name="cancel" type="reset" value="Cancel"  class = "btn btn-danger"/>
 					</div>
 					<div class="col-xs-6 col-md-4">
-						<a href="<%=request.getContextPath()%>/register" class="btn btn-danger" role="button">New User Register</a> 
+				<a href="<%=request.getContextPath()%>/Forgot" style="float:left;font-weight: bold;"><span class="label label-warning">Forgot Password</span></a>
 					</div>
 					</div>
 
