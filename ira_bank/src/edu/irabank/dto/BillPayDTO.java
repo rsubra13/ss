@@ -94,11 +94,11 @@ public class BillPayDTO implements Serializable {
         this.status = status;
     }
 
-    public String getKey() {
+    public String getHashedkey() {
         return hashedkey;
     }
 
-    public void setKey(String hashedkey) {
+    public void setHashedkey(String hashedkey) {
         this.hashedkey = hashedkey;
     }
 

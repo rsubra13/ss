@@ -20,7 +20,7 @@
    <!-- Moved it above -->	
 	<mvc:annotation-driven />
 	
-	<!-- Setting the cache control, back, refresh for all pages -->
+	<!-- Setting the cache control, back, refresh for all pages, not working though -->
 	<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -40,10 +40,20 @@
 	<!--  To scan the components -->
     <context:component-scan base-package="edu.irabank"/>
 	
+	
+   <!-- custom bean which has the spring security methods -->
+<!--   <bean id="userDetailsService" class="edu.irabank.service.impl.UserDetailsServiceImpl"></bean> -->
+   
+   <!--   
+     <bean id="limitLoginServiceImpl" class="edu.irabank.service.impl.LimitLoginServiceImpl">
+     <property name="userDetailsService" ref="userDetailsService">
+     </property>
+     </bean>    -->
+	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="cacheSeconds" value="0" />
 	</bean>
-	
+
 
 	
 	<bean id="iraBankExceptionController" class="edu.irabank.controller.IraBankExceptionController"></bean>

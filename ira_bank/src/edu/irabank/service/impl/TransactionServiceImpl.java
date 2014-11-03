@@ -196,6 +196,20 @@ public class TransactionServiceImpl implements TransactionService
 	    	return false;
 	    }
 	  }
+	
+	@Transactional
+	public boolean BillpayUpdatekey(Integer billid, String hashedkey)
+	{
+	    boolean isbillpaystatus = billpayDAO.Billpayupdatekey(billid, hashedkey);
+	    if(isbillpaystatus)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
 		
 	}
 	

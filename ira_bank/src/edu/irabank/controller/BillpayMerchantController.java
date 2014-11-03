@@ -23,6 +23,7 @@ import edu.irabank.form.BillpaymerchantFormBean;
 import edu.irabank.form.BillpaymerchantapproveFormBean;
 import edu.irabank.form.BillpayrequestFormBean;
 import edu.irabank.form.BillpayuserFormBean;
+import edu.irabank.service.PkiService;
 import edu.irabank.service.TransactionService;
 
 
@@ -38,6 +39,9 @@ import edu.irabank.service.TransactionService;
 		
 		@Autowired
 		HttpSession sessionID;
+		
+		@Autowired
+		PkiService pkiService;
 
 		
 		// GET Method of Billpay Merchant Form
@@ -205,21 +209,27 @@ import edu.irabank.service.TransactionService;
 	    public ModelAndView Billpayuserrequest(@ModelAttribute("billpayuserFormBean") BillpayuserFormBean billpayuserFormBean,  BindingResult result, ModelMap model)
 	    {
 			
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			
 			System.out.println("comes at Billpay Request post method");
 			Integer billid = billpayuserFormBean.getBillid();
 			String Account = billpayuserFormBean.getAccountno();
 			Double amount = billpayuserFormBean.getAmount();
 			String action = billpayuserFormBean.getAction();
+			String alias_hashedKey = billpayuserFormBean.getPrivateKey();
 			System.out.println(billid);
 			System.out.println(action);
 			
 			if(action.equals("Accept"))
 			{
+				String hashedKey = pkiService.sendEncryptedPaymentInfo(userId, alias_hashedKey);
+				System.out.println("********HASHED KEY****************"+hashedKey);
 				    String status = "UserApproved";							
 					//Call BillPayupdate to update the status 
+				    boolean isBillpaykeySuccess = transactionService.BillpayUpdatekey(billid, hashedKey);
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
-					if(isBillpaySuccess)
+					if(isBillpaySuccess && isBillpaykeySuccess)
 					{
 						System.out.println("Bill pay Accepted!");
 						model.addAttribute("accountStatus", "Bill pay request sent!");
@@ -227,7 +237,7 @@ import edu.irabank.service.TransactionService;
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
 						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
+					
 						String Accountno = transactionService.getAccountNumberbyUserID(userId);
 						System.out.println("User Account Number" + Accountno );
 						model.put("Useracount", Accountno);
@@ -238,7 +248,7 @@ import edu.irabank.service.TransactionService;
 			if(action.equals("Reject"))
 			{
 				    String status = "UserRejected";			
-					//Call BillPayupdate to update the status 
+					//Call BillPayupdate to update the status
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
 					if(isBillpaySuccess)
@@ -249,7 +259,7 @@ import edu.irabank.service.TransactionService;
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
 						System.out.println(transactionService.showBillpayInfo());
-						Integer userId = (Integer)sessionID.getAttribute("userId");
+				
 						String Accountno = transactionService.getAccountNumberbyUserID(userId);
 						System.out.println("User Account Number" + Accountno );
 						model.put("Useracount", Accountno);
@@ -290,6 +300,8 @@ import edu.irabank.service.TransactionService;
 			String Account = billpaymerchantapproveFormBean.getAccountno();
 			Double amount = billpaymerchantapproveFormBean.getAmount();
 			String action = billpaymerchantapproveFormBean.getAction();
+			
+			
 			System.out.println(billid);
 			System.out.println(action);
 			

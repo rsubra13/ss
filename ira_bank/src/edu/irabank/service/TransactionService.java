@@ -17,6 +17,7 @@ public interface TransactionService {
 	boolean BillPay(String AccountNo, Double balance, String Status);
 	public List <BillPayDTO> showBillpayInfo();
 	boolean BillPayUpdate(Integer billid, String Status);
+	boolean BillpayUpdatekey(Integer billid, String hashedkey);
 	
 	
 }

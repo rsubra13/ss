@@ -66,6 +66,20 @@ public class UserDAOImpl implements UserDAO
 			return password;
 		}
 		
+	
+		// Used in PkiServiceImpl
+				public String getuserName(Integer userId)	
+				{
+					Session session = sessionFactory.getCurrentSession();
+					Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+					//System.out.println("userName here: " + userName);
+					query.setParameter("userId", userId);
+					//System.out.println("query : " + query);
+					String userName = ((UserDTO) query.uniqueResult()).getUserName();
+					return userName;
+				}
+			
+		
 		//Used in PkiServiceImpl
 		public String getPublicKey(Integer userId)
 		{

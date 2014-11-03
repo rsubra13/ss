@@ -135,7 +135,7 @@ public class UserDTO implements Serializable {
     @Size(max = 45)
     @Column(name = "PKI_NUMBER")
     private String pkiNumber;
-    @Size(max = 240)
+    @Size(max = 2048)
     @Column(name = "PUBLIC_KEY")
     private String publicKey;
     @Size(max = 45)

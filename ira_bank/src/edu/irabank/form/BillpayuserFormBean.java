@@ -17,6 +17,9 @@ public class BillpayuserFormBean {
 	private double amount;
 	private String status;
 	private String action;
+	private String privateKey;
+	
+	
 
 	public int getMerchantid() {
 		return merchantid;
@@ -65,8 +68,16 @@ public class BillpayuserFormBean {
 	public void setAction(String action) {
 		this.action = action;
 	}
-	
 
+	public String getPrivateKey() {
+		return privateKey;
+	}
+
+	public void setPrivateKey(String privateKey) {
+		this.privateKey = privateKey;
+	}
+	
+		
 			
     
     

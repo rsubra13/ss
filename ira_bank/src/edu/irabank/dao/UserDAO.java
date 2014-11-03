@@ -11,6 +11,7 @@ public interface UserDAO {
 	public String getPassword(String userID);
 	public String getPassword(Integer userID); //Used in PkiServiceImpl
 	public String getPublicKey(Integer userId); //Used in PkiServiceImpl
+	public String getuserName(Integer userID); //Used in PkiServiceImpl
 	public UserDTO getUserDTOByUsername(String userName);
 	public UserDTO getUserDTOByUserId(Integer userId);
 	public Boolean addNewUser(UserDTO userDTO); // Pass user object as an argument

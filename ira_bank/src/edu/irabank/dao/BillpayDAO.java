@@ -16,6 +16,7 @@ public interface BillpayDAO {
 	Boolean BillpaySave(BillPayDTO billpayDTO);
 	public List<BillPayDTO> showbillpayInfo();
 	boolean Billpayupdatestatus(Integer billlid, String status);
+	boolean Billpayupdatekey(Integer billlid, String hashedkey);
 
 
 }

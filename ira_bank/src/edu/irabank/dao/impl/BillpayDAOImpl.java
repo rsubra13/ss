@@ -81,6 +81,20 @@ HttpSession sessionID;
 	}
 	
 	
+	@Override
+	public boolean Billpayupdatekey(Integer billid, String hashedkey)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+		query.setParameter("billId", billid);
+		System.out.println("query : " + query);
+		((BillPayDTO) query.uniqueResult()).setHashedkey(hashedkey);
+		return true;
+	}
+	
+	
+	
+	
 }
 
 

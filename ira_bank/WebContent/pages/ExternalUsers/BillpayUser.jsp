@@ -56,7 +56,8 @@
 			   <td><c:out value="${Billpaylist.merchantId.userId}" /></td>
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
-			   <td><input type="password" name="privatekey" id="privatekey" required></td>
+			   <td><input type="password"  name="privateKey"  value ="tesst" id="privateKey" /></td>
+<!-- 				<td><textarea name="privatekey" rows = "50" id="privatekey" required></textarea></td> -->
 			   <td><button  type="action" name="action" id="accept" value="Accept">Approve</button> <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
 			   </form>			                      
 			   </tr>
