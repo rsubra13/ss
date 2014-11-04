@@ -33,6 +33,7 @@ public interface UserService {
 	public boolean storeotp(UserDTO retrievedDTO);
 	public boolean updatepassword(UserDTO retrievedDTO);
 	
+	
 
 	
 	

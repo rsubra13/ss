@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -44,6 +45,9 @@
     </style>
  
 
+=======
+   
+>>>>>>> 9a3e1aca58f37e52f93efeef746aaf8e90221571
 </head>
 
 <body>

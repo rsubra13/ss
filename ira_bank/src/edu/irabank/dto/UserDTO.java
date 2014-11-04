@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -134,12 +135,13 @@ public class UserDTO implements Serializable {
     @Size(max = 45)
     @Column(name = "PKI_NUMBER")
     private String pkiNumber;
-    @Size(max = 240)
+    @Size(max = 2048)
     @Column(name = "PUBLIC_KEY")
     private String publicKey;
     @Size(max = 45)
     private String otp;
-    private Integer ssn;
+    @Size(max = 10)
+    private String ssn;
     @Column(name = "LOGIN_ATTEMPTS")
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
@@ -159,6 +161,8 @@ public class UserDTO implements Serializable {
     @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")
     @ManyToOne
     private RolesDTO roleId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "merchantId")
+    private List<UserBillpayDTO> userBillpayDTOList;
 
     public UserDTO() {
     }
@@ -334,11 +338,11 @@ public class UserDTO implements Serializable {
         this.otp = otp;
     }
 
-    public Integer getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(Integer ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 
@@ -416,6 +420,15 @@ public class UserDTO implements Serializable {
 
     public void setRoleId(RolesDTO roleId) {
         this.roleId = roleId;
+    }
+
+    @XmlTransient
+    public List<UserBillpayDTO> getUserBillpayDTOList() {
+        return userBillpayDTOList;
+    }
+
+    public void setUserBillpayDTOList(List<UserBillpayDTO> userBillpayDTOList) {
+        this.userBillpayDTOList = userBillpayDTOList;
     }
 
     @Override

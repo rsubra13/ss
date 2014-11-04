@@ -8,6 +8,10 @@
  
 </head>
 <body>
+<%
+String context_path=request.getContextPath();
+String navbar_path=context_path+"/pages/navbar.jsp";
+%>
 <%@include file="../common/navbar.jsp" %>
 
 <div class="panel panel-primary">
@@ -27,8 +31,8 @@
                 </div>
   </c:if>
   
-    <form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
-    commandName="transferFormBean action="ira_bank/ExternalUsers/Transfer_funds"> 
+    <form:form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
+    commandName="transferFormBean" action="/ira_bank/ExternalUsers/Transfer_funds"> 
   
   <div class="form-group">
  
@@ -36,32 +40,30 @@
     <div class="col-sm-7">
       <input name="fromaccount" type="Text" class="form-control" id="inputText3" placeholder="From Account Number" value = <%=request.getAttribute("TextValue")%>  readonly="true" required>
     </div>
+    
   </div>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
-      <input name="toaccount" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.to_account}" required>
+      <input name="toaccount" type="Text" class="form-control" id="inputPassword3" placeholder="To Account Number" value="${InternalTransactionFormBean.toaccount}" required>
     </div>
+    <form:errors path="toaccount" class="label label-primary" cssclass="error"></form:errors>
   </div>
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
       <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}" required>
     </div>
+    <form:errors path="amount" class="label label-primary" cssclass="error"></form:errors>
   </div>
-    <div class="form-group">
-    <label for="pki" class="col-sm-2 control-label">PKI</label>
-    <div class="col-sm-7 col-md-7">
-      <input name="pki" type="Text" class="form-control" id="inputpki" placeholder="PKI" value="${TransferFormBean.pki}">
-    </div>
-  </div>
+
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-7 col-md-offset-2 col-md-7">
 	  <!-- Button for Transfer -->
-	  <button type="submit" class="btn btn-default" action="ira_bank/ExternalUsers/Transfer_funds">Submit</button>  
+	  <button type="submit" class="btn btn-default">Submit</button>  
     </div>
   </div>
-</form>
+</form:form>
     
   </div>
 </div>

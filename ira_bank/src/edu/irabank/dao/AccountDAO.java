@@ -22,6 +22,8 @@ public interface AccountDAO {
 	public AccountDetailsDTO showAccountInfo(Integer userId); //Display account info of the current user
 	
 	public AccountDetailsDTO getAccountDetailsDTOByUserID(Integer userId);
+	
+	public Integer getuserId(String accountNumber);
 
 
 

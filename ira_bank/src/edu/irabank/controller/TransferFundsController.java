@@ -1,7 +1,10 @@
 package edu.irabank.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +49,7 @@ import edu.irabank.service.TransactionService;
 		
 		// Post Method after submitting Account details in Transfer Form
 		@RequestMapping(value="/Transfer_funds", method=RequestMethod.POST)
-	    public ModelAndView accountTransfer(@ModelAttribute("transferFormBean") TransferFormBean transferFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID, HttpServletRequest request)
+	    public ModelAndView accountTransfer(@ModelAttribute("transferFormBean") @Valid TransferFormBean transferFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID, HttpServletRequest request)
 	    {
 			String userName = (String)sessionID.getAttribute("userName");
 			System.out.println("userName is:" + userName);
@@ -55,45 +58,89 @@ import edu.irabank.service.TransactionService;
 			String Accountnum = transactionService.getAccountNumberbyUserID(userId);
 			request.setAttribute("TextValue",Accountnum);
 			
+			// Arraylist option for displaying errors.
+			
+			ArrayList<String> errorCode = new ArrayList<String>();
+			
+			// Case 1: JSR303 validation. Checks for Hibernate related form issues.
+			
+			if (result.hasErrors()){
+				System.out.println("comes in form errors of Transfer Funds");
+				model.addAttribute("transferStatus", "Please fill the necessary fields and try again");
+				model.addAttribute("transferFormBean",transferFormBean);
+				request.setAttribute("TextValue",Accountnum);
+				return new ModelAndView( "/ExternalUsers/Transfer_funds",model);
+			}
+			
+			// Case 2 : Server-side validation : Start the validation before pressing the submit button.
+	
+			Boolean serverValidationError = false;
+			
+			// Check for all the UserRegistrationFormBean values.
+			if(transferFormBean.getToaccount()==null || !transferFormBean.getToaccount().matches("^[0-9 -]+$"))
+			{
+				errorCode.add("Please check the Account Number. It is not in expected format.");
+				model.addAttribute("transferStatus",errorCode);
+				request.setAttribute("TextValue",Accountnum);
+				serverValidationError = true;
+			}
+			
+			if(Double.valueOf(transferFormBean.getAmount())==null || !Double.valueOf(transferFormBean.getAmount()).toString().matches("[0-9]{1,13}(\\.[0-9]*)?"))
+			{
+				errorCode.add("Please check the Amount. It is not in expected format.");
+				model.addAttribute("transferStatus",errorCode);
+				request.setAttribute("TextValue",Accountnum);
+				serverValidationError = true;
+			}
+			
+			// Go back to credit debit page with these validation errors.
+			if(serverValidationError){
+				request.setAttribute("TextValue",Accountnum);
+				return new ModelAndView("/ExternalUsers/Transfer_funds", model); // return back to register
+			}
+			
+			
 			System.out.println("comes at Transfer post method");
 			String FromAccount = transferFormBean.getFromaccount();
 			String ToAccount = transferFormBean.getToaccount();
 			Double amount = Double.parseDouble(transferFormBean.getAmount());
 			
-			boolean isFromAccountExist = transactionService.getAccountNumber(FromAccount);
-			boolean isToAccountExist = transactionService.getAccountNumber(ToAccount);
+			if(!serverValidationError){
 			
-			if(!isFromAccountExist || !isToAccountExist) 
-			{
-				System.out.println("Enter a valid account number ");
-				model.addAttribute("transferStatus", "Please enter a valid account number");
-				model.addAttribute("transferFormBean",transferFormBean);
-				request.setAttribute("TextValue",Accountnum);
-				return new ModelAndView("/ExternalUsers/Transfer_funds", model);
-			}
-			else if(FromAccount.equals(ToAccount))
-			{
-				System.out.println("Enter a valid account number ");
-				model.addAttribute("transferStatus", "Please enter a valid account number");
-				model.addAttribute("transferFormBean",transferFormBean);
-				request.setAttribute("TextValue",Accountnum);
-				return new ModelAndView("/ExternalUsers/Transfer_funds", model);
-			}
-			else if(amount <= 0)
-			{
-				System.out.println("Enter a valid Amount ");
-				model.addAttribute("transferStatus", "Please enter a valid Amount");
-				model.addAttribute("transferFormBean",transferFormBean);
-				request.setAttribute("TextValue",Accountnum);
-				return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+				boolean isFromAccountExist = transactionService.getAccountNumber(FromAccount);
+				boolean isToAccountExist = transactionService.getAccountNumber(ToAccount);
+			
+				if(!isFromAccountExist || !isToAccountExist) 
+				{
+					System.out.println("Enter a valid account number ");
+					model.addAttribute("transferStatus", "Please enter a valid account number");
+					model.addAttribute("transferFormBean",transferFormBean);
+					request.setAttribute("TextValue",Accountnum);
+					return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+				}
+				else if(FromAccount.equals(ToAccount))
+				{
+					System.out.println("Enter a valid account number ");
+					model.addAttribute("transferStatus", "Please enter a valid account number");
+					model.addAttribute("transferFormBean",transferFormBean);
+					request.setAttribute("TextValue",Accountnum);
+					return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+				}
+				else if(amount <= 0)
+				{
+					System.out.println("Enter a valid Amount ");
+					model.addAttribute("transferStatus", "Please enter a valid Amount");
+					model.addAttribute("transferFormBean",transferFormBean);
+					request.setAttribute("TextValue",Accountnum);
+					return new ModelAndView("/ExternalUsers/Transfer_funds", model);
 				
-			}
+				}
 			
-			if(isFromAccountExist && isToAccountExist)
-			{
-				System.out.println("isToAccountExist" + isToAccountExist);
-				System.out.println("isFromAccountExist" + isFromAccountExist);
-								
+				if(isFromAccountExist && isToAccountExist)
+				{
+					System.out.println("isToAccountExist" + isToAccountExist);
+					System.out.println("isFromAccountExist" + isFromAccountExist);
+									
 					//Call TransferBalance to add the amount to the given account number
 					boolean isTransferSuccess = transactionService.TransferBalance(ToAccount, FromAccount, amount);
 					System.out.println("isTransferSuccess" + isTransferSuccess);
@@ -108,7 +155,8 @@ import edu.irabank.service.TransactionService;
 					}
 
 			}
-			model.addAttribute("transferStatus", "Please enter valid details");
+			}
+			model.addAttribute("transferStatus", "Insufficient Balance");
 			model.addAttribute("transferFormBean",transferFormBean);
 			request.setAttribute("TextValue",Accountnum);
 			return new ModelAndView("/ExternalUsers/Transfer_funds", model);

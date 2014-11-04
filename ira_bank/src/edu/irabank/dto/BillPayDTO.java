@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BillPayDTO.findByAcctNumber", query = "SELECT b FROM BillPayDTO b WHERE b.acctNumber = :acctNumber"),
     @NamedQuery(name = "BillPayDTO.findByAmount", query = "SELECT b FROM BillPayDTO b WHERE b.amount = :amount"),
     @NamedQuery(name = "BillPayDTO.findByStatus", query = "SELECT b FROM BillPayDTO b WHERE b.status = :status"),
-    @NamedQuery(name = "BillPayDTO.findByKey", query = "SELECT b FROM BillPayDTO b WHERE b.key = :key")})
+    @NamedQuery(name = "BillPayDTO.findByHashedkey", query = "SELECT b FROM BillPayDTO b WHERE b.hashedkey = :hashedkey")})
 public class BillPayDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,7 +49,8 @@ public class BillPayDTO implements Serializable {
     @Size(max = 45)
     private String status;
     @Size(max = 2048)
-    private String key;
+    private String hashedkey;
+   
     @JoinColumn(name = "MERCHANT_ID", referencedColumnName = "USER_ID")
     @ManyToOne
     private UserDTO merchantId;
@@ -93,12 +94,12 @@ public class BillPayDTO implements Serializable {
         this.status = status;
     }
 
-    public String getKey() {
-        return key;
+    public String getHashedkey() {
+        return hashedkey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setHashedkey(String hashedkey) {
+        this.hashedkey = hashedkey;
     }
 
     public UserDTO getMerchantId() {

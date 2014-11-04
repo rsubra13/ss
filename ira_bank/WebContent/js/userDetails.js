@@ -1,4 +1,33 @@
-function editUser(id) {
+$(document).ready(function() {
+
+	$('#UserDetailsDialog').dialog({
+
+		autoOpen : false,
+		position : 'center',
+		modal : true,
+		resizable : false,
+		width : 800,
+		buttons : {
+			"Save" : function() {
+				$('#userDetailsForm').submit();
+			},
+			"Cancel" : function() {
+				$(this).dialog('close');
+			}
+		},
+		close : function() {
+
+			resetDialog($('#userDetailsForm'));
+
+			$(this).dialog('close');
+		}
+	});
+
+
+});
+
+
+	function editUser(id) {
 	console.log("comes here")
 	$.get("get/" + id, function(result) {
 		console.log("comes out");
@@ -29,30 +58,4 @@ function resetDialog(form) {
 	form.find("input").val("");
 }
 
-$(document).ready(function() {
-
-	$('#UserDetailsDialog').dialog({
-
-		autoOpen : false,
-		position : 'center',
-		modal : true,
-		resizable : false,
-		width : 800,
-		buttons : {
-			"Save" : function() {
-				$('#userDetailsForm').submit();
-			},
-			"Cancel" : function() {
-				$(this).dialog('close');
-			}
-		},
-		close : function() {
-
-			resetDialog($('#userDetailsForm'));
-
-			$(this).dialog('close');
-		}
-	});
-
-	initializeDatePicker();
-});
+initializeDatePicker();
