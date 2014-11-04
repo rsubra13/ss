@@ -12,13 +12,29 @@
 
     <title>I R A Home Page</title>
 
-    <link href="<%=request.getContextPath()%>/css/bootstrap.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/css/recommendation.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/custom.js"></script>
+    <!-- The problem was having different folders, so place all css files in CSS folder. -->
+ <!-- Bootstrap css -->
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
+
+<!-- Jquery CSS -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
+
+<!-- Jquery JS Files -->  
+<script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
+
+<script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
+<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
+<!-- bootstap js -->
+
+<script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+   
     <!-- Add custom CSS here -->
 
     <style>
@@ -31,6 +47,7 @@
 </head>
 
 <body>
+
 
 
 <%@include file="../common/navbar.jsp" %>
