@@ -1,10 +1,14 @@
 package edu.irabank.controller;
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.irabank.dao.RequestDetailsDAO;
+import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.form.InternalTransactionFormBean;
 import edu.irabank.form.RequestDetailsFormBean;
@@ -34,11 +40,14 @@ public class InternalTransactionController
 	private TransactionService transactionService; 
 	@Autowired
 	private InternalTransactionService internalTransactionService;
+	@Autowired 
+	RequestDetailsDAO requestDAO;
 
 	// Ext Users request / create a new transaction.	
 	@RequestMapping(value="/user/ExternalUsers/Request", method = RequestMethod.GET)
 	public ModelAndView sampTransRoute( HttpSession sessionID,HttpServletRequest request,ModelMap model)
-	{//userId
+	
+	{
 		
 		String userName = (String)sessionID.getAttribute("userName");
 		System.out.println("userName is:" + userName);
@@ -51,9 +60,23 @@ public class InternalTransactionController
 		
 	}
 	
+	@RequestMapping(value="/user/ExternalUsers/CreateTransaction", method = RequestMethod.GET)
+	public ModelAndView createTrans(HttpSession sessionID, ModelMap model, HttpServletRequest request)
+	{
+		String userName = (String)sessionID.getAttribute("userName");
+		System.out.println("userName is:" + userName);
+		int userId = (int)sessionID.getAttribute("userId");
+		String Accountnum = transactionService.getAccountNumberbyUserID(userId);
+		model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+		request.setAttribute("TextValue",Accountnum);
+		System.out.println("userId is:" + userId);
+		return new ModelAndView ("/ExternalUsers/RequestTransaction");
+		
+	}
+	
 	// POST method of create Transaction -> 
-	@RequestMapping(value="/user/CreateTransaction", method = RequestMethod.POST)
-	public ModelAndView createTrans(@ModelAttribute("trans") InternalTransactionFormBean trans, HttpSession sessionID,ModelMap model)
+	@RequestMapping(value="/user/ExternalUsers/CreateTransaction", method = RequestMethod.POST)
+	public ModelAndView createTrans(HttpServletRequest request,@ModelAttribute("trans") @Valid InternalTransactionFormBean trans,BindingResult result, HttpSession sessionID,ModelMap model)
 	{
 		String Accountnum = transactionService.getAccountNumberbyUserID((Integer)sessionID.getAttribute("userId"));
 		System.out.println("Account number in controller is:"+Accountnum);
@@ -67,12 +90,88 @@ public class InternalTransactionController
 		String[] empty = new String[1];
 		empty[0] = "";
 		String reqId = "";
+		
+		
+		ArrayList<String> errorCode = new ArrayList<String>();
+		if (result.hasErrors()){
+			model.addAttribute("userRegistrationStatus", "Please fill the necessary fields and try again");
+			model.addAttribute("InternalTransactionFormBean",trans);
+			int userId = (int)sessionID.getAttribute("userId");
+			String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+			model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+			request.setAttribute("TextValue",Accountnum1);
+			return new ModelAndView( "/ExternalUsers/RequestTransaction",model);
+		}
+		
+		
+		Boolean serverValidationError = false;
+		if(trans.getFrom_account()==null || !trans.getFrom_account().matches("^[0-9 -]+$"))
+				{
+			errorCode.add("Please check the  Account Number. It is not in expected format.");
+			model.addAttribute("userRegistrationStatus",errorCode);
+			serverValidationError = true;
+			
+				}
+		
+		if(trans.getTo_account()==null || !trans.getTo_account().matches("^[0-9 -]+$"))
+		{
+	errorCode.add("Please check the to Account Number. It is not in expected format.");
+	model.addAttribute("userRegistrationStatus",errorCode);
+	serverValidationError = true;
+	
+		}
+
+		
+		if(trans.getAmount()==null || !trans.getAmount().toString().matches("[0-9]{1,13}(\\.[0-9]*)?"))
+		{
+	errorCode.add("Please check the Amount. It is not in expected format.");
+	model.addAttribute("userRegistrationStatus",errorCode);
+	serverValidationError = true;
+	
+		}
+
+		
+		if(serverValidationError){
+			int userId = (int)sessionID.getAttribute("userId");
+			String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+			model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+			request.setAttribute("TextValue",Accountnum1);
+			return new ModelAndView("/ExternalUsers/RequestTransaction", model); // 
+		}
+		
+		boolean toAccount = transactionService.getAccountNumber(trans.getTo_account());
+		if(!toAccount)
+		{
+			model.addAttribute("userRegistrationStatus", "Enter vaalid 'To' account Number");
+			int userId = (int)sessionID.getAttribute("userId");
+			String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+			model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+			request.setAttribute("TextValue",Accountnum1);
+			return new ModelAndView("/ExternalUsers/RequestTransaction",model);
+		}
+		else if(trans.getFrom_account() == trans.getTo_account())
+		{
+			
+			model.addAttribute("userRegistrationStatus", "Enter proper account number");
+			int userId = (int)sessionID.getAttribute("userId");
+			String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+			model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+			request.setAttribute("TextValue",Accountnum1);
+			return new ModelAndView("/ExternalUsers/RequestTransaction",model);
+		}
+		if(!serverValidationError)
+		{
+		
 		boolean isCreateSuccess = internalTransactionService.setTransactionDetails(trans, userID,isAuthorized0,tranID,empty,reqId);
 		try{//System.out.println("Entered Try Loop for CreateTrans:"+isCreateSuccess);
 		if(isCreateSuccess == true)
 		{
 			//internalTransactionService.setRequestDetails(trans, userId);
-			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
+			int userId = (int)sessionID.getAttribute("userId");
+			String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+			model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+			request.setAttribute("TextValue",Accountnum1);
+			model.addAttribute("userRegistration", "Transaction Done successfully");
 			model.addAttribute("userName", sessionID.getAttribute("userName"));
 
 		}
@@ -82,6 +181,11 @@ public class InternalTransactionController
 			System.out.println("Exception: "+e);
 	
 		}
+		}
+		int userId = (int)sessionID.getAttribute("userId");
+		String Accountnum1 = transactionService.getAccountNumberbyUserID(userId);
+		model.addAttribute("StatusHere", "This Page is For Requesting Internal Users to Do transactions For you.");
+		request.setAttribute("TextValue",Accountnum1);
 		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
 	}
 
@@ -113,20 +217,83 @@ public class InternalTransactionController
 		if(isCreateSuccess == true)
 		{
 			//internalTransactionService.setRequestDetails(trans, userId);
-			model.addAttribute("userRegistrationStatus", "Transaction Done successfully");
+			model.addAttribute("userRegistrationStatus", "Approved Successfully");
 			model.addAttribute("userName", userName);
 
 		}
 		}
 		catch(Exception e){System.out.println("Exception at APPROVAL"+e);}
-		return new ModelAndView("/ExternalUsers/RequestTransaction",model);
+
+		return new ModelAndView("/ExternalUsers/listTrans",model);
 		
 	}
 	
 	//@PathVariable("fromAccount") String fromAccount,@PathVariable("toAccount") String toAccount,@PathVariable("amount") Double amount,
 	@RequestMapping(value="/admin/save")
-	public ModelAndView saveTrans(@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("reqId") Integer reqId,@RequestParam("reqUsedId") Integer reqUsedId,@RequestParam("reqDesc") String reqDesc, HttpSession sessionID,ModelMap model)
-	{
+	public ModelAndView saveTrans(HttpServletRequest request,@ModelAttribute("trans") InternalTransactionFormBean trans,@RequestParam("reqId") Integer reqId,@RequestParam("reqUsedId") Integer reqUsedId,@RequestParam("reqDesc") String reqDesc, HttpSession sessionID,ModelMap model)
+	{           
+RequestDetailsFormBean requestDetailsFormBean = new RequestDetailsFormBean();
+		ArrayList<String> errorCode = new ArrayList<String>();
+		
+		RequestDetailsDTO requestDTO=internalTransactionService.getRequestByReqID(reqId);
+		request.setAttribute("TextValue",requestDTO.getReqDesc());
+		sessionID.setAttribute("reqId", reqId);
+		Boolean serverValidationError = false;
+		if(reqDesc==null || !reqDesc.matches("^[0-9]{9}[,]{1}[0-9]{9}[,][0-9.]+$"))
+				{
+			 requestDTO=internalTransactionService.getRequestByReqID(reqId);
+			errorCode.add("Please check the  values. It is not in expected format.");
+			model.addAttribute("userRegistrationStatus",errorCode);
+			serverValidationError = true;
+			model.addAttribute("requestDetailsFormBean",requestDetailsFormBean);
+			
+            request.setAttribute("requestID", reqId);
+            request.setAttribute("TextValue",requestDTO.getReqUserId().getUserId());
+
+			return new ModelAndView("/InternalUsers/requestDetailsForm");
+				}
+		String delimeter = "[,]";
+		String[] split = new String[2];
+		 split = reqDesc.split(delimeter);
+		boolean fromAccount = transactionService.getAccountNumber(split[0]);
+		boolean toAccount = transactionService.getAccountNumber(split[1]);
+
+		if(!fromAccount)
+		{
+			 requestDTO=internalTransactionService.getRequestByReqID(reqId);
+
+			model.addAttribute("userRegistrationStatus","Enter Proper FROM Account Number!");
+			model.addAttribute("requestDetailsFormBean",requestDetailsFormBean);
+			
+            request.setAttribute("requestID", reqId);
+            request.setAttribute("TextValue",requestDTO.getReqUserId().getUserId());
+
+			return new ModelAndView("/InternalUsers/requestDetailsForm");
+		}
+
+		if(!toAccount)
+		{
+			 requestDTO=internalTransactionService.getRequestByReqID(reqId);
+
+				model.addAttribute("userRegistrationStatus","Enter Proper TO Account Number!");
+				model.addAttribute("requestDetailsFormBean",requestDetailsFormBean);
+				
+	            request.setAttribute("requestID", reqId);
+	            request.setAttribute("TextValue",requestDTO.getReqUserId().getUserId());
+
+				return new ModelAndView("/InternalUsers/requestDetailsForm");		}
+		if(Integer.parseInt(split[0])==Integer.parseInt(split[1]))
+		{
+			model.addAttribute("userRegistrationStatus","You either tried to change the FROM account number or Entered same account number twice. Please check your values!");
+			model.addAttribute("requestDetailsFormBean",requestDetailsFormBean);
+			
+            request.setAttribute("requestID", reqId);
+            request.setAttribute("TextValue",requestDTO.getReqUserId().getUserId());
+            return new ModelAndView("/InternalUsers/requestDetailsForm");	
+		}
+		
+		if(!serverValidationError)
+		{
 		//delete first
 		System.out.println("Comes in Delete" + reqId);
 		internalTransactionService.deleteTransaction(reqId);
@@ -147,8 +314,7 @@ public class InternalTransactionController
 		
 		String tranID = "";
 		
-		String delimeter = "[,]";
-		String[] split = new String[2];
+		
 		 split = reqDesc.split(delimeter);
 		 trans.setFrom_account(split[0]);
 		 System.out.println("to:"+split[0]);
@@ -179,6 +345,8 @@ public class InternalTransactionController
 		System.out.println("List All Transactions");
 		//model.put("RequestDTO", new RequestDetailsDTO());
 		model.put("RequestDetailsList", internalTransactionService.listTransactions());
-		return new ModelAndView("/ExternalUsers/listTrans",model);
+		
 		}
-}
+		return new ModelAndView("/ExternalUsers/listTrans",model);
+	}
+	}

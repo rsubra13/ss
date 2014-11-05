@@ -1,19 +1,30 @@
 package edu.irabank.form;
-
 import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import edu.irabank.dto.TransactionDetailsDTO;
+import edu.irabank.dto.UserDTO;
+
 public class RequestDetailsFormBean {
-	
-	private String reqDesc;
-	 private Date reqDate;
-	 private Integer reqId;
+
+	    @Size(max = 90)
+	    @Column(name = "REQ_DESC")
+	    private String reqDesc;
+	   private Integer reqId;
+	   private Date reqDate;
+	    
 		private Integer reqUsedId;
 		private String fromAccount;
 		private String toAccount;
@@ -61,5 +72,4 @@ public class RequestDetailsFormBean {
 	public void setReqDate(Date reqDate) {
 		this.reqDate = reqDate;
 	}
-
 }

@@ -67,7 +67,8 @@ public class ViewTransactionsController {
 	{
 		System.out.println("List User transaction, sessionId is "+ SessionId.getAttribute("userId"));
 		boolean val= false;
-
+		boolean setView = true;
+		model.addAttribute("setView", "Transact");
 		model.addAttribute("useThis", val);
 		model.addAttribute("userIdCompare", SessionId.getAttribute("userId"));
 		model.put("RequestDetailsList", internalService.listTransactions());

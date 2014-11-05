@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 public class IssueFormBean {
 	
     private String issue;
+    @Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 80)
     private String description;
     private String priority;
     

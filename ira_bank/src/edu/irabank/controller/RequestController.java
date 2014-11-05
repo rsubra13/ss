@@ -57,6 +57,7 @@ import edu.irabank.service.RequestService;
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/ExternalUsers/Issues", method = RequestMethod.POST)
 		
+		
 		public ModelAndView createNewRequest(@ModelAttribute("issueFormBean") @Valid IssueFormBean issueFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpSession sessionID) {
 			ArrayList<String> errorCode = new ArrayList<String>();
 			if (result.hasErrors()){
@@ -66,9 +67,9 @@ import edu.irabank.service.RequestService;
 				return new ModelAndView( "/ExternalUsers/Issues",model);
 			}
 			Boolean serverValidationError = false;
-			if(issueFormBean.getDescription()=="" )
+			if(issueFormBean.getDescription()==""|| !issueFormBean.getDescription().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
-				errorCode.add("Please enter description");
+				errorCode.add("Please check the description. It is not in expected format.");
 				model.addAttribute("issueStatus",errorCode);
 				serverValidationError = true;
 			}
