@@ -5,6 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <body>
+<%@include file="../common/navbar.jsp" %>
+
 <c:url var="actionUrl" value="save" />
 
 <head>
@@ -25,19 +27,24 @@
 
 </head>
 <body>
+<div><label for="inputText3">${userRegistrationStatus}</label></div>
 <form:form id="requestDetailsForm" commandName="requestDetailsFormBean" method="post"
 	action="${actionUrl}" class="pure-form pure-form-aligned">
 
 	<fieldset>
 		<legend>Edit User Details</legend>
+		<br/>${requestDetailsFormBean.setReqDesc(requestDetailsFormBean.getReqDesc())}
+		
+					<div><label class="inputText3"> ${requestDetailsFormBean.getReqDesc()}</label></div>
+		
 <form>
 		<div class="form-control">
 			<label for="Description">From|TO|Amount</label>
 			 <%-- value="${requestDetailsFormBean.getReqDesc()}" --%>
 			
 			 
-			
 		<form:input path="reqDesc" required="required" type="text" placeholder="reqDesc" />
+			    <form:errors path="reqDesc" class="label label-primary" cssclass="error"></form:errors>
 			
 		</div> 
 
