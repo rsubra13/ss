@@ -59,7 +59,7 @@
               </c:if>
              <br>
 
-				   <input type="text" class="form-control" id="userName" name='userName' placeholder="Username" maxlength="30" class="">
+				   <input type="text" class="form-control" id="userName" name='userName' placeholder="Username" maxlength="30" class="" data-validate="required,alphanumeric" >
 		      	   <br>	<br><br>       	
 		      	   
 		      	   <div class="row">		
@@ -89,6 +89,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
 
+
 <!-- Jquery JS Files -->  
 <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
@@ -98,6 +99,8 @@
 <!-- bootstap js -->
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+
+<script src="<%=request.getContextPath()%>/js/verify.notify.js" charset="UTF-8"  type="text/javascript"></script>
 
 </body>
 </html>

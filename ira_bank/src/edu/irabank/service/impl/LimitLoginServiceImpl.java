@@ -33,7 +33,7 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 		
 		try{
 			Authentication request = super.authenticate(auth);
-			System.out.println("comes in rest fail attempts");
+			System.out.println("comes in reset fail attempts");
 			userDAO.resetFailAttempts(auth.getName()); //gets userName
 			
 		
