@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 	function editUser(id) {
 	console.log("comes here")
-	$.get("get/" + id, function(result) {
+	$.get("admin/get/" + id, function(result) {
 		console.log("comes out");
 		console.log(result);
 		

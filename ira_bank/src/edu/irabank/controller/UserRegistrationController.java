@@ -90,7 +90,8 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 			
 
 			// Captcha Check.
-			ReCaptchaImpl captcha = new ReCaptchaImpl();
+			// Commenting the captcha check as in server it is giving some issues. 
+			/*ReCaptchaImpl captcha = new ReCaptchaImpl();
 	        captcha.setPrivateKey("6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD");
 	        
 	        String challenge = request.getParameter("recaptcha_challenge_field");
@@ -109,7 +110,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 	            
 				serverValidationError = true;
 	        }
-	        
+	        */
 			// Check for all the UserRegistrationFormBean values.
 			if(userRegistrationFormBean.getUserName()==null || !userRegistrationFormBean.getUserName().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
@@ -202,7 +203,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 				serverValidationError = true;
 			}
 
-			if(userRegistrationFormBean.getSecAns2()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
+			if(userRegistrationFormBean.getSecAns2()==null || !userRegistrationFormBean.getSecAns2().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
 				errorCode.add("Sec Ans 2 is not in expected format");
 				model.addAttribute("userRegistrationStatus",errorCode);

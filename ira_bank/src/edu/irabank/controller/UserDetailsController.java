@@ -30,8 +30,19 @@ import edu.irabank.service.UserService;
 		private UserService userService; // change it to the user details related service. 
 
 		
-		// GET Method of Listing Users - shows the page.
-				@RequestMapping(value="/listUsers", method = RequestMethod.GET)
+		// GET Method of Listing Users selective users - shows the page.
+				@RequestMapping(value="/admin/listUsers", method = RequestMethod.GET)
+				public String listUsers(ModelMap model) {
+					// redirect to the listUsers.jsp
+					System.out.println("List All Users : Controller");
+					model.put("userDetailsFormBean", new UserDetailsFormBean());
+					model.put("usersList", userService.listUsers());
+					return "/ExternalUsers/listUsers";
+				}
+		
+				
+				// GET Method of Listing Users - shows the page.
+				@RequestMapping(value="/admin/listAllUsers", method = RequestMethod.GET)
 				public String listAllUsers(ModelMap model) {
 					// redirect to the listUsers.jsp
 					System.out.println("List All Users : Controller");
@@ -40,9 +51,10 @@ import edu.irabank.service.UserService;
 					return "/ExternalUsers/listUsers";
 				}
 		
+				
 			
 				 // Edit User
-				 @RequestMapping("/get/{userId}")
+				 @RequestMapping("/admin/get/{userId}")
 			       public ModelAndView getUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean, @PathVariable Integer userId, Map<String, Object> map, ModelMap model) {
 
 			              //UserDTO userDTO = new UserDTO();
@@ -58,7 +70,7 @@ import edu.irabank.service.UserService;
 			       }
 				 
 				 // Update the existing user.
-				 @RequestMapping(value = "/save", method = RequestMethod.POST)
+				 @RequestMapping(value = "/admin/save", method = RequestMethod.POST)
 					public ModelAndView updateUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,
 							BindingResult result,ModelMap model) {
 					 
@@ -79,7 +91,7 @@ import edu.irabank.service.UserService;
 						
 				 }
 
-				 @RequestMapping(value = "/save", method = RequestMethod.GET)
+				 @RequestMapping(value = "/admin/save", method = RequestMethod.GET)
 					public String updateUserGet(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,
 							BindingResult result,ModelMap model) {
 					    // redirect to the listUsers.jsp
@@ -93,7 +105,7 @@ import edu.irabank.service.UserService;
 				 
 
 				  // Delete User.
-				 @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
+				 @RequestMapping(value = "/admin/delete/{userId}", method = RequestMethod.GET)
 					public ModelAndView deleteUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,BindingResult result, ModelMap model, @PathVariable("userId") Integer userId) {
 						System.out.println("Comes in Delete" + userId);
 						userService.deleteUser(userId);
