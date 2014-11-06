@@ -55,7 +55,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 		
 		@Autowired
 		private UserService userService;  // Autowire the User Service
-		
+	
 		// GET Method of Register - shows the page.
 		@RequestMapping(value="/register", method = RequestMethod.GET)
 		public String createNewUser(ModelMap model) {
@@ -63,7 +63,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 			return "/ExternalUsers/registerUser";
 		}
 		
-		
+
 		// POST Method of Register - comes back after the submit of User Details Form.
 		@RequestMapping(value="/register", method = RequestMethod.POST)
 		public ModelAndView createNewUser(@ModelAttribute("userRegistrationFormBean") @Valid UserRegistrationFormBean userRegistrationFormBean,  BindingResult result, ModelMap model, SessionStatus status, HttpServletRequest request) {
@@ -83,23 +83,13 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 				return new ModelAndView( "/ExternalUsers/registerUser",model);
 			}
 			
+			
 			// Case 2 : Server-side validation : Start the validation before calling the Add User service.
 	
 			Boolean serverValidationError = false;
 			
-			// Check for all the UserRegistrationFormBean values.
-			if(userRegistrationFormBean.getUserName()==null || !userRegistrationFormBean.getUserName().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the username. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			if(userRegistrationFormBean.getFirstName()==null || !userRegistrationFormBean.getFirstName().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the First Name. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
+
+			// Captcha Check.
 			ReCaptchaImpl captcha = new ReCaptchaImpl();
 	        captcha.setPrivateKey("6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD");
 	        
@@ -109,7 +99,6 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 	                captcha.checkAnswer(request.getRemoteAddr(),
 	                challenge, uresponse
 	            );
-	 
 	        if (reCaptchaResponse.isValid()) {
 	            model.addAttribute("userRegistrationStatus", "Captcha Validated");
 	            System.out.println("*****Captcha validated****");
@@ -120,70 +109,109 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 	            
 				serverValidationError = true;
 	        }
+	        
+			// Check for all the UserRegistrationFormBean values.
+			if(userRegistrationFormBean.getUserName()==null || !userRegistrationFormBean.getUserName().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("UserName is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			if(userRegistrationFormBean.getFirstName()==null || !userRegistrationFormBean.getFirstName().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("FirstName is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+	        
 			if(userRegistrationFormBean.getLastName()==null || !userRegistrationFormBean.getLastName().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
-				errorCode.add("Please check the Last Name. It is not in expected format.");
+				errorCode.add("LastName is not in expected format");
 				model.addAttribute("userRegistrationStatus",errorCode);
 				serverValidationError = true;
 			}
 			
 			if(userRegistrationFormBean.getEmailId()==null || !userRegistrationFormBean.getEmailId().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"))
 			{
-				errorCode.add("Please check the Email ID. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			if(userRegistrationFormBean.getPassword()==null || !userRegistrationFormBean.getPassword().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the Password. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			
-			if(userRegistrationFormBean.getContactNum()==null || !userRegistrationFormBean.getContactNum().matches("^[0-9 -]+$"))
-			{
-				errorCode.add("Please check the Phone. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			
-			if(userRegistrationFormBean.getDob()==null) // write proper regex here
-			{
-				errorCode.add("Please check the Date of Birth. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			
-			if(userRegistrationFormBean.getSecQue1()==null || !userRegistrationFormBean.getSecQue1().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the Security Que 1. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			
-			if(userRegistrationFormBean.getSecAns1()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the Security Ans 1. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-			if(userRegistrationFormBean.getSecQue2()==null || !userRegistrationFormBean.getSecQue2().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the Security Que 2. It is not in expected format.");
-				model.addAttribute("userRegistrationStatus",errorCode);
-				serverValidationError = true;
-			}
-
-			if(userRegistrationFormBean.getSecAns2()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
-			{
-				errorCode.add("Please check the Security Ans 2. It is not in expected format.");
+				errorCode.add("Email is not in expected format");
 				model.addAttribute("userRegistrationStatus",errorCode);
 				serverValidationError = true;
 			}
 			
 			if(userRegistrationFormBean.getAddress()==null || !userRegistrationFormBean.getAddress().matches("^[a-zA-Z0-9 ,.]+$"))
 			{
-				errorCode.add("Please check the Address Field. It is not in expected format.");
+				errorCode.add("Address is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getPassword()==null || !userRegistrationFormBean.getPassword().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Password is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getContactNum()==null || !userRegistrationFormBean.getContactNum().matches("^[0-9 -]+$"))
+			{
+				errorCode.add("Contact Number is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			
+			if(userRegistrationFormBean.getSsn()==null || !userRegistrationFormBean.getSsn().matches("^[0-9 -]+$"))
+			{
+				errorCode.add("SSN is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			//if(userRegistrationFormBean.getDob()==null || !userRegistrationFormBean.getSecQue1().matches("(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")); // write proper regex here
+			if(userRegistrationFormBean.getDob()==null )
+			{
+				errorCode.add("Date is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getSecQue1()==null || !userRegistrationFormBean.getSecQue1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Sec Que 1 is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getSitekey()==null || !userRegistrationFormBean.getSitekey().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("SiteKey is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getSecAns1()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Sec Ans 1 is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			if(userRegistrationFormBean.getSecQue2()==null || !userRegistrationFormBean.getSecQue2().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Sec Que 2 is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+
+			if(userRegistrationFormBean.getSecAns2()==null || !userRegistrationFormBean.getSecAns1().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Sec Ans 2 is not in expected format");
+				model.addAttribute("userRegistrationStatus",errorCode);
+				serverValidationError = true;
+			}
+			
+			if(userRegistrationFormBean.getAddress()==null || !userRegistrationFormBean.getAddress().matches("^[a-zA-Z0-9 ,.]+$"))
+			{
+				errorCode.add("Address is not in expected format");
 				model.addAttribute("userRegistrationStatus",errorCode);
 				serverValidationError = true;
 			}
@@ -202,7 +230,9 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 				return new ModelAndView("/ExternalUsers/registerUser", model);	
 			}
 			
+			//TODO for ssn and others.
 			
+			//|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$
 			
 		
 				
@@ -221,7 +251,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 					{
 						model.addAttribute("userRegistrationStatus", "User Registered successfully. Please login");
 						model.addAttribute("userName", userRegistrationFormBean.getUserName());
-						return new ModelAndView("/securedLogin/login", model);
+						return new ModelAndView("/index", model);
 					}
 			   }
 		

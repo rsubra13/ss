@@ -1019,7 +1019,7 @@ var globalOptions = {
   },
   //Before form-submit hook
   beforeSubmit: function(e, result) {
-    return result;
+    return true;
   },
   //tracking method
   track: $.noop,
@@ -1663,6 +1663,7 @@ var ValidationForm = null;
       }
 
       if(!submitForm) event.preventDefault();
+
       return submitForm;
     },
 
@@ -2302,7 +2303,7 @@ log("plugin added.");
       message: "Invalid URL"
     },
     alphanumeric: {
-      regex: /^[0-9A-Za-z]+$/,
+      regex: /^[0-9A-Za-z. ]+$/,
       message: "Use digits and letters only"
     },
     street_number: {
@@ -2406,8 +2407,7 @@ log("plugin added.");
         return "Use digits and spaces only";
       if(v.match(/^\+/))
         return true; //allow all international
-      if(!v.match(/^0/))
-        return "Number must start with 0";
+     
       if(v.replace(/\s/g,"").length !== 10)
         return "Must be 10 digits long";
       return true;

@@ -140,7 +140,8 @@ public class UserDTO implements Serializable {
     private String publicKey;
     @Size(max = 45)
     private String otp;
-    private Integer ssn;
+    @Size(max = 10)
+    private String ssn;
     @Column(name = "LOGIN_ATTEMPTS")
     private Integer loginAttempts;
     @Column(name = "ACCT_LOCKED_STATUS")
@@ -337,11 +338,11 @@ public class UserDTO implements Serializable {
         this.otp = otp;
     }
 
-    public Integer getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(Integer ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

@@ -17,6 +17,8 @@
 	<!-- create-session never was written to solve 1st time login issue -->
 	<security:http auto-config="true"  use-expressions="true" disable-url-rewriting="true" access-denied-page="/accessDenied" create-session="never" >
         <security:intercept-url pattern="/login*" access="permitAll"></security:intercept-url>
+          <security:intercept-url pattern="/userNameCheck*" access="permitAll"></security:intercept-url>
+            <security:intercept-url pattern="newuser*" access="permitAll"></security:intercept-url>
         <security:intercept-url pattern="/logout*" access="permitAll"></security:intercept-url>
         <security:intercept-url pattern="/home*" access="permitAll"></security:intercept-url>
         <security:intercept-url pattern="/register*" access="permitAll"></security:intercept-url>
@@ -59,12 +61,12 @@
     </security:http>
    
    <!-- custom bean which has the spring security methods -->
-  <bean id="userDetailsService" class="edu.irabank.service.impl.UserDetailsServiceImpl"></bean>
-     
+<!--   <bean id="userDetailsService" class="edu.irabank.service.impl.UserDetailsServiceImpl"></bean> -->
+  
+ 
   	
 	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider user-service-ref="userDetailsService">
-			<security:password-encoder hash="bcrypt"/>
+		<security:authentication-provider ref="limitLoginServiceImpl">
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

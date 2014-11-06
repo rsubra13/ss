@@ -1,4 +1,4 @@
-/*package edu.irabank.service.impl;
+package edu.irabank.service.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.UserDAO;
 
-*//**
+/**
  * @author Ishaan Sharma
  *
- *//*
+ */
 
 
 //@Component("authenticationProvider")
@@ -33,6 +33,7 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 		
 		try{
 			Authentication request = super.authenticate(auth);
+			System.out.println("comes in reset fail attempts");
 			userDAO.resetFailAttempts(auth.getName()); //gets userName
 			
 		
@@ -41,7 +42,7 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 		catch(BadCredentialsException exception)
 		{
 			userDAO.updateFailAttempts(auth.getName());
-			System.out.println("areu kidding me???");
+			System.out.println("update fail attempts over");
 			//throw exception;
 			
 		}
@@ -49,7 +50,7 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 		{
 			String message = "";
 			Integer attempts = userDAO.getLoginAttempts(auth.getName()); 
-			if(attempts != null)
+			if(attempts == 4)
 			{
 				message = "Account for"+auth.getName()+"is locked ";
 			}
@@ -60,11 +61,9 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 			
 			 throw new LockedException(message);
 		}
-		return auth;
+		return null;
 		
 		
 	}
 }
 
-
-*/

@@ -51,6 +51,7 @@
                 
 
                      <br>
+                     <label class="inputtext3"> ${userRegistrationStatus}</label>
                      <c:if test="${useThis == true}" >
                                  <li><a href="<%=request.getContextPath()%>/admin/ApprovedTransactions">Approved Transactions</a></li>
                      
@@ -58,19 +59,19 @@
                         <thead>
                            <tr class="success">
                               <th width="4%">S.No</th>
-                              <th width="12%">Request Id</th>
-                              <th width="4%">Request User Id</th>
+                              <th width="12%"> Request Id</th>
+                              <th width="4%">User Id</th>
                               
                              
                               <th width="10%">From Account</th>
                                <th width="10%">To Account</th>
                                 <th width="8%"> Amount</th>
-                              <th width="5%">Request Status</th>
-                              <th width="12%">Request Date</th>
-                              <th width="12%">Request Type</th>
-                              <th width="12%">Is_Authorized</th>
-                              <th width="12%">Request Priority</th>
-                              <th width="12%">Request Transaction ID</th>
+                             
+                              <th width="12%">Transaction Date</th>
+                              <th width="12%">Transaction Type</th>
+                              <th width="12%">Approved</th>
+                              <th width="12%">Transaction Priority</th>
+                              <th width="12%">Transaction ID</th>
                              
                            </tr>
                         </thead>
@@ -82,34 +83,35 @@
                            
                            <form method = "POST" >
                                <td><c:out value="${loopCounter.count}" /></td>
-                               <td><input  name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
-                               
-                               <td><input name="userId"   type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
+                               <input  name="reqId"  type="hidden" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/>
+                               <td><c:out value="${requestDetails.getReqId()}"/></td>
+                               <input name="userId"   type="hidden" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> 
+                               <td><c:out value="${requestDetails.getReqUserId().getUserId()}" /></td>
                                
                                <c:set var="stringDesc" value="${fn:split(requestDetails.getReqDesc(), ',')}" />
-                              <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[0]}"  />"  readonly="readonly"/></td>
-                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[1]}"  />"  readonly="readonly"/></td>
-                            <td> <input name="reqDesc" style="height: 150%;" type="text" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[2]}"  />"  readonly="readonly"/></td>
+                               <input name="reqDesc" style="height: 150%;" type="hidden" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[0]}"  />"  readonly="readonly"/>
+                              <td><c:out value="${stringDesc[0]}"  /> </td>
+                            <input name="reqDesc" style="height: 150%;" type="hidden" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[1]}"  />"  readonly="readonly"/>
+                            
+                            <td><c:out value="${stringDesc[1]}"/></td>
+                            <input name="reqDesc" style="height: 150%;" type="hidden" class="form-control"  placeholder="reqDesc" maxlength="40" value="<c:out value="${stringDesc[2]}"  />"  readonly="readonly"/>
+                            <td><c:out value="${stringDesc[2]}"/> </td>
                                
-                               <td><c:out value="${requestDetails.getReqStatus()}" /></td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
                                <td><c:out value="${requestDetails.getIsApproved()}" /></td>
                                
                                <td><c:out value="${requestDetails.getReqPriority()}" /></td>
+                               <input  name="transId"  type="hidden" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
                                
-                               <td><input  name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
-                                <td>
+                               <td><c:out value="${requestDetails.getReqTransId().getTransId()}" /> <td>
                            
 		                        <button   name ="save" type="submit" class="btn btn-default"  formaction="/ira_bank/admin/edit">Edit</button>
 		                        
                        		 <c:if test="${button== true}" >
                              <button   name ="${requestDetails.getReqUserId().getUserId()}"type="submit" class="btn btn-default" formaction="/ira_bank/admin/Transaction/Approval">Approve</button>
      						 </c:if>
-						
-
-                        
-                       
+				     
                        		 </form>
                             </tr>
                             </c:if>
@@ -127,15 +129,14 @@
                         <thead>
                            <tr class="success">
                               <th width="4%">S.No</th>
-                              <th width="12%">Request Id</th>
-                              <th width="12%">Request User Id</th>
-                              <th width="12%">Request Description</th>
-                              <th width="12%">Request Status</th>
-                              <th width="12%">Request Date</th>
-                              <th width="12%">Request Type</th>
-                              <th width="12%">Is_Authorized</th>
-                              <th width="12%">Request Priority</th>
-                              <th width="12%">Request Transaction ID</th>
+                              <th width="6%">Request Id</th>
+                              <th width="6%">User Id</th>
+                              <th width="22%">Transaction Description<br/> FROM | TO | AMOUNT</th>
+                              <th width="12%">Transaction Date</th>
+                              <th width="12%">Transaction Type</th>
+                              <th width="12%">Approved</th>
+                             
+                              <th width="12%">Transaction ID</th>
                              
                            </tr>
                         </thead>
@@ -146,28 +147,19 @@
                            <tr>
                             <form method = "POST" id="form1">
                                <td><c:out value="${loopCounter.count}" /></td>
-                               <td><input form="form1" name="reqId"  type="text" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/></td>
-                               
-                             <td><input name="userId" form= "form1" type="text" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> </td>
-                               <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
-                               </td>
-                               <td><c:out value="${requestDetails.getReqStatus()}" /></td>
+                               <input form="form1" name="reqId"  type="hidden" class="form-control"  placeholder="RequestID" maxlength="15" value="<c:out value="${requestDetails.getReqId()}" />" readonly="readonly"/>
+                               <td>${requestDetails.getReqId()}</td>
+                               <input name="userId" form= "form1" type="hidden" class="form-control"  placeholder="userId" maxlength="10" value="<c:out value="${requestDetails.getReqUserId().getUserId()}" />" readonly="readonly"/> 
+                             <td>${requestDetails.getReqUserId().getUserId()}</td>
+                             <input name="reqDesc" form="form1"  type="hidden" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
+                              
+                               <td>${requestDetails.getReqDesc()}</td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
                                <td><c:out value="${requestDetails.getIsApproved()}" /></td>
-                               
-                               <td><c:out value="${requestDetails.getReqPriority()}" /></td>
-                               
-                               <td><input form="form1" name="transId"  type="text" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
-                                <td>
-                     
-                       
-      
-						 
-
-                        
-                       
-                       		 </form>
+                               <input form="form1" name="transId"  type="hidden" class="form-control"  placeholder="TransactionId" maxlength="15" value="<c:out value="${requestDetails.getReqTransId().getTransId()}" />" readonly="readonly"/></td>
+                              <td> ${requestDetails.getReqTransId().getTransId()} <td>
+                     		 </form>
                             </tr>
                             </c:if>
                             </c:forEach>
@@ -183,16 +175,18 @@
                            <tr class="success">
                               <th width="4%">S.No</th>
                            
-                              <th width="12%">Request Description</th>
-                              <th width="12%">Request Date</th>
-                              <th width="12%">Request Type</th>
+                              <th width="12%">Transaction Description<br/> FROM | TO | AMOUNT</th>
+                              <th width="12%">Transaction Date</th>
+                              <th width="12%">Transaction Type</th>
                             
                              
                            </tr>
                         </thead>
 <c:forEach items="${RequestDetailsList}" var="requestDetails" varStatus="loopCounter">
-<c:if test="${userIdCompare == requestDetails.getReqUserId().getUserId()}">
 
+
+<c:if test="${userIdCompare == requestDetails.getReqUserId().getUserId()}">
+<c:if test="${setView == requestDetails.getReqType()}">
                         
                        
                         <tbody>
@@ -201,8 +195,9 @@
                            <tr>
                             <form method = "POST" id="form1">
                                <td><c:out value="${loopCounter.count}" /></td>
-                              <td><input name="reqDesc" form="form1"  type="text" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
-                               </td>
+                               <input name="reqDesc" form="form1"  type="hidden" class="form-control"  placeholder="reqDesc" maxlength="10" value="<c:out value="${requestDetails.getReqDesc()}" />"  readonly="readonly"/>
+             
+                              <td>${requestDetails.getReqDesc()}</td>
                                <td><c:out value="${requestDetails.getReqDate()}" /></td>
                                <td><c:out value="${requestDetails.getReqType()}" /></td>
                          
@@ -213,6 +208,7 @@
                            
                             
                         </tbody>
+                        </c:if>
                           </c:if>
                       </c:forEach>
                      </table>

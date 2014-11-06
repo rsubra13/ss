@@ -94,14 +94,14 @@ import edu.irabank.service.UserService;
 
 				  // Delete User.
 				 @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
-					public ModelAndView deleteUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,BindingResult result, ModelMap model, @RequestParam("userId") Integer userId) {
+					public ModelAndView deleteUser(@ModelAttribute("userDetailsFormBean") UserDetailsFormBean userDetailsFormBean,BindingResult result, ModelMap model, @PathVariable("userId") Integer userId) {
 						System.out.println("Comes in Delete" + userId);
 						userService.deleteUser(userId);
 						model.addAttribute("userdeleteStatus", "User Deleted successfully");
 						//model.put("userDetailsFormBean", new UserDetailsFormBean());
 						model.put("usersList", userService.listUsers());
 						System.out.println("63 : comes in Delete conroller");
-						return new ModelAndView("/ExternalUsers/listUsers");
+						return new ModelAndView("/ExternalUsers/listUsers",model);
 						//return "redirect:/ExternalUsers/listAllUsers";
 					}
 

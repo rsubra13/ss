@@ -12,93 +12,61 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>User Registration</title>
 
-
- <title>User Registration</title>
-
-
-
- <!-- The problem was having different folders, so place all css files in CSS folder. -->
- <!-- Bootstrap css -->
- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
-
-<!-- Jquery CSS -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
+</head>
 
 <!-- Jquery JS Files -->  
 <script src="<%=request.getContextPath()%>/js/jquery.js"  type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui.js"  type="text/javascript"></script>
 
 <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"  type="text/javascript" ></script>
-<%-- <script src="<%=request.getContextPath()%>/js/verify.notify.js"></script> --%>
+
 <!-- bootstap js -->
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 
-</head>
-
+<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
 <body>
 
  
 <!-- Registration -->
 <!--first split-->
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading">REGISTER FORM</div>
-
         <div class="panel-body">
-   
-          <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
+
+			 <form:form class="form-horizontal" method="POST" id="userRegistrationFormBean" 
                 commandName="userRegistrationFormBean" action="/ira_bank/register">
-                
-               
-                <c:if test="${ userRegistrationStatus != null}">
-              	         
-              	<div class="container">
-       					 <div class="row">
-          					  <div class="col-lg-12">
-            					<div class="well well-sm container">
-						            	<h2>Errors:</h2>
-						                   <div id="status">
-						                   <p> ${userRegistrationStatus} </p>
-                        <%-- <c:forEach var="entry" items="${userRegistrationStatus}">
- 							Value: <c:out value="${entry.value}"/> </nbsp>
-						</c:forEach>  --%>
-						                   </div>
-				     </div>
-  		 </div>
-   	</div>
-   </div>
-                  
-                </c:if>
-                      
-                   
-                <div class="container-fluid">
-                <div class="row">
-                <div class="col-md-offset-1 col-md-5">
-            <!--  username -->
+			 
+			<!-- Registration Failed Test -->
+			 <c:if test="${ userRegistrationStatus != null}">
+	             <div class="label-group">
+	                   <div id="status" class="label label-info">${userRegistrationStatus}</div>
+	             </div>
+              </c:if>
+             <br>
+
+<div class="container-fluid">
+  <div class="row">
+     <div class="col-md-5">	 
+				 
+			<!--  username -->
             <div class="form-group">
                 <label class="control-label" for="Username">Username</label>
                     <div class="col-md-12 input-group">
-                            <input type="text" id="userName" name="userName" placeholder="Username" class="form-control"  data-validate="required,alphanumeric"  value="${userRegistrationFormBean.userName}">
+                            <input type="text" id="userName" name="userName" placeholder="Username" class="form-control"    value="${userRegistrationFormBean.userName}" data-validate="required,alphanumeric">
                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     		 <form:errors path="userName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
-
-            <!-- Password-->      
+				   	
+		    <!-- Password-->      
             <div class="form-group">
               <label class="control-label" for="Password">Password</label>
                     <div class="col-md-12 input-group">
-                        <input type="password" class="form-control " id="password" name="password"  placeholder="password"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.password}" >
+                        <input type="password" class="form-control " id="password" name="password"  placeholder="password"  value="${userRegistrationFormBean.password}" data-validate="required,alphanumeric"  >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                         <form:errors path="password" class="label label-primary" cssclass="error"></form:errors>
                     </div>
@@ -108,15 +76,16 @@
            <div class="form-group">
               <label class=" control-label" for="FirstName">First Name</label>
                     <div class="col-md-12 input-group">
-                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.firstName}" >
+                        <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name"  value="${userRegistrationFormBean.firstName}"  data-validate="required,alphanumeric">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     	 <form:errors path="firstName" class="label label-primary" cssclass="error"></form:errors>
                     </div>
             </div>
-
-            <!-- Last Name -->
+		      	   
+		      
+		       <!-- Last Name -->
               <div class="form-group">
-              <label class=" control-label" for="FirstName">First Name</label>
+              <label class=" control-label" for="FirstName">Last Name</label>
                     <div class="col-md-12 input-group">
                         <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" data-validate="required,regex([a-zA-Z])" value="${userRegistrationFormBean.lastName}" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
@@ -129,12 +98,13 @@
             <div class="form-group">
               <label class=" control-label" for="InputEmail">Email</label>
                     <div class="col-md-12 input-group">
-                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email" data-validate="required,email" value="${userRegistrationFormBean.emailId}" >
+                        <input type="email" class="form-control" id="emailId" name="emailId"   placeholder="Enter Email"  value="${userRegistrationFormBean.emailId}" data-validate="required,email" >
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                          <form:errors path="emailId" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             </div>
 
+     
         <!-- Address -->
             <div class="form-group">
               <label class=" control-label" for="address">Address</label>
@@ -148,22 +118,53 @@
        <div class="form-group">
               <labelclass=" control-label" for="contactNum">Phone Number</label>
                     <div class="input-group col-md-12">
-                        <input type="phone" class="form-control" id="contactNum" name="contactNum"   placeholder="Phone Number" data-validate="required,phone" value="${userRegistrationFormBean.contactNum}" >
+                        <input type="phone" class="form-control" id="contactNum" name="contactNum"   placeholder="Phone Number"  value="${userRegistrationFormBean.contactNum}" data-validate="required,phone" >
                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                          <form:errors path="contactNum" class="label label-primary" cssclass="error"></form:errors>
                         </div>
             </div>
        
+        <%
+          ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Les_PwSAAAAAALJRSaUDbCDMqpvE6Ao68CdcsxS", "6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD", false);
+          out.print(c.createRecaptchaHtml(null, null));
+        %>
+       
        </div>
-     
+       
 
-  <!--   Start the second split -->   
-   <div class="col-md-offset-1 col-md-5" >
+       
+      <!--   Start the second split -->   
+  
+ <!--  SSN -->
+ 
+ 
+   <div class="col-md-offset-1 col-md-6" >
+   
+   		<!-- SSN -->
+        <div class="form-group">
+              <label class=" control-label" for="ssn">Social Security Number</label>
+                    <div class="input-group col-md-12">
+                        <input type="ssn" class="form-control" id="ssn" name="ssn"   placeholder="Social Security Number" value="${userRegistrationFormBean.ssn}"  data-validate="required,number" >
+                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                         <form:errors path="ssn" class="label label-primary" cssclass="error"></form:errors>
+                        </div>
+            </div>
+            
+             <!-- Site Key -->
+              <div class="form-group">
+              <label class=" control-label" for="FirstName">Site Key</label>
+                    <div class="col-md-12 input-group">
+                        <input type="text" class="form-control" id="sitekey" name="sitekey"  placeholder="Enter your site key"  value="${userRegistrationFormBean.sitekey}"  data-validate="required,alphanumeric">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    	 <form:errors path="sitekey" class="label label-primary" cssclass="error"></form:errors>
+                    </div>
+            </div>
+            
             <div class="form-group">
               <label for="dob">DOB</label>
 
                   <div class="input-group date col-md-12 ">
-                      <input type="text"  id="dob" name="dob" class="datepicker form-control" data-validate="required" placeholder= "Select your date of birth"  value="${userRegistrationFormBean.dob}" >
+                      <input type="text"  id="dob" name="dob" class="datepicker form-control" placeholder= "Select your date of birth"  value="${userRegistrationFormBean.dob}"  data-validate="required" >
  <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>                    
  				<!-- bootstrap Date picker -->
                       <script type="text/javascript">
@@ -178,11 +179,10 @@
                              dateformat: 'mm/dd/yyyy',
                              defaultDate: $("#dob").val()});
                       </script>
-				 <form:errors path="dob" class="label label-primary" cssclass="error"></form:errors>
                   </div>
             </div>
 
-        <!-- User Role -->
+ <!-- User Role -->
         <div class="form-group">
             <label class="control-label"  for="Role">Type of User</label>
                 <div class="controls col-md-12">
@@ -236,26 +236,30 @@
                         </div>
             
             </div> 
-
-    </div>
-    <div>
-   
-        <%
-          ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Les_PwSAAAAAALJRSaUDbCDMqpvE6Ao68CdcsxS", "6Les_PwSAAAAALcU49ivDgWjJD6ZnIFWvul1dapD", false);
-          out.print(c.createRecaptchaHtml(null, null));
-        %>
-     </div>
-    <div class="col-md-12">
-    <div class="form-group">
-                <input type="submit" name="submit" id="submit" value="Submit" class="submit btn btn-danger centered ">
-      </div> 
-      </div>
-     
-      </div>  
-      </form:form>
-    </div>
-      
+		      	   
+		      	   <div class="row">		
+					<div class="col-md-12 col-md-8">
+							<input name="login" type="submit" value="submit" class = "submit"/>
+					</div>
+					<div class="col-xs-6 col-md-4">
+					<a href="<%=request.getContextPath()%>/register" class="btn btn-danger" role="button">New User Register</a> 
+					</div>
+					</div>
+				</form:form>	
 </div>
+</div>
+
+ <!-- The problem was having different folders, so place all css files in CSS folder. -->
+ <!-- Bootstrap css -->
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.min.css" />
+
+<!-- Jquery CSS -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui-1.10.4.custom.min.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.theme.min.css" media="screen"/>
 
 </body>
 </html>

@@ -22,7 +22,7 @@
 </head>
 <body>
 <form:form id="userDetailsForm" commandName="userDetailsFormBean" method="post"
-	action="${actionUrl}" class="pure-form pure-form-aligned">
+	action="${actionUrl}" class="modal-dialog">
 
 	<fieldset>
 		<legend>Edit User Details</legend>
@@ -30,6 +30,7 @@
 		<div class="form-control">
 			<label for="UserName">UserName</label>
 			<form:input path="userName"  required="required" placeholder="Username" />
+			
 		</div> 
 
 		<div class="form-control">
@@ -55,13 +56,6 @@
 		<div class="form-control">
 			<label for="contactNum">Phone Number</label>
 			<form:input path="contactNum" required="required" placeholder="contactNum" />
-		</div>
-
-
-		
-		<div class="form-control">
-			<label for="roleId">roleId</label>
-			<form:input path="roleId" required="required" placeholder="roleId" />
 		</div>
 
 

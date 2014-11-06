@@ -32,13 +32,12 @@ public class UserDAOImpl implements UserDAO
 		
 		System.out.println("28 : getUserDTOByUsername " + userName);
 		Session session = sessionFactory.getCurrentSession();
-		String queryString = "FROM UserDTO u WHERE u.userName = :userName";
-		Query query = session.createQuery(queryString);
+		Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
 		query.setParameter("userName", userName);
 		UserDTO userDTO = (UserDTO) query.uniqueResult();
+		//System.out.println("retrieved Username" + userDTO.getUserName());
 		return userDTO;
-		
-
+	
 		
 	}
 	
@@ -235,38 +234,112 @@ public class UserDAOImpl implements UserDAO
 		
 		
 	}
+	
+	@Override
+	// Save method of user edit
+	public void updateUserDetailsSaveorUpdate(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		System.out.println("152:DAOImpl:");
+		getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
+		
+		
+	}
    
-	@Override
-	public Boolean storeOtp(UserDTO userDTO) {
-		
-		// TODO check if the user is already present in service Layer
-		try{
-			sessionFactory.getCurrentSession().merge(userDTO);
-			return true;
-		}
-		catch (ConstraintViolationException e){
-		 System.out.println("The error is "+ e);
-		 //e.printStackTrace();
-		 return false;	 
-		}
-		
-	} // End of store
-	@Override
-	public Boolean updatepassword(UserDTO userDTO) {
-		
-		// TODO check if the user is already present in service Layer
-		try{
-			sessionFactory.getCurrentSession().merge(userDTO);
-			return true;
-		}
-		catch (ConstraintViolationException e){
-		 System.out.println("The error is "+ e);
-		 //e.printStackTrace();
-		 return false;	 
-		}
-		
-	} // End of update
+	//used for Multiple Login Attempts
+			//On the lines of mykong.com
+			@Override
+			public void updateFailAttempts(String userName)
+			{
+				System.out.println("*************comes in updateFail*************");
+				UserDTO userDTO = getUserDTOByUsername(userName);
+				//Integer loginAttemptsCount = 1; //defining
+				Integer loginAttempts; 
+				if (userDTO != null){
+					loginAttempts = userDTO.getLoginAttempts(); // get current loginAttempts for the user
+					System.out.println("Login Attempts set:" + loginAttempts);
+				}
+				
+				else{
+					
+					return ;
+				}
+			  
+			  //User tries to login for the first time
+			  if (loginAttempts == null) 
+			  {
+				System.out.println("***************comes in login attempt NULL Loop**************");
+				if (userDTO != null)
+				{ //If User exists
+					
+					//UserDTO newUserDTO = new UserDTO();
+					System.out.println("*******comes in if user is present*************");
+					//set LoginAttempt count to 1
+					userDTO.setLoginAttempts(1); 
+					updateUserDetailsSaveorUpdate(userDTO);
 
+				}
+			  } 
+			  else 
+			  { //User trys to login for the another time
+				  System.out.println("*******comes in login attempt not NULL Loop*******");
+				if (userDTO != null) 
+				{
+					userDTO.setLoginAttempts(userDTO.getLoginAttempts()+1);
+					System.out.println("*******comes in if user is present******" + userDTO.getLoginAttempts() );
+					
+					// update attempts count ++
+					if (userDTO.getLoginAttempts() >= 4) 
+					{
+						// lock his account
+						System.out.println("comes to lock");
+						userDTO.setAcctLockedStatus(true);
+					
+					}
+					updateUserDetailsSaveorUpdate(userDTO);
+				}
+		 
+			
+		 
+			  }
+		 
+			}
+			
+			
+			//Used in Multiple Login Attempts
+			@Override
+			public boolean resetFailAttempts(String userName)
+			{
+				
+				UserDTO userDTO = getUserDTOByUsername(userName);
+				
+				if(userDTO != null)
+				{
+					userDTO.setLoginAttempts(0); // better to make it 0
+					userDTO.setAcctLockedStatus(true);
+					userDTO.setLoginAttempts(null); //Reset the Login attempts to null(default)
+					updateUserDetailsSaveorUpdate(userDTO);
+					return true;
+				}
+				return false;
+				
+			
+				
+				
+			}
+
+			public Integer getLoginAttempts(String userName)
+			{
+				Session session = sessionFactory.getCurrentSession();
+				Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
+				query.setParameter("userName", userName);
+				Integer loginAttempts = ((UserDTO) query.uniqueResult()).getLoginAttempts();
+				return loginAttempts; 
+				
+				
+			}
+
+
+		
 	@Override
 	
 	public UserDTO getUserDTOByEmailId(String emailId) {
@@ -284,6 +357,28 @@ public class UserDAOImpl implements UserDAO
 		
 		return userDTO;
 		
+	}
+
+	@Override
+	public Boolean storeOtp(UserDTO userDTO) {
+		
+		
+		try{
+			sessionFactory.getCurrentSession().merge(userDTO);
+			return true;
+		}
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+		
+	} // End of update
+
+	@Override
+	public Boolean updatepassword(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
