@@ -24,6 +24,8 @@ public interface TransactionService {
 	boolean Findbybillid(Integer billid);
 	boolean BillpayUpdatekey(Integer billid, String hashedkey);
 	public boolean BillpayMerchantUpdatekey(Integer billid, String hashedkey);
+	public String getAccountnumberbyBillid(Integer billid);
+	public Integer getMerchantidbyBillid(Integer billid);
 	
 	
 }

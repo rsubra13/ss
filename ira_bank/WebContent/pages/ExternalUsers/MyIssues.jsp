@@ -73,7 +73,7 @@
                            <tr>
                            	  <th width="12%">Sr. No</th>
                            	 
-                             <th width="12%">User ID</th>
+                             
                              <th width="12%">User Name</th>
                               <th width="12%">Issue Type</th>
                               
@@ -90,11 +90,13 @@
                            		<c:if test="${issues.reqType!='Transact'}">
                            		
                                <td><c:out value="${loopCounter.count}" /></td>
-                                <td><c:out value="${issues.reqUserId.userId}" /></td>
+                               
                                 <td><c:out value="${issues.reqUserId.userName}" /></td>
                                 <td><c:out value="${issues.reqType}" /></td>
                                 <td><c:out value="${issues.reqDesc}" /></td>
-                                <td><c:out value="${issues.reqStatus}" /></td>
+                                <c:if test="${issues.reqStatus=='0'}">
+                                <td><c:out value="Pending" /></td>
+                                </c:if>
                                 <td><c:out value="${issues.reqPriority}" /></td>
                                 <td><c:out value="${issues.reqDate}" /></td>
                                

@@ -26,6 +26,8 @@ public interface BillpayDAO {
 	boolean Notificationupdate(Integer billid, String status,String descr);
 	boolean Findbybillid(Integer billid);
 	BillPayDTO getBillPayDTOByBillid(Integer billid);
+	String getaccountnobybillid(Integer billId);
+	Integer getmerchantidbybillid(Integer billId);
 	String gethashedKey(Integer billId);
 	String getmerchanthashedKey(Integer billId);
 

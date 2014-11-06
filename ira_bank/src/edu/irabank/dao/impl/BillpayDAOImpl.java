@@ -170,8 +170,42 @@ HttpSession sessionID;
 			System.out.println("billpayDTO" + billpayDTO);
 			return billpayDTO;
 			
+		}
 		
+		@Override
+		public String getaccountnobybillid(Integer billid)
+		{
 			
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+			query.setParameter("billId", billid);
+			try {
+				String accountno = ((BillPayDTO) query.uniqueResult()).getAcctNumber();
+			return accountno;
+			}
+			catch (Exception e){
+				 System.out.println("The error is "+ e);
+				 //e.printStackTrace();
+				 return "error";
+				}
+		}
+		
+		@Override
+		public Integer getmerchantidbybillid(Integer billid)
+		{
+			
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+			query.setParameter("billId", billid);
+			try {
+				UserDTO merchantid = ((BillPayDTO) query.uniqueResult()).getMerchantId();
+			return merchantid.getUserId();
+			}
+			catch (Exception e){
+				 System.out.println("The error is "+ e);
+				 //e.printStackTrace();
+				 return 00000;
+				}
 		}
 		
 

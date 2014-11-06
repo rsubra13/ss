@@ -277,6 +277,20 @@ public class TransactionServiceImpl implements TransactionService
 		boolean isbillexist = billpayDAO.Findbybillid(billid);
 		return isbillexist;
 	}
+	
+	@Transactional
+	public String getAccountnumberbyBillid(Integer billid)
+	{
+		String Accountno  = billpayDAO.getaccountnobybillid(billid);
+		return Accountno;
+	}
+	
+	@Transactional
+	public Integer getMerchantidbyBillid(Integer billid)
+	{
+		Integer Merchantid  = billpayDAO.getmerchantidbybillid(billid);
+		return Merchantid;
+	}
 		
 		
 	}

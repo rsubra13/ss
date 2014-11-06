@@ -388,15 +388,39 @@ import edu.irabank.service.TransactionService;
 			Integer userId = (Integer)sessionID.getAttribute("userId");
 			
 			System.out.println("comes at Billpay Request post method");
-			Integer billid = billpayuserFormBean.getBillid();
 			String Account = billpayuserFormBean.getAccountno();
 			Double amount = billpayuserFormBean.getAmount();
 			String action = billpayuserFormBean.getAction();
-
-			String alias_hashedKey = billpayuserFormBean.getPrivateKey(); //PKI
-
 			
+			//To check if the bill pay value has not been changed
+			boolean isbillpaychanged = false;
+			Integer billid = billpayuserFormBean.getBillid();
 			String Accountno = transactionService.getAccountNumberbyUserID(userId);
+			String Accountnobillid = transactionService.getAccountnumberbyBillid(billid);
+			System.out.println("User original Account number" + Accountno);
+			System.out.println("User Account number after billid changed" + Accountnobillid);
+		
+				if(Accountnobillid.equals("error"))
+				{
+				isbillpaychanged = true;
+				System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+				else if(Accountnobillid.equals(Accountno))
+				{
+					isbillpaychanged = false;
+					System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+				else
+				{
+					isbillpaychanged = true;
+					System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+			
+			if(!isbillpaychanged)
+			{
+				String alias_hashedKey = billpayuserFormBean.getPrivateKey(); 
+			
+			//PKI
 
 			System.out.println(billid);
 			System.out.println(action);
@@ -474,14 +498,25 @@ import edu.irabank.service.TransactionService;
 						return new ModelAndView("/ExternalUsers/BillpayUser", model);
 					
 					}
+			   }
 			}
-
+			else if(isbillpaychanged)
+			{
+				System.out.println("Warning!! The bill pay has been changed !!");
+				model.addAttribute("accountStatus", "Warning!! The bill pay has been changed !!");
+				model.addAttribute("billpayuserFormBean",billpayuserFormBean);
+				model.put("BillPayDTO", new BillPayDTO());
+				model.put("BillpayInfo",transactionService.showBillpayInfo());
+				System.out.println(transactionService.showBillpayInfo());
+				System.out.println("User Account Number" + Accountno );
+				model.put("Useracount", Accountno);
+				return new ModelAndView("/ExternalUsers/BillpayUser", model);
+			}
 			model.addAttribute("accountStatus", action);
 			model.addAttribute("billpayuserFormBean",action);
 			return new ModelAndView("/ExternalUsers/BillpayUser", model);
-		}
-		
-		
+	    }
+				
 		
 		// Get Method for Bill Pay Merchant Approve request page	
 		@RequestMapping(value="/ExternalUsers/BillpaymerchantApprove", method = RequestMethod.GET)
@@ -504,14 +539,40 @@ import edu.irabank.service.TransactionService;
 	    {
 			
 			System.out.println("comes at Billpay Request post method");
+			
+			//To check if the bill pay value has not been changed
+			boolean isbillpaychanged = false;
 			Integer billid = billpaymerchantapproveFormBean.getBillid();
+			Integer userId = (Integer)sessionID.getAttribute("userId");
 			String Account = billpaymerchantapproveFormBean.getAccountno();
 			Double amount = billpaymerchantapproveFormBean.getAmount();
 			String action = billpaymerchantapproveFormBean.getAction();
 
+			Integer Merchantidbillid = transactionService.getMerchantidbyBillid(billid);
+		
+		
+				if(Merchantidbillid.equals(00000))
+				{
+				isbillpaychanged = true;
+				System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+				else if(Merchantidbillid.equals(userId))
+				{
+					isbillpaychanged = false;
+					System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+				else
+				{
+					isbillpaychanged = true;
+					System.out.println("isbillpaychanged" + isbillpaychanged);
+				}
+				
+				
+			if(!isbillpaychanged)
+			{
+		
+
 			String alias_merchanthashedKey = billpaymerchantapproveFormBean.getPrivateKey();
-			
-			Integer userId = (Integer)sessionID.getAttribute("userId");
 
 			System.out.println(billid);
 			System.out.println(action);
@@ -584,6 +645,19 @@ import edu.irabank.service.TransactionService;
 						return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 					
 					}
+			}
+			}
+			
+			if(isbillpaychanged)
+			{
+				System.out.println("Warning! The bill id has been changed");
+				model.addAttribute("accountStatus", "Warning! The bill id has been changed");
+				model.addAttribute("billpaymerchantapproveFormBean",billpaymerchantapproveFormBean);
+				model.put("BillPayDTO", new BillPayDTO());
+				model.put("BillpayInfo",transactionService.showBillpayInfo());
+				System.out.println(transactionService.showBillpayInfo());
+				model.put("UserID", userId);
+				return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
 			}
 
 			model.addAttribute("accountStatus", action);
