@@ -318,6 +318,8 @@ import edu.irabank.service.TransactionService;
 		@RequestMapping(value="/ExternalUsers/BillpayUser", method=RequestMethod.POST)
 	    public ModelAndView Billpayuserrequest(@ModelAttribute("billpayuserFormBean")@Valid BillpayuserFormBean billpayuserFormBean,  BindingResult result, ModelMap model)
 	    {
+			// TODO WHERE IS THE SERVER SIDE VALIDATION AND JSR VALIDATION (With PKI)
+			
 			
 			Integer userId = (Integer)sessionID.getAttribute("userId");
 			
