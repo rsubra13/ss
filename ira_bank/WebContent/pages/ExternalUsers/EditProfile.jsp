@@ -14,6 +14,7 @@
 </div>
 <div class="container-fluid">
 <div class="row">
+
 <form:form  role="form" method="POST" id="editProfileFormBean" 
                 commandName="editProfileFormBean" action="EditProfile">
                 <c:if test="${ editStatus != null}">

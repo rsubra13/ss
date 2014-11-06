@@ -43,6 +43,7 @@ public class EditProfileImpl implements EditProfileService
 	@Transactional
 	// Update Profile
 	
+	
 	public boolean editProfile(EditProfileFormBean EditProfileFormBean, HttpSession sessionID) {
 		
 		UserDTO updateEntry = new UserDTO();

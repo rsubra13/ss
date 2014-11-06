@@ -10,6 +10,7 @@ import edu.irabank.form.EditProfileFormBean;
 public interface EditProfileService {
 	public boolean editProfile(EditProfileFormBean editProfileFormBean,HttpSession sessionID);
 
+	
 	UserDTO getUserDTOByUserId(Integer reqId);
 	
 }
