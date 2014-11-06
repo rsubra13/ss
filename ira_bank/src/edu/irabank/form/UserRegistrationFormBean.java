@@ -57,6 +57,7 @@ public class UserRegistrationFormBean {
     private String ssn;
     @NotEmpty
     private String sitekey;
+    private boolean is_ok_pii;
     
     
 	public String getUserName() {
@@ -150,6 +151,12 @@ public class UserRegistrationFormBean {
 	public void setSitekey(String sitekey) {
 		this.sitekey = sitekey;
 	}
-    
+	public Boolean getIs_ok_pii() {
+		return is_ok_pii;
+	}
+
+	public void setIs_ok_pii(Boolean is_ok_pii) {
+		this.is_ok_pii = is_ok_pii;
+	}
     
 }

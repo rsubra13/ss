@@ -12,7 +12,10 @@
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
 		<property value="/pages" name="prefix" />
 		<property value=".jsp" name="suffix" />
+		
 	</bean>
+
+	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />

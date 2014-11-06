@@ -50,12 +50,15 @@ public class LimitLoginServiceImpl extends DaoAuthenticationProvider {
 		{
 			String message = "";
 			Integer attempts = userDAO.getLoginAttempts(auth.getName()); 
-			if(attempts == 4)
+			System.out.println("Login attempts in Service" + attempts);
+			if(attempts >= 4)
 			{
+				System.out.println("Comes in attempts 4");	
 				message = "Account for"+auth.getName()+"is locked ";
 			}
 			else
 			{
+				System.out.println("Comes in else loop of attempts 4");	
 				message = exception.getMessage();
 			}
 			

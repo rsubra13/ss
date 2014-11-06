@@ -333,6 +333,7 @@ public class UserDAOImpl implements UserDAO
 				Query query = session.getNamedQuery("UserDTO.findByUserName"); //using NamedQuery
 				query.setParameter("userName", userName);
 				Integer loginAttempts = ((UserDTO) query.uniqueResult()).getLoginAttempts();
+				System.out.println("Login attempts in DAO" + loginAttempts);
 				return loginAttempts; 
 				
 				

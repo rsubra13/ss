@@ -104,18 +104,14 @@ public class UserServiceImpl implements UserService
 		newUser.setPassword(encryptedPassword);
 		newUser.setDob(userRegistrationFormBean.getDob());
 		newUser.setEmailId(userRegistrationFormBean.getEmailId());
-		
-		//*************************PKI DO NOT TOUCH*********************************
-		 
-		
-		//*************************PKI DO NOT TOUCH*********************************
-		
+	
 		newUser.setSecAns1(userRegistrationFormBean.getSecAns1());
 		newUser.setSecAns2(userRegistrationFormBean.getSecAns2());
 		newUser.setSecQue1(userRegistrationFormBean.getSecQue1());
 		newUser.setSecQue2(userRegistrationFormBean.getSecQue2());
 		newUser.setSsn(userRegistrationFormBean.getSsn());
 		newUser.setSitekey(userRegistrationFormBean.getSitekey());
+		newUser.setIs_ok_pii(userRegistrationFormBean.getIs_ok_pii());
 		// TODO : this is not the way to go ahead with Roles.
 		// Check if the User is Regular user , then assign him the ROLE_USER
 		// Check if the User is a Merchant , assign him the ROLE_MERCHANT

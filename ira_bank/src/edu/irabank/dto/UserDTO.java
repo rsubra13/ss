@@ -150,6 +150,9 @@ public class UserDTO implements Serializable {
     private Boolean activeStatus;
     @Size(max = 45)
     private String sitekey;
+    @Column(name = "IS_OK_PII")
+    private Boolean is_ok_pii;
+    @Column(name = "ACTIVE_STATUS")
     @OneToMany(mappedBy = "reqUserId")
     private List<RequestDetailsDTO> requestDetailsDTOList;
     @OneToMany(mappedBy = "merchantId")
@@ -455,5 +458,13 @@ public class UserDTO implements Serializable {
     public String toString() {
         return "edu.irabank.dto.UserDTO[ userId=" + userId + " ]";
     }
+
+	public Boolean getIs_ok_pii() {
+		return is_ok_pii;
+	}
+
+	public void setIs_ok_pii(Boolean is_ok_pii) {
+		this.is_ok_pii = is_ok_pii;
+	}
     
 }

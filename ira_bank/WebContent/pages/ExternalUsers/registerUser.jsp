@@ -206,15 +206,15 @@
                        <form:errors class="label label-primary" path="secQue1" cssclass="error"></form:errors>
 					</div>
 					
-					
-         <!-- Sec Ans 1 -->
-            <div class="form-group ">
-              <label  class="control-label" for="secAns1">Security Answer 1</label>
-                    <div class="input-group col-md-12">
-                        <textarea class="form-control" id="secAns1" rows="2"  name="secAns1" data-validate="required,alphanumeric"  placeholder="Security Ans 1" value="${userRegistrationFormBean.secAns1}" > </textarea>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                        <form:errors class="label label-primary" path="secAns1" cssclass="error"></form:errors>
-                        </div>
+		      
+            <!-- Sec Ans 1 -->			
+          <div class="form-group ">
+              <label class="control-label" for="secAns1" > Security Answer 1</label>
+                    <div class="input-group col-md-12 ">
+                        <textarea class="form-control" id="secAns1" rows="2"  name="secAns1"   placeholder="security Ans 1"  data-validate="required,alphanumeric" value="${userRegistrationFormBean.secAns2}" ></textarea>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        <form:errors path="secAns1" class="label label-primary" cssclass="error"></form:errors>
+                    </div>
             </div> 
 
          <!-- Sec Que 2 -->
@@ -236,14 +236,21 @@
                         </div>
             
             </div> 
+            
+             <!-- Can they see your PII?? -->
+            <div class="form-group ">
+              <label  class="control-label" for="secAns1"> Can Admin See My PII</label>
+                    <div class="input-group col-md-12">
+                    <input type="checkbox" id="is_ok_pii" name="is_ok_pii" value="1"> Yes
+                        <form:errors class="label label-primary" path="is_ok_pii" cssclass="error"></form:errors>
+                        </div>
+            </div> 
 		      	   
 		      	   <div class="row">		
 					<div class="col-md-12 col-md-8">
 							<input name="login" type="submit" value="submit" class = "submit"/>
 					</div>
-					<div class="col-xs-6 col-md-4">
-					<a href="<%=request.getContextPath()%>/register" class="btn btn-danger" role="button">New User Register</a> 
-					</div>
+				
 					</div>
 				</form:form>	
 </div>
