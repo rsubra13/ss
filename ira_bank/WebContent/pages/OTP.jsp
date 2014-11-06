@@ -6,8 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript" src="http://www.greywyvern.com/code/javascript/keyboard.js" charset="UTF-8"></script>
-<link rel="stylesheet" type="text/css" href="http://www.greywyvern.com/code/javascript/keyboard.css">
+
 <!-- Bootstrap css -->
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.css" />
  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap-theme.css" />
@@ -29,13 +28,7 @@
 
 <script src="<%=request.getContextPath()%>/js/bootstrap.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/verify.notify.js"></script>
-<script>
-$( ".keyboardInput" ) {
-	
-	$( "form" ).submit();
-});
-</script>
+
 <body>
 <center>
         <h2>Thank you, your email has been sent.</h2>
@@ -57,8 +50,8 @@ $( ".keyboardInput" ) {
   <div class="form-group ">
     <label for="exampleInputOTP">Enter OTP</label>
     <div class="input-group col-md-7">
-    <input type="Text" name="otp"  id="exampleInputOTP" placeholder="Enter OTP" class="keyboardInput form-control">
-    
+    <input type="Text" name="otp"  id="exampleInputOTP" placeholder="Enter OTP" class=" form-control">
+    <input type="hidden" name="createtime"  id="createtime" value="${Time}" class="form-control">
     </div>
   </div>
   <div class="form-group col-md-7">
