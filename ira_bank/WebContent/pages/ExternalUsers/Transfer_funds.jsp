@@ -31,6 +31,12 @@ String navbar_path=context_path+"/pages/navbar.jsp";
                 </div>
   </c:if>
   
+  <c:if test="${pkistatus != null}">
+                <div class="btn-primary">
+                   <div id="status" class="label-primary">${pkistatus}</div>
+                </div>
+  </c:if>
+  
     <form:form class="form-horizontal" role="form" method="POST" id="transferFormBean" 
     commandName="transferFormBean" action="/ira_bank/ExternalUsers/Transfer_funds"> 
   
@@ -42,6 +48,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
     </div>
     
   </div>
+  
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-2 control-label">To</label>
     <div class="col-sm-7 col-md-7">
@@ -49,12 +56,21 @@ String navbar_path=context_path+"/pages/navbar.jsp";
     </div>
     <form:errors path="toaccount" class="label label-primary" cssclass="error"></form:errors>
   </div>
+  
   <div class="form-group">
     <label for="inputamount" class="col-sm-2 control-label">Amount</label>
     <div class="col-sm-7 col-md-7">
       <input name="amount" type="Text" class="form-control" id="inputamount" placeholder="Amount" value="${InternalTransactionFormBean.amount}" required>
     </div>
     <form:errors path="amount" class="label label-primary" cssclass="error"></form:errors>
+  </div>
+
+	<div class="form-group">
+    <label for="pki" class="col-sm-2 control-label">PKI</label>
+    <div class="col-sm-7 col-md-7">
+      <input name="pki" type="password" class="form-control" id="pki"  placeholder="Enter Private key for transfers greater than $5000" value="${InternalTransactionFormBean.pki}" >
+    </div>
+    <form:errors path="pki" class="label label-primary" cssclass="error"></form:errors>
   </div>
 
   <div class="form-group">

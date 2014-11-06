@@ -41,6 +41,7 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			<td>Merchant ID</td>
 			 <td>Account number </td>
 			 <td>Amount</td>
+			 <td> Private key </td>
 			 <td>Action</td>
 			 </tr>
     </thead>
@@ -56,11 +57,17 @@ String navbar_path=context_path+"/pages/navbar.jsp";
 			   <input type = "hidden" name = "merchantid" value = "${Billpaylist.merchantId.userId}">
 			   <input type = "hidden" name = "accountno" value = "${Billpaylist.acctNumber}">
 			   <input type = "hidden" name = "amount" value = "${Billpaylist.amount}"> 
+			  
+
+			   <form:errors path="privateKey" class="label label-primary" cssclass="error"></form:errors>
+			   
 			   <td><c:out value="${Billpaylist.billId}" /></td>            
 			   <td><c:out value="${Billpaylist.merchantId.userId}" /></td>
 			   <td><c:out value="${Billpaylist.acctNumber}" /></td>
 			   <td><c:out value="${Billpaylist.amount}" /></td>
+			    <td> <input type="password"  name="privateKey" type="required" id="privateKey" /></td>
 			   <td><button  type="action" name="action" id="accept" value="Accept">Forward to Bank</button>  <button  type="action" name="action" id="reject" value="Reject">Reject</button></td>
+			  
 			   </form>			                      
 			   </tr>
 			   </c:if>

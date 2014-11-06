@@ -94,16 +94,27 @@ public class AccountDAOImpl implements AccountDAO
 
 		
 	//Used in BillpayMerchant controller
-			public Integer getuserId(String accountNumber)
+	@Override
+			public UserDTO getuserId(String accountNumber)
 			{
+				UserDTO userDTO = new UserDTO();
+				try{
+					
 				Session session = sessionFactory.getCurrentSession();
-				Query query = session.getNamedQuery("UserDTO.findByUserId"); //using NamedQuery
+				Query query = session.getNamedQuery("AccountDetailsDTO.findByAccountNumber"); //using NamedQuery
 				//System.out.println("userName here: " + userName);
 				query.setParameter("accountNumber", accountNumber);
-				//System.out.println("query : " + query);
-				Integer userId = ((UserDTO) query.uniqueResult()).getUserId();
-				return userId;
-				
+				System.out.println("query : " + query);
+				userDTO = ((AccountDetailsDTO) query.uniqueResult()).getUId();
+				System.out.println("***********userid is************"+userDTO.getUserId());
+			//	return userDTO;
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					 //returns null
+				}
+				return userDTO;
 				
 			}
 	

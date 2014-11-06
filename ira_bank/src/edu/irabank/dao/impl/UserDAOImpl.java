@@ -253,47 +253,53 @@ public class UserDAOImpl implements UserDAO
 			{
 				System.out.println("*************comes in updateFail*************");
 				UserDTO userDTO = getUserDTOByUsername(userName);
-				Integer loginAttemptsCount = 1; //defining
-		 
-			  Integer loginAttempts = userDTO.getLoginAttempts(); // get current loginAttempts for the user
-			  
+				//Integer loginAttemptsCount = 1; //defining
+				Integer loginAttempts; 
+				if (userDTO != null){
+					loginAttempts = userDTO.getLoginAttempts(); // get current loginAttempts for the user
+					System.out.println("Login Attempts set:" + loginAttempts);
+				}
+				
+				else{
+					
+					return ;
+				}
 			  
 			  //User tries to login for the first time
 			  if (loginAttempts == null) 
 			  {
-				  System.out.println("***************comes in login attempet = null**************");
+				System.out.println("***************comes in login attempt NULL Loop**************");
 				if (userDTO != null)
 				{ //If User exists
 					
 					//UserDTO newUserDTO = new UserDTO();
 					System.out.println("*******comes in if user is present*************");
 					//set LoginAttempt count to 1
-					userDTO.setLoginAttempts(loginAttemptsCount); 
-					userDTO.setLastName("Ramki"); // checking
-				
-				/*	sessionFactory.getCurrentSession().save(userDTO);
-					getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
-				*/	
+					userDTO.setLoginAttempts(1); 
 					updateUserDetailsSaveorUpdate(userDTO);
 
 				}
 			  } 
 			  else 
 			  { //User trys to login for the another time
-		 
+				  System.out.println("*******comes in login attempt not NULL Loop*******");
 				if (userDTO != null) 
 				{
-					userDTO.setLoginAttempts(loginAttemptsCount++);
+					userDTO.setLoginAttempts(userDTO.getLoginAttempts()+1);
+					System.out.println("*******comes in if user is present******" + userDTO.getLoginAttempts() );
+					
 					// update attempts count ++
+					if (userDTO.getLoginAttempts() >= 4) 
+					{
+						// lock his account
+						System.out.println("comes to lock");
+						userDTO.setAcctLockedStatus(true);
+					
+					}
 					updateUserDetailsSaveorUpdate(userDTO);
 				}
 		 
-				if (userDTO.getLoginAttempts() + 1 >= 4) 
-				{
-					// lock his account
-					userDTO.setAcctLockedStatus(true);
-					updateUserDetailsSaveorUpdate(userDTO);
-				}
+			
 		 
 			  }
 		 

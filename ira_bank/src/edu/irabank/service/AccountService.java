@@ -16,6 +16,12 @@ public interface AccountService {
 	public List<AccountDetailsDTO> listAccounts();
 	
 	public AccountDetailsDTO showAccountInfo(Integer UserId);
+	
+	public UserDTO getuserId(String accountNumber);
+	
+	public String gethashedKey(Integer billId);
+	
+	public String getmerchanthashedKey(Integer billId);
 	/*
 	delAcct() 
 	accessPII();

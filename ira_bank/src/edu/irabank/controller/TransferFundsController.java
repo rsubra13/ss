@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.TransferFormBean;
+import edu.irabank.service.AccountService;
+import edu.irabank.service.PkiService;
 import edu.irabank.service.TransactionService;
 
 
@@ -30,6 +33,13 @@ import edu.irabank.service.TransactionService;
 		
 		@Autowired
 		private TransactionService transactionService; 
+		
+		@Autowired
+		private AccountService accountService;
+		
+		@Autowired
+		private PkiService pkiService;
+		
 
 		
 		// GET Method of Transfer Funds
@@ -99,12 +109,14 @@ import edu.irabank.service.TransactionService;
 				return new ModelAndView("/ExternalUsers/Transfer_funds", model); // return back to register
 			}
 			
-			
+			//String hashedKey = "";
 			System.out.println("comes at Transfer post method");
 			String FromAccount = transferFormBean.getFromaccount();
 			String ToAccount = transferFormBean.getToaccount();
 			Double amount = Double.parseDouble(transferFormBean.getAmount());
-			
+			boolean isPKINeeded = false;
+			String hashedKey = transferFormBean.getPki();
+		
 			if(!serverValidationError){
 			
 				boolean isFromAccountExist = transactionService.getAccountNumber(FromAccount);
@@ -135,31 +147,100 @@ import edu.irabank.service.TransactionService;
 					return new ModelAndView("/ExternalUsers/Transfer_funds", model);
 				
 				}
+				
+				// PKI
+				else if(amount > 5000)
+				{	
+					if (transferFormBean.getPki() !=null){
+					System.out.println("Comes in PKI valid");
+					isPKINeeded = true;
+					}
+					else{
+						System.out.println("Comes in PKI loop");
+						model.addAttribute("transferStatus", "Please enter the PKI info for critical Transactions");
+						model.addAttribute("transferFormBean",transferFormBean);
+						request.setAttribute("TextValue",Accountnum);
+						return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+					
+						
+					}
+				
+				}
 			
 				if(isFromAccountExist && isToAccountExist)
 				{
 					System.out.println("isToAccountExist" + isToAccountExist);
 					System.out.println("isFromAccountExist" + isFromAccountExist);
+							
+					
+					//************PKI DO NOT TOUCH**************************
+					
+					UserDTO userDTO = new UserDTO();
+					// get corresponding uid of a/c no from acc_Details
+					 userDTO = accountService.getuserId(FromAccount);
+					 
+					 
+					 //todo call this only after validating pki > 5000
+					boolean pkiSuccess = false;
+					if (isPKINeeded){
+						String encryptedUserame = pkiService.sendEncryptedPaymentInfo(userDTO.getUserId(), hashedKey);
+						 pkiSuccess = pkiService.DecryptPaymentInfo(userDTO.getUserId(), encryptedUserame);
+						
+							if(isPKINeeded && !pkiSuccess)
+							{
+							
+								model.addAttribute("pkistatus","Incorrect private Key. Please make a new transfer");
+								model.addAttribute("transferFormBean",transferFormBean);
+								request.setAttribute("TextValue",Accountnum);
+								return new ModelAndView("/ExternalUsers/Transfer_funds", model);
 									
+							}
+					}
+					
+				
+					
+					//************PKI DO NOT TOUCH**************************
+					
+					
 					//Call TransferBalance to add the amount to the given account number
-					boolean isTransferSuccess = transactionService.TransferBalance(ToAccount, FromAccount, amount);
-					System.out.println("isTransferSuccess" + isTransferSuccess);
-					if(isTransferSuccess)
-					{
-						System.out.println("Transfer Successfull!");
-						model.addAttribute("transferStatus", "Transfer Successfull!");
+					// Do transfer only for other cases.
+					if ((transferFormBean.getPki() == "" && amount <=5000) || (amount > 5000 && pkiSuccess)){
+						boolean isTransferSuccess = transactionService.TransferBalance(ToAccount, FromAccount, amount);
+						System.out.println("isTransferSuccess" + isTransferSuccess);
+						if(isTransferSuccess)
+						{
+							System.out.println("Transfer Successful!");
+							model.addAttribute("transferStatus", "Transfer Successful!");
+							model.addAttribute("transferFormBean",transferFormBean);
+							request.setAttribute("TextValue",Accountnum);
+							return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+						
+						}
+					}
+					
+					// Check if amt is <5000 but still PKI was entered.
+					else if (transferFormBean.getPki() != "" && amount <=5000){
+						model.addAttribute("pkistatus","For safety purposes, please dont enter PKI for  transactions less than 5000 USD");
 						model.addAttribute("transferFormBean",transferFormBean);
 						request.setAttribute("TextValue",Accountnum);
 						return new ModelAndView("/ExternalUsers/Transfer_funds", model);
-					
 					}
+					
+					/*else if(amount > 5000 && pkiSuccess && isPKINeeded )
+					{
+						
+					}*/
+					
 
-			}
-			}
-			model.addAttribute("transferStatus", "Insufficient Balance");
-			model.addAttribute("transferFormBean",transferFormBean);
-			request.setAttribute("TextValue",Accountnum);
-			return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+			} // froma nd to acct exist loop ends
+			} // server validation 
+			
+				model.addAttribute("transferStatus", "Seems to be some issues. Please try again");
+				model.addAttribute("transferFormBean",transferFormBean);
+				request.setAttribute("TextValue",Accountnum);
+				return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+				
+			
 		}
 
 	}

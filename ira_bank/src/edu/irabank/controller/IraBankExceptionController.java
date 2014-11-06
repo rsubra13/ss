@@ -12,7 +12,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 import org.springframework.security.access.AccessDeniedException;
-
+import org.springframework.web.util.NestedServletException;
 
 @ControllerAdvice
 public class IraBankExceptionController {
@@ -30,7 +30,8 @@ public class IraBankExceptionController {
 		    ResourceAccessException.class,
 		    AccessDeniedException.class,
 		    PropertyNotFoundException.class,
-		    ConstraintViolationException.class}
+		    ConstraintViolationException.class,
+		    NestedServletException.class}
 			)
 	
 	// Don't pass model object here. Seriously was creating issues here.

@@ -18,6 +18,7 @@ public interface TransactionService {
 	public List <BillPayDTO> showBillpayInfo();
 	boolean BillPayUpdate(Integer billid, String Status);
 	boolean BillpayUpdatekey(Integer billid, String hashedkey);
+	public boolean BillpayMerchantUpdatekey(Integer billid, String hashedkey);
 	
 	
 }
