@@ -240,10 +240,12 @@ public class UserDAOImpl implements UserDAO
 	public void updateUserDetailsSaveorUpdate(UserDTO userDTO) {
 		// TODO Auto-generated method stub
 		System.out.println("152:DAOImpl:");
-		getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
+		getSession().merge(userDTO); // merge is used here rather than 'save'
+		
 		
 		
 	}
+	
    
 	//used for Multiple Login Attempts
 			//On the lines of mykong.com
@@ -377,8 +379,16 @@ public class UserDAOImpl implements UserDAO
 
 	@Override
 	public Boolean updatepassword(UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			sessionFactory.getCurrentSession().merge(userDTO);
+			return true;
+		}
+		catch (ConstraintViolationException e){
+		 System.out.println("The error is "+ e);
+		 //e.printStackTrace();
+		 return false;	 
+		}
+		
 	}
 }
 
