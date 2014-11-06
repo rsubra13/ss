@@ -51,6 +51,9 @@ public class BillPayDTO implements Serializable {
     @Size(max = 2048)
     @Column(name = "HASHEDKEY")
     private String hashedkey;
+    @Size(max = 2048)
+    @Column(name = "MERCHANT_HASHEDKEY")
+    private String merchanthashedkey;
     @JoinColumn(name = "MERCHANT_ID", referencedColumnName = "USER_ID")
     @ManyToOne
     private UserDTO merchantId;
@@ -100,6 +103,14 @@ public class BillPayDTO implements Serializable {
 
     public void setHashedkey(String hashedkey) {
         this.hashedkey = hashedkey;
+    }
+    
+    public String getMerchantHashedkey() {
+        return merchanthashedkey;
+    }
+
+    public void setMerchantHashedkey(String merchanthashedkey) {
+        this.merchanthashedkey = merchanthashedkey;
     }
 
     public UserDTO getMerchantId() {

@@ -21,6 +21,7 @@ public class TransferFormBean {
     @Basic(optional = false)
     @NotNull @Nonnegative @Min(value = 0)
     private String amount;
+    private String pki;
    
     public void setFromaccount(String fromaccount){
     	this.fromaccount = fromaccount;
@@ -44,6 +45,14 @@ public class TransferFormBean {
 	
 	public String getAmount() {
 		return amount;
+	}
+
+	public String getPki() {
+		return pki;
+	}
+
+	public void setPki(String pki) {
+		this.pki = pki;
 	}
 				
     

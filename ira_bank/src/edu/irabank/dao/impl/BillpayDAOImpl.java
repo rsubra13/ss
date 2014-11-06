@@ -92,11 +92,22 @@ HttpSession sessionID;
 		return true;
 	}
 	
+	@Override
+	public boolean BillpayMerchantupdatekey(Integer billid, String merchanthashedkey)
+	{
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+		query.setParameter("billId", billid);
+		System.out.println("query : " + query);
+		((BillPayDTO) query.uniqueResult()).setMerchantHashedkey(merchanthashedkey);
+		return true;
+	}
+	
 	//Used in BillpayMerchant controller
 	public String gethashedKey(Integer billId)
 	{
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.getNamedQuery("BillPayDTO.findBybillId"); //using NamedQuery
+		Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
 		//System.out.println("userName here: " + userName);
 		query.setParameter("billId", billId);
 		//System.out.println("query : " + query);
@@ -105,6 +116,22 @@ HttpSession sessionID;
 		
 		
 	}
+	
+
+	//Used in BillpayMerchant controller
+		public String getmerchanthashedKey(Integer billId)
+		{
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+			//System.out.println("userName here: " + userName);
+			query.setParameter("billId", billId);
+			//System.out.println("query : " + query);
+			String merchanthashedKey = ((BillPayDTO) query.uniqueResult()).getMerchantHashedkey();
+			return merchanthashedKey;
+			
+			
+		}
+		
 	
 	
 	

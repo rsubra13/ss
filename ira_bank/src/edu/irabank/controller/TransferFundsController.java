@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.TransferFormBean;
+import edu.irabank.service.AccountService;
+import edu.irabank.service.PkiService;
 import edu.irabank.service.TransactionService;
 
 
@@ -30,6 +33,13 @@ import edu.irabank.service.TransactionService;
 		
 		@Autowired
 		private TransactionService transactionService; 
+		
+		@Autowired
+		private AccountService accountService;
+		
+		@Autowired
+		private PkiService pkiService;
+		
 
 		
 		// GET Method of Transfer Funds
@@ -99,11 +109,15 @@ import edu.irabank.service.TransactionService;
 				return new ModelAndView("/ExternalUsers/Transfer_funds", model); // return back to register
 			}
 			
-			
+			//String hashedKey = "";
 			System.out.println("comes at Transfer post method");
 			String FromAccount = transferFormBean.getFromaccount();
 			String ToAccount = transferFormBean.getToaccount();
 			Double amount = Double.parseDouble(transferFormBean.getAmount());
+			//if(!(transferFormBean.getPki() == null))
+			//{
+				String hashedKey = transferFormBean.getPki();
+			//}
 			
 			if(!serverValidationError){
 			
@@ -140,14 +154,43 @@ import edu.irabank.service.TransactionService;
 				{
 					System.out.println("isToAccountExist" + isToAccountExist);
 					System.out.println("isFromAccountExist" + isFromAccountExist);
-									
+							
+					
+					//************PKI DO NOT TOUCH**************************
+					
+					UserDTO userDTO = new UserDTO();
+					// get corresponding uid of a/c no from acc_Details
+					 userDTO = accountService.getuserId(FromAccount);
+					 
+					String encryptedUserame = pkiService.sendEncryptedPaymentInfo(userDTO.getUserId(), hashedKey);
+					
+					boolean pkiSuccess = pkiService.DecryptPaymentInfo(userDTO.getUserId(), encryptedUserame);
+					
+					
+					if(!pkiSuccess)
+					{
+					
+						model.addAttribute("pkistatus","Incorrect private Key. Please make a new transfer");
+						model.addAttribute("transferFormBean",transferFormBean);
+						request.setAttribute("TextValue",Accountnum);
+						return new ModelAndView("/ExternalUsers/Transfer_funds", model);
+							
+					}
+					else if(pkiSuccess && amount > 5000 )
+					{
+						
+					}
+						
+					//************PKI DO NOT TOUCH**************************
+					
+					
 					//Call TransferBalance to add the amount to the given account number
 					boolean isTransferSuccess = transactionService.TransferBalance(ToAccount, FromAccount, amount);
 					System.out.println("isTransferSuccess" + isTransferSuccess);
 					if(isTransferSuccess)
 					{
-						System.out.println("Transfer Successfull!");
-						model.addAttribute("transferStatus", "Transfer Successfull!");
+						System.out.println("Transfer Successful!");
+						model.addAttribute("transferStatus", "Transfer Successful!");
 						model.addAttribute("transferFormBean",transferFormBean);
 						request.setAttribute("TextValue",Accountnum);
 						return new ModelAndView("/ExternalUsers/Transfer_funds", model);

@@ -23,7 +23,7 @@ public interface AccountDAO {
 	
 	public AccountDetailsDTO getAccountDetailsDTOByUserID(Integer userId);
 	
-	public Integer getuserId(String accountNumber);
+	public UserDTO getuserId(String accountNumber);
 
 
 
