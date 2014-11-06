@@ -18,6 +18,7 @@ import edu.irabank.dao.AccountDetailsDAO;
 import edu.irabank.dao.BillpayDAO;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.NotificationDetailsDTO;
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
 import edu.irabank.dto.BillPayDTO;
@@ -182,6 +183,17 @@ public class TransactionServiceImpl implements TransactionService
 		System.out.println("Bill pay List" + billpayList);
 		return billpayList;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<NotificationDetailsDTO> showNotificationInfo() {
+		// TODO Auto-generated method stub
+		List NotificationList = billpayDAO.shownotificationInfo();
+		System.out.println("Notification List" + NotificationList);
+		return NotificationList;
+	}
+	
+	
 
 	@Transactional
 	public boolean BillPayUpdate(Integer billid, String Status)
@@ -210,6 +222,62 @@ public class TransactionServiceImpl implements TransactionService
 	    	return false;
 	    }
 	  }
+	
+	@Transactional
+	public boolean BillpayMerchantUpdatekey(Integer billid, String hashedkey)
+	{
+	    boolean isbillpaystatus = billpayDAO.BillpayMerchantupdatekey(billid, hashedkey);
+	    if(isbillpaystatus)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	  }
+	
+	@Transactional
+	public boolean Insertnotification(Integer billid, String status, String descr)
+	{
+	
+		BillPayDTO billpaydtoid = billpayDAO.getBillPayDTOByBillid(billid);
+		// Add row to Notification table
+		NotificationDetailsDTO newNotification = new NotificationDetailsDTO();
+		newNotification.setNotificationBillid(billpaydtoid);
+		newNotification.setNotificationDescription(descr);
+		newNotification.setNotificationStatus(status);
+		
+		
+		// Add this newly created NotificationDetailsDTO Object into the DB.			
+		boolean Billpayinsertsave = billpayDAO.Insertupdate(newNotification);
+		System.out.println("Billpayinsertsave" + Billpayinsertsave);
+		return Billpayinsertsave;
+		
+			
+	}
+	
+	@Transactional
+	public boolean Updatenotification(Integer billid, String status, String descr)
+	{
+	    boolean isnotificationstatus = billpayDAO.Notificationupdate(billid, status, descr);
+	    if(isnotificationstatus)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+	    	return false;
+	    }
+	}
+	
+	@Transactional
+	public boolean Findbybillid(Integer billid)
+	{
+		boolean isbillexist = billpayDAO.Findbybillid(billid);
+		return isbillexist;
+	}
+		
 		
 	}
 	

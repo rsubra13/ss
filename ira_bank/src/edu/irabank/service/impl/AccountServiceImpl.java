@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.irabank.dao.AccountDAO;
+import edu.irabank.dao.BillpayDAO;
 import edu.irabank.dao.UserDAO;
 import edu.irabank.dao.impl.AccountDAOImpl;
 import edu.irabank.dao.impl.UserDAOImpl;
@@ -37,13 +38,16 @@ public class AccountServiceImpl implements AccountService
 	private UserDAO userDAO;
 	@Autowired
 	HttpSession sessionID;
+	
+	@Autowired
+	private BillpayDAO billpayDAO;
 
 	@Override
 	@Transactional
 	public boolean addNewAccount(UserDTO userDTO) {
 			
 			AccountDetailsDTO newAccount = new AccountDetailsDTO();
-			newAccount.setBalance(500); //set default balance to 500
+			newAccount.setBalance(10000); //set default balance to $ 10000
 			newAccount.setUId(userDTO); //set userID
 			
 			
@@ -53,8 +57,6 @@ public class AccountServiceImpl implements AccountService
 			
 			String accNo = String.valueOf(num);
 			
-			
-			
 			newAccount.setAccountNumber(accNo); //set the accountNumber		
 			
 			Boolean isAdded = accountDAO.addNewAccount(newAccount);
@@ -62,6 +64,29 @@ public class AccountServiceImpl implements AccountService
 			return true;
 			
 	}
+	
+	
+	@Transactional
+	public UserDTO getuserId(String accountNumber)
+	{
+		return (accountDAO.getuserId(accountNumber));
+		
+	}
+	
+	@Transactional
+	public String gethashedKey(Integer billId)
+	{
+		return (billpayDAO.gethashedKey(billId));
+		
+	}
+	
+	@Transactional
+	public String getmerchanthashedKey(Integer billId)
+	{
+		return (billpayDAO.getmerchanthashedKey(billId));
+		
+	}
+	
 	
 	@Override
 	@Transactional(readOnly = true)

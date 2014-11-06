@@ -23,10 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.irabank.dao.AccountDAO;
 import edu.irabank.dao.BillpayDAO;
 import edu.irabank.dto.BillPayDTO;
+import edu.irabank.dto.NotificationDetailsDTO;
+import edu.irabank.dto.UserDTO;
 import edu.irabank.form.BillpaymerchantFormBean;
 import edu.irabank.form.BillpaymerchantapproveFormBean;
 import edu.irabank.form.BillpayrequestFormBean;
 import edu.irabank.form.BillpayuserFormBean;
+import edu.irabank.service.AccountService;
 import edu.irabank.service.PkiService;
 import edu.irabank.service.TransactionService;
 
@@ -45,13 +48,11 @@ import edu.irabank.service.TransactionService;
 		HttpSession sessionID;
 		
 		@Autowired
-		PkiService pkiService;
+		public PkiService pkiService;
 		
 		@Autowired
-		AccountDAO accountDAO;
+		public AccountService accountservice;
 		
-		@Autowired
-		BillpayDAO billpayDAO;
 
 		
 		// GET Method of Billpay Merchant Form
@@ -167,6 +168,7 @@ import edu.irabank.service.TransactionService;
 		@RequestMapping(value="/InternalUsers/BillpayRequests", method=RequestMethod.POST)
 	    public ModelAndView accountTransfer(@ModelAttribute("billpayrequestFormBean") @Valid BillpayrequestFormBean billpayrequestFormBean,  BindingResult result, ModelMap model)
 	    {
+			UserDTO userDTO = new UserDTO();
 			
 			System.out.println("comes at Billpay Request post method");
 			String FromAccount = billpayrequestFormBean.getAccountno();
@@ -175,22 +177,29 @@ import edu.irabank.service.TransactionService;
 			Integer merchantId = billpayrequestFormBean.getMerchantid();
 			Integer billid = billpayrequestFormBean.getBillid();
 			String ToAccount = transactionService.getAccountNumberbyUserID(merchantId);
-			System.out.println("Merchant Account Number" + merchantId );
+			System.out.println("Merchant Account Number" + ToAccount );
 			
 			
 			// get corresponding uid of a/c no from acc_Details
-			Integer userId = accountDAO.getuserId(FromAccount);
+			 userDTO = accountservice.getuserId(FromAccount);
 			
-			//get corresponding hashed key from billid
-			String hashedKey = billpayDAO.gethashedKey(billid);
+			//get corresponding hashed key of user from billid
+			String hashedKey = accountservice.gethashedKey(billid);
 			
+			//get corresponding hashed key of merchant from billid
+			String merchanthashedKey = accountservice.getmerchanthashedKey(billid);
+			
+			//System.out.println("*********HASHED KEY**********"+hashedKey);
 			
 			if(action.equals("Accept"))
 			{
-				boolean pkiSuccess = pkiService.DecryptPaymentInfo(userId, hashedKey);
+				boolean ispkiUserSuccess = pkiService.DecryptPaymentInfo(userDTO.getUserId(), hashedKey);
+				
+				boolean ispkiMerchantSuccess = pkiService.DecryptPaymentInfo(merchantId, merchanthashedKey);
+			//	System.out.println(pkiSuccess);
 				    // Check if the pki is correct
 				
-				if(pkiSuccess)
+				if(ispkiUserSuccess && ispkiMerchantSuccess )
 				{
 					System.out.println("**********PKI Verified**************");
 					//Call BillPayupdate to update the status 
@@ -198,8 +207,19 @@ import edu.irabank.service.TransactionService;
 						boolean isTransferSuccess = transactionService.TransferBalance(ToAccount, FromAccount, amount);
 						System.out.println("isTransferSuccess" + isTransferSuccess);
 						if(isTransferSuccess)
-						{
+						{ //Sufficient balance present
 							String status = "BankApproved";	
+							String description = "Approved by bank";
+							//Update the Notification table
+							boolean isNotificationexist = transactionService.Findbybillid(billid);
+							if(isNotificationexist)
+							{
+								transactionService.Updatenotification(billid, status, description);
+							}
+							else if(!isNotificationexist)
+							{
+								transactionService.Insertnotification(billid, status, description);
+							}
 							boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 							System.out.println("isBillpaySuccess" + isBillpaySuccess);
 							if(isBillpaySuccess)
@@ -213,8 +233,19 @@ import edu.irabank.service.TransactionService;
 							}
 						}
 						else
-						{
-							String status = "BankRejected";	
+						{ //If balance is not sufficient
+							String status = "BankRejected";
+							String description = "Rejected by bank, Balance not Sufficient";
+							//Update the Notification table
+							boolean isNotificationexist = transactionService.Findbybillid(billid);
+							if(isNotificationexist)
+							{
+								transactionService.Updatenotification(billid, status, description);
+							}
+							else if(!isNotificationexist)
+							{
+								transactionService.Insertnotification(billid, status, description);
+							}
 							boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 							System.out.println("isBillpaySuccess" + isBillpaySuccess);
 							System.out.println("Insufficient Balance!");
@@ -226,22 +257,98 @@ import edu.irabank.service.TransactionService;
 							
 						}
 					}
+				else if(!ispkiUserSuccess && ispkiMerchantSuccess)
+				{ //pki not verified
+					String status = "BankUserRejected";
+					String description = "Rejected by bank, User's Private Key not verified";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
+					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
+					System.out.println("isBillpaySuccess" + isBillpaySuccess);
+					//System.out.println("Private Key is incorrect. Please make a new transfer");
+					model.addAttribute("accountStatus", "Private Key of User is incorrect. Please make a new transfer");
+					model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
+					model.put("BillPayDTO", new BillPayDTO());
+					model.put("BillpayInfo",transactionService.showBillpayInfo());
+					return new ModelAndView("/InternalUsers/BillpayRequests", model);
+				}
+				else if(!ispkiMerchantSuccess && ispkiUserSuccess)
+				{ //pki not verified
+					String status = "BankMerchantRejected";
+					String description = "Rejected by bank, Merchant's Private Key not verified";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
+					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
+					System.out.println("isBillpaySuccess" + isBillpaySuccess);
+					//System.out.println("Private Key is incorrect. Please make a new transfer");
+					model.addAttribute("accountStatus", "Private Key of Merchant is incorrect. Please make a new transfer");
+					model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
+					model.put("BillPayDTO", new BillPayDTO());
+					model.put("BillpayInfo",transactionService.showBillpayInfo());
+					return new ModelAndView("/InternalUsers/BillpayRequests", model);
+				}
 				else
 				{
-					//return an error page.
+					String status = "BankMerchantAndUserRejected";	
+					String description = "Rejected by bank, User's and Merchant's Private Key not verified";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
+					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
+					System.out.println("isBillpaySuccess" + isBillpaySuccess);
+					//System.out.println("Private Key is incorrect. Please make a new transfer");
+					model.addAttribute("accountStatus", "Private Keys of User and merchant are incorrect. Please make a new transfer");
+					model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
+					model.put("BillPayDTO", new BillPayDTO());
+					model.put("BillpayInfo",transactionService.showBillpayInfo());
+					return new ModelAndView("/InternalUsers/BillpayRequests", model);
 				}
 			}
 				
 			if(action.equals("Reject"))
 			{
-				    String status = "BankRejected";			
+				    String status = "BankRejected";	
+					String description = "Rejected by bank";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
 					//Call BillPayupdate to update the status 
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
 					if(isBillpaySuccess)
 					{
 						System.out.println("Bill pay Rejected!");
-						model.addAttribute("accountStatus", "Bill pay request sent!");
+						model.addAttribute("accountStatus", "Bill pay request rejected!");
 						model.addAttribute("billpayrequestFormBean",billpayrequestFormBean);
 						model.put("BillPayDTO", new BillPayDTO());
 						model.put("BillpayInfo",transactionService.showBillpayInfo());
@@ -254,9 +361,7 @@ import edu.irabank.service.TransactionService;
 			model.addAttribute("billpayrequestFormBean",action);
 			return new ModelAndView("/InternalUsers/BillpayRequests", model);
 		}
-		
-		
-		
+				
 		
 		// Get Method for Bill Pay user request page	
 		@RequestMapping(value="/ExternalUsers/BillpayUser", method = RequestMethod.GET)
@@ -277,6 +382,8 @@ import edu.irabank.service.TransactionService;
 		@RequestMapping(value="/ExternalUsers/BillpayUser", method=RequestMethod.POST)
 	    public ModelAndView Billpayuserrequest(@ModelAttribute("billpayuserFormBean")@Valid BillpayuserFormBean billpayuserFormBean,  BindingResult result, ModelMap model)
 	    {
+			// TODO WHERE IS THE SERVER SIDE VALIDATION AND JSR VALIDATION (With PKI)
+			
 			
 			Integer userId = (Integer)sessionID.getAttribute("userId");
 			
@@ -286,7 +393,7 @@ import edu.irabank.service.TransactionService;
 			Double amount = billpayuserFormBean.getAmount();
 			String action = billpayuserFormBean.getAction();
 
-			String alias_hashedKey = billpayuserFormBean.getPrivateKey();
+			String alias_hashedKey = billpayuserFormBean.getPrivateKey(); //PKI
 
 			
 			String Accountno = transactionService.getAccountNumberbyUserID(userId);
@@ -296,12 +403,24 @@ import edu.irabank.service.TransactionService;
 			
 			if(action.equals("Accept"))
 			{
-				String hashedKey = pkiService.sendEncryptedPaymentInfo(userId, alias_hashedKey);
-				System.out.println("********HASHED KEY****************"+hashedKey);
-				    String status = "UserApproved";							
+				String hashedKey = pkiService.sendEncryptedPaymentInfo(userId, alias_hashedKey); //PKI
+				//System.out.println("********HASHED KEY****************"+hashedKey);
+				    String status = "UserApproved";	
+					String description = "Approved by User";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
 					//Call BillPayupdate to update the status 
 				    boolean isBillpaykeySuccess = transactionService.BillpayUpdatekey(billid, hashedKey);
-					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
+					
+				    boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
 					if(isBillpaySuccess && isBillpaykeySuccess)
 					{
@@ -323,7 +442,18 @@ import edu.irabank.service.TransactionService;
 			}
 			if(action.equals("Reject"))
 			{
-				    String status = "UserRejected";			
+				    String status = "UserRejected";	
+					String description = "Rejected by User";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
 					//Call BillPayupdate to update the status
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
@@ -379,6 +509,8 @@ import edu.irabank.service.TransactionService;
 			Double amount = billpaymerchantapproveFormBean.getAmount();
 			String action = billpaymerchantapproveFormBean.getAction();
 
+			String alias_merchanthashedKey = billpaymerchantapproveFormBean.getPrivateKey();
+			
 			Integer userId = (Integer)sessionID.getAttribute("userId");
 
 			System.out.println(billid);
@@ -386,10 +518,30 @@ import edu.irabank.service.TransactionService;
 			
 			if(action.equals("Accept"))
 			{
-				    String status = "MerchantApproved";							
-					//Call BillPayupdate to update the status 
+				
+				String merchanthashedKey = pkiService.sendEncryptedPaymentInfo(userId, alias_merchanthashedKey); //PKI
+				
+				    String status = "MerchantApproved";
+					String description = "Approved by Merchant, forwarded to Bank";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
+					 
+				    
+				    //Updating merchanthashedkey in the db
+				    boolean isBillpaykeySuccess = transactionService.BillpayMerchantUpdatekey(billid, merchanthashedKey);
+				    
+				    //Call BillPayupdate to update the status
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
-					System.out.println("isBillpaySuccess" + isBillpaySuccess);
+					
+					//System.out.println("isBillpaySuccess" + isBillpaySuccess);
 					if(isBillpaySuccess)
 					{
 						System.out.println("Bill pay Accepted!");
@@ -405,7 +557,18 @@ import edu.irabank.service.TransactionService;
 			}
 			if(action.equals("Reject"))
 			{
-				    String status = "MerchantRejected";			
+				    String status = "MerchantRejected";	
+					String description = "Rejected by Merchant";
+					//Update the Notification table
+					boolean isNotificationexist = transactionService.Findbybillid(billid);
+					if(isNotificationexist)
+					{
+						transactionService.Updatenotification(billid, status, description);
+					}
+					else if(!isNotificationexist)
+					{
+						transactionService.Insertnotification(billid, status, description);
+					}
 					//Call BillPayupdate to update the status 
 					boolean isBillpaySuccess = transactionService.BillPayUpdate(billid, status);
 					System.out.println("isBillpaySuccess" + isBillpaySuccess);
@@ -426,6 +589,36 @@ import edu.irabank.service.TransactionService;
 			model.addAttribute("accountStatus", action);
 			model.addAttribute("billpaymerchantapproveFormBean",action);
 			return new ModelAndView("/ExternalUsers/BillpaymerchantApprove", model);
+		}
+		
+		// Get Method for Bill Pay Merchant Status page	
+		@RequestMapping(value="/ExternalUsers/Billpaymerchantstatus", method = RequestMethod.GET)
+		public String Billpaymerchantstatus(ModelMap model) {
+			
+			model.put("NotificationDetailsDTO", new NotificationDetailsDTO());
+			model.put("NotificationdetailInfo",transactionService.showNotificationInfo());
+			System.out.println(transactionService.showNotificationInfo());
+			model.put("BillPayDTO", new BillPayDTO());
+			model.put("BillpayInfo",transactionService.showBillpayInfo());
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			model.put("UserID", userId);
+			return "/ExternalUsers/Billpaymerchantstatus";
+		}
+		
+		// Get Method for Bill Pay Merchant Status page	
+		@RequestMapping(value="/ExternalUsers/Billpayuserstatus", method = RequestMethod.GET)
+		public String Billpayuserstatus(ModelMap model) {
+			
+			model.put("NotificationDetailsDTO", new NotificationDetailsDTO());
+			model.put("NotificationdetailInfo",transactionService.showNotificationInfo());
+			System.out.println(transactionService.showNotificationInfo());
+			model.put("BillPayDTO", new BillPayDTO());
+			model.put("BillpayInfo",transactionService.showBillpayInfo());
+			Integer userId = (Integer)sessionID.getAttribute("userId");
+			String Accountno = transactionService.getAccountNumberbyUserID(userId);
+			System.out.println("User Account Number" + Accountno );
+			model.put("Useracount", Accountno);
+			return "/ExternalUsers/Billpayuserstatus";
 		}
 		
 	}

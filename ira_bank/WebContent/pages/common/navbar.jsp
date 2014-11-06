@@ -115,6 +115,7 @@
                                   <!-- Bill pay -->
                               
 				  					<li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpayUser">User Billpay</a></li>
+				  					<li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpayuserstatus">Billpay Status</a></li>
                                   <li><a href="<%=request.getContextPath()%>/ExternalUsers/EditProfile">My Profile</a></li>
                             	   </ul>
                       </li>	
@@ -134,6 +135,7 @@
                         <!-- Bill pay -->
                        <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchant">Merchant Billpay</a></li>
                        <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpaymerchantApprove">Approve Billpay</a></li>
+                       <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchantstatus">Billpay Status</a></li>
                        <li><a href="<%=request.getContextPath()%>/ExternalUsers/EditProfile">My Profile</a></li>
                   	</ul>
                   </li>	

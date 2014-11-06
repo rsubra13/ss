@@ -3,22 +3,36 @@ package edu.irabank.form;
 	import java.util.Date;
 
 	import javax.persistence.Basic;
-	import javax.persistence.Column;
-	import javax.persistence.Temporal;
-	import javax.persistence.TemporalType;
-	import javax.validation.constraints.NotNull;
-	import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ForgotPasswordFormBean {
 		
-	   
+	 @Basic(optional = false)
+	    @NotNull
+	    @Size(min = 1, max = 255)
 	    private String emailId;
-	   
+	 @Basic(optional = false)
+	    @NotNull
 	    private Date dob;
-	   
+	    @Basic(optional = false)
+	    @NotNull
+	    @Size(min = 1, max = 128)
 	    private String secQue1;
+	    @Basic(optional = false)
+	    @NotNull
+	    @Size(min = 1, max = 128)
 	    private String secAns1;
+	    @Basic(optional = false)
+	    @NotNull
+	    @Size(min = 1, max = 128)
 	    private String secQue2;
+	    @Basic(optional = false)
+	    @NotNull
+	    @Size(min = 1, max = 128)
 	    private String secAns2;
 	    
 		
