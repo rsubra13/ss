@@ -240,7 +240,8 @@ public class UserDAOImpl implements UserDAO
 	public void updateUserDetailsSaveorUpdate(UserDTO userDTO) {
 		// TODO Auto-generated method stub
 		System.out.println("152:DAOImpl:");
-		getSession().saveOrUpdate(userDTO); // merge is used here rather than 'save'
+		getSession().merge(userDTO); // merge is used here rather than 'save'
+		
 		
 		
 	}
