@@ -66,10 +66,10 @@
                        	  <!--  Admin -->   
                        		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                             
-                        	 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">View All Users</a></li>
-                             <li><a href="<%=request.getContextPath()%>/admin/listAccounts">PII Change Requests</a></li>
-                       		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Technical Account Access</a></li>	
-                       		  <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Transactional Account Access</a></li>
+                        	 <li><a href="<%=request.getContextPath()%>/admin/listAllUsers">All Users list</a></li>
+                             <li><a href="<%=request.getContextPath()%>/admin/viewPII">View PII</a></li>
+                       		 <li><a href="<%=request.getContextPath()%>/admin/listUsers">Edit Users</a></li>	
+                       		 
                       	</ul>
                       </li>	
                </sec:authorize>    
@@ -91,7 +91,7 @@
                              		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                                   
                       
-                                   <li><a href="<%=request.getContextPath()%>/admin/listAccounts">PII Change Requests</a></li>
+                                   <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Transactional Access</a></li>
                              		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Technical Account Access</a></li>
                              		 		
                             	
@@ -115,7 +115,8 @@
                                   <!-- Bill pay -->
                               
 				  					<li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpayUser">User Billpay</a></li>
-                                  <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
+				  					<li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpayuserstatus">Billpay Status</a></li>
+                                  <li><a href="<%=request.getContextPath()%>/ExternalUsers/EditProfile">My Profile</a></li>
                             	   </ul>
                       </li>	
                </sec:authorize>    
@@ -132,8 +133,10 @@
                           <!-- transfer funds -->
                         <li><a href="<%=request.getContextPath()%>/ExternalUsers/Transfer_funds">Transfer Funds</a></li>
                         <!-- Bill pay -->
-                       <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/Billpaymerchant.jsp">Merchant Billpay</a></li>
-                        <li><a href="<%=request.getContextPath()%>/pages/ExternalUsers/user_profile.jsp">My Profile</a></li>
+                       <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchant">Merchant Billpay</a></li>
+                       <li><a href="<%=request.getContextPath()%>/ExternalUsers/BillpaymerchantApprove">Approve Billpay</a></li>
+                       <li><a href="<%=request.getContextPath()%>/ExternalUsers/Billpaymerchantstatus">Billpay Status</a></li>
+                       <li><a href="<%=request.getContextPath()%>/ExternalUsers/EditProfile">My Profile</a></li>
                   	</ul>
                   </li>	
                </sec:authorize>    
@@ -145,8 +148,21 @@
                    	  <!--  Admin -->   
                    		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                       
-                         <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Transactional Account Access</a></li>
-                   		 <li><a href="<%=request.getContextPath()%>/admin/listAccounts">Approve Bill Pay</a></li>		
+                   		 <li><a href="<%=request.getContextPath()%>/InternalUsers/BillpayRequests">Approve BillPay</a></li>		
+                  	
+                  	</ul>
+                  </li>	
+               </sec:authorize>   
+               
+               
+               <!-- ADMIN TRANSACTION-->
+               <sec:authorize access="hasRole('ROLE_ADMIN')">
+				 <li class="dropdown">
+				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transfers<span class="caret"></span></a>
+                   	  <!--  Admin -->   
+                   		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                       <li><a href="<%=request.getContextPath()%>/admin/listTransactions">Transactional Account Access</a></li>
+      
                   	
                   	</ul>
                   </li>	
@@ -199,7 +215,7 @@
 				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Internal Transactions <span class="caret"></span></a>
                    	  <!--  Admin -->   
                    		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="<%=request.getContextPath()%>/admin/listTransactions">Transactions Requests</a></li>
+                       
                         <li><a href="<%=request.getContextPath()%>/admin/listTransactions">View All Transactions</a></li>
                   	</ul>
                   </li>	
@@ -212,7 +228,7 @@
 				    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Log <span class="caret"></span></a>
                    	  <!--  Admin -->   
                    		 <ul class="dropdown-menu  dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
- 							<li><a href="<%=request.getContextPath()%>/admin/ListIssues">View System Log</a></li>
+ 							<li><a href="<%=request.getContextPath()%>/admin/show_log">View System Log</a></li>
  							<li><a href="<%=request.getContextPath()%>/admin/ListIssues">View Critical Transactions Log</a></li>
                   		 </ul>
                   </li>	

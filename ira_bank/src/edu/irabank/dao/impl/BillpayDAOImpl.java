@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import antlr.collections.Stack;
 import edu.irabank.dao.BillpayDAO;
 import edu.irabank.dto.AccountDetailsDTO;
+import edu.irabank.dto.NotificationDetailsDTO;
 import edu.irabank.dto.BillPayDTO;
 import edu.irabank.dto.RequestDetailsDTO;
 import edu.irabank.dto.UserDTO;
@@ -68,6 +69,16 @@ HttpSession sessionID;
 		return query.list();
 		//return getSession().createCriteria(BillPayDTO.class).list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<NotificationDetailsDTO> shownotificationInfo() {
+		System.out.println("Listing Notification Details");
+		Query query =  getSession().createQuery("SELECT n FROM NotificationDetailsDTO n");
+		return query.list();
+		//return getSession().createCriteria(BillPayDTO.class).list();
+	}
+	
 	
 	@Override
 	public boolean Billpayupdatestatus(Integer billid, String Status)
@@ -129,6 +140,68 @@ HttpSession sessionID;
 			String merchanthashedKey = ((BillPayDTO) query.uniqueResult()).getMerchantHashedkey();
 			return merchanthashedKey;
 			
+			
+		}
+		
+		@Override
+		public boolean Insertupdate(NotificationDetailsDTO notificationdetailsDTO)
+		{
+		
+			System.out.println("Entered Save Hibernate");
+			try{
+				sessionFactory.getCurrentSession().merge(notificationdetailsDTO);
+				return true;
+			}
+			catch (Exception e){
+			 System.out.println("The error is "+ e);
+			 //e.printStackTrace();
+			 return false;
+			}
+		}
+		
+		@Override
+		public BillPayDTO getBillPayDTOByBillid(Integer billid)
+		{
+			
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("BillPayDTO.findByBillId"); //using NamedQuery
+			query.setParameter("billId", billid);
+			BillPayDTO billpayDTO = (BillPayDTO) query.uniqueResult();
+			System.out.println("billpayDTO" + billpayDTO);
+			return billpayDTO;
+			
+		
+			
+		}
+		
+
+		@Override
+		public boolean Notificationupdate(Integer billid, String status, String descr) {
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("NotificationDetailsDTO.findByBillid"); //using NamedQuery
+			query.setParameter("notificationBillid", billid);
+			System.out.println("query : " + query);
+			((NotificationDetailsDTO) query.uniqueResult()).setNotificationStatus(status);
+			((NotificationDetailsDTO) query.uniqueResult()).setNotificationDescription(descr);
+			return true;
+		}
+		
+		@Override
+		public boolean Findbybillid(Integer billid)
+		{
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.getNamedQuery("NotificationDetailsDTO.findByBillid"); //using NamedQuery
+			query.setParameter("notificationBillid", billid);
+			try{
+				System.out.println("query : " + query);
+				((NotificationDetailsDTO) query.uniqueResult()).getNotificationStatus();
+				return true;
+			}
+			catch (Exception e){
+			 System.out.println("The error is "+ e);
+			 //e.printStackTrace();
+			 return false;
+			}
 			
 		}
 		
